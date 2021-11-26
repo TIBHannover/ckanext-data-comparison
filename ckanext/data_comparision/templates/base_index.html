@@ -11,8 +11,12 @@
     <div class="module-content">
       {% block about %}
         {% for dt in datasets %}
-            {{dt.title}} <br>
-
+            <b>{{dt.title}}</b> <br>
+            {% for dt in dt.resources %}
+                {{dt.name}} <br>
+            {% endfor %}
+        <br>    
+        ---------------------------------------------------------------------------<br>  
         {% endfor %}
 
 
