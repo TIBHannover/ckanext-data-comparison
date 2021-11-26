@@ -1,0 +1,19 @@
+{% extends "home/about.html" %}
+
+{% block subtitle %}{{ _('Data Comparision') }}{% endblock %}
+
+{% block breadcrumb_content %}
+  <li class="active">{% link_for _('Data Comparision'), 'data_comparision.base_view' %}</li>
+{% endblock %}
+
+{% block primary %}
+  <article class="module" role="main">
+    <div class="module-content">
+      {% block about %}
+        hhhh
+      {% endblock %}
+    </div>
+  </article>
+{% endblock %}
+
+{% block secondary %}{% endblock %}
