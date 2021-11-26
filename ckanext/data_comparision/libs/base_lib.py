@@ -1,6 +1,7 @@
 # encoding: utf-8
 
 import ckan.plugins.toolkit as toolkit
+from ckan.model import Package
 
 
 class Helper():
@@ -17,4 +18,13 @@ class Helper():
 
         except toolkit.NotAuthorized:
             return False
+    
+
+    def get_all_datasets():
+        datasets = Package.search_by_name('')
+        result = []
+        for dt in datasets:
+            if dt.state == 'active' and dt.type == 'dataset' and Helper.check_access_view_package(dt.id):
+                result.append(dt)
+        return result
             
