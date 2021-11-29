@@ -15,13 +15,20 @@
             {% for res in dt.resources %}
                 {% if h.is_csv(res) %}
                     {{res.name}} <br> ++ <br>
-                   
-                   
                       {% for col in h.get_columns(dt.id, res.id, 'csv') %}
                         {{col}} <br>
                       {% endfor %}
                    >>>>>>>>>>>>>>>>>>>>>>>>> <br>
-                    
+                
+                {% elif h.is_xlsx(res) %}
+                    {{res.name}} <br> ++ <br>
+                      {% for sheet, cols in h.get_columns(dt.id, res.id, 'xlsx').items() %}
+                        Sheet is : {{sheet}} <br>
+                        {% for col in cols %}
+                          {{col}} <br>
+                        {% endfor %}
+                    {% endfor %}
+                   >>>>>>>>>>>>>>>>>>>>>>>>> <br>
                 {% endif %}
             {% endfor %}
         <br>    
