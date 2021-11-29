@@ -28,7 +28,6 @@ class DataComparisionPlugin(plugins.SingletonPlugin):
             BaseController.base_view,
             methods=['GET']
             )
-        
 
         return blueprint
     

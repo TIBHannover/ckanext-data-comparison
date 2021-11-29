@@ -3,8 +3,10 @@
 import ckan.plugins.toolkit as toolkit
 import ckan.lib.helpers as h
 from ckan.model import Package
-import pandas as pd
+import clevercsv
 
+
+RESOURCE_DIR = toolkit.config['ckan.storage_path'] + '/resources/'
 
 class Helper():
 
@@ -39,11 +41,17 @@ class Helper():
 
     
     def get_file(package_id, resource_id):
-        link = h.url_for('dataset.resource_download', id=str(package_id), resource_id=resource_id  ,  _external=True)
-        df = pd.read_csv(link, index_col=0)
+        try:
+            file_path = RESOURCE_DIR + resource_id[0:3] + '/' + resource_id[3:6] + '/' + resource_id[6:]
+            df = clevercsv.read_dataframe(file_path)
+
+        # link = h.url_for('dataset.resource_download', id=str(package_id), resource_id=resource_id  ,  _external=True)
+        # df = pd.read_csv(link, index_col=0)
         # print(df.columns)
         # print('&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&')
-        return list(df.columns)
+            return list(df.columns)
+        except:
+            return ['Error']
     
 
             
