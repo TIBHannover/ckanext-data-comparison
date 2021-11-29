@@ -13,11 +13,11 @@
         {% for dt in datasets %}
             <b>{{dt.title}}</b> <br>
             {% for res in dt.resources %}
-                {% if h.is_csv_xlsx(res) %}
+                {% if h.is_csv(res) %}
                     {{res.name}} <br> ++ <br>
                    
                    
-                      {% for col in h.get_columns(dt.id, res.id) %}
+                      {% for col in h.get_columns(dt.id, res.id, 'csv') %}
                         {{col}} <br>
                       {% endfor %}
                    >>>>>>>>>>>>>>>>>>>>>>>>> <br>

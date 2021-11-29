@@ -32,26 +32,31 @@ class Helper():
                 result.append(dt)
         return result
     
-    def is_csv_or_xlsx(resource):
-        if resource.format in ['CSV', 'XLSX']:
+    def is_csv(resource):
+        if resource.format in ['CSV']:
             return True
-        if  '.csv' in  resource.name or '.xlsx' in  resource.name:
+        if  '.csv' in  resource.name:
             return True 
         return False
 
     
-    def get_file(package_id, resource_id):
-        try:
-            file_path = RESOURCE_DIR + resource_id[0:3] + '/' + resource_id[3:6] + '/' + resource_id[6:]
-            df = clevercsv.read_dataframe(file_path)
+    def is_xlsx(resource):
+        if resource.format in ['XLSX']:
+            return True
+        if  '.xlsx' in  resource.name:
+            return True 
+        return False
 
-        # link = h.url_for('dataset.resource_download', id=str(package_id), resource_id=resource_id  ,  _external=True)
-        # df = pd.read_csv(link, index_col=0)
-        # print(df.columns)
-        # print('&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&')
-            return list(df.columns)
-        except:
-            return ['Error']
+    
+    def get_columns(package_id, resource_id, file_type):
+        if file_type == 'csv':
+            try:
+                file_path = RESOURCE_DIR + resource_id[0:3] + '/' + resource_id[3:6] + '/' + resource_id[6:]
+                df = clevercsv.read_dataframe(file_path)
+                return list(df.columns)
+
+            except:
+                return ['Error']
     
 
             
