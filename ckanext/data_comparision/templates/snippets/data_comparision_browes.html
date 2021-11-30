@@ -24,7 +24,7 @@
                             <ul class="nested">
                                 {% for res in dt.resources %}                                    
                                     {% if h.is_csv(res) %}
-                                        <li>{{res.name}} </li>
+                                        <li><b>{{res.name}}</b></li>
                                             <ul class="nested">
                                                 {% for col in h.get_columns(dt.id, res.id, 'csv') %}
                                                     <li>
