@@ -52,15 +52,15 @@ class Helper():
     def get_data(package_id, resource_id, file_type):
         file_path = RESOURCE_DIR + resource_id[0:3] + '/' + resource_id[3:6] + '/' + resource_id[6:]
         if file_type == 'csv':
-            result = {}
+            result = []
             try:
                 df = clevercsv.read_dataframe(file_path)
-                for column in df:
-                    result[column] = df[column]
+                for index, row in df.iterrows():
+                    result.append(list(row))
                 return result
 
             except:
-                return {'Error': []}
+                return []
 
         if file_type == 'xlsx':
             data = {}

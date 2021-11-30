@@ -1,4 +1,19 @@
 .data-comparision-module{
     height: 300px;
     padding: 40px 20px 20px 20px;
+    display: block;
+    overflow-y:scroll;
+    overflow-x: scroll;
+}
+
+.data-comp-table{
+    border: 1px solid black;
+}
+
+.dcom-table-cell{
+    border: 1px solid black;
+    max-width: 70px;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
 }

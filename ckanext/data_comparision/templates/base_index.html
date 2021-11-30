@@ -6,11 +6,18 @@
 
      <section class="module module-resource data-comparision-module" role="complementary">
         <table class="data-comp-table">
-            <tr>
+            <tr class="dcom-table-header-row">
               {% for col in h.get_columns(pkg_dict['id'], resource['id'], 'csv') %}
-                <th>{{col}}</th>
+                <th class="dcom-table-cell dcom-table-header-cell">{{col}}</th>
               {% endfor %}
             </tr>
+            {% for row in h.get_data(pkg_dict['id'], resource['id'], 'csv') %}
+                <tr class="dcom-table-content-row">
+                  {% for value in row %}
+                    <td class="dcom-table-cell">{{value}}</td>
+                  {% endfor %}
+                </tr>
+            {% endfor %}
         
         
         </table>    
