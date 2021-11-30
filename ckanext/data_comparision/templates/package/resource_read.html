@@ -1,7 +1,8 @@
 {% ckan_extends %}
 
 {% block resource_actions_inner %}
-    <a href="#" class="btn btn-primary" type="button">{{_('Data Comparision')}}</a>
+    {%  set dest = h.url_for('data_comparision.base_view', package_name=pkg_dict['name'], resId=resource['id'] , _external=True) %}
+    <a href="{{dest}}" class="btn btn-primary" type="button">{{_('Data Comparision')}}</a>
     {{ super() }}
 
 

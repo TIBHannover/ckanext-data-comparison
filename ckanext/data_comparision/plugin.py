@@ -23,7 +23,7 @@ class DataComparisionPlugin(plugins.SingletonPlugin):
         blueprint = Blueprint(self.name, self.__module__)        
        
         blueprint.add_url_rule(
-            u'/data_comparision/base_view',
+            u'/data_comparision/base_view/<package_name>/<resId>',
             u'base_view',
             BaseController.base_view,
             methods=['GET']
