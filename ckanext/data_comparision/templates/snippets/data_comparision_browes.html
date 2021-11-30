@@ -12,7 +12,41 @@
         </button>
       </div>
       <div class="modal-body">
-        
+        <div class="row">
+            <div class="col-sm-12">
+                <ul id="browes_ul">
+                    {% for dt in datasets %}
+                        <li>
+                            <b>{{dt.title}}</b>
+                        </li>
+                            <ul class="nested">
+                                {% for res in dt.resources %}                                    
+                                    {% if h.is_csv(res) %}
+                                        <li>{{res.name}} </li>
+                                            <ul class="nested">
+                                                {% for col in h.get_columns(dt.id, res.id, 'csv') %}
+                                                    <li>{{col}}</li>
+                                                {% endfor %}    
+                                            </ul>
+                                    {% elif h.is_xlsx(res) %}
+                                        <li>{{res.name}}</li>
+                                        {% for sheet, cols in h.get_columns(dt.id, res.id, 'xlsx').items() %}
+                                            <ul class="nested">
+                                                <li>{{sheet + " Sheet"}}</li>
+                                                <ul class="nested">
+                                                    {% for col in cols %}
+                                                        <li>{{col}}</li>
+                                                    {% endfor %}
+                                                </ul>
+                                            </ul>
+                                        {% endfor %}
+                                    {% endif %}                            
+                                {% endfor %}
+                            </ul>
+                    {% endfor %}
+                </ul>
+            </div>
+        </div>
 
 
 
