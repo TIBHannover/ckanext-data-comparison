@@ -2,7 +2,9 @@
 
 
 {% block pre_primary %}
-     <section class="module module-resource" role="complementary">
+    {% asset 'ckanext-data-comparision/page-css' %}
+
+     <section class="module module-resource data-comparision-module" role="complementary">
         <table class="data-comp-table">
             <tr>
               {% for col in h.get_columns(pkg_dict['id'], resource['id'], 'csv') %}
