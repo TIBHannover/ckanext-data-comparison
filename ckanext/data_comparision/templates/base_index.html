@@ -10,6 +10,7 @@
   <article class="module" role="main">
     <div class="module-content">
       {% block about %}
+          {% snippet 'snippets/data_comparision_browes.html'%}
         {% for dt in datasets %}
             <b>{{dt.title}}</b> <br>
             {% for res in dt.resources %}
