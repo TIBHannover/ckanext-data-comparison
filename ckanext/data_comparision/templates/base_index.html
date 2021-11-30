@@ -3,6 +3,22 @@
 
 {% block pre_primary %}
      <section class="module module-resource" role="complementary">
-          
+        <table class="data-comp-table">
+            <tr>
+              {% for col in h.get_columns(pkg_dict['id'], resource['id'], 'csv') %}
+                <th>{{col}}</th>
+              {% endfor %}
+            </tr>
+        
+        
+        </table>    
+
+
+
+
+
+
+
+
      </section>
 {% endblock pre_primary %}

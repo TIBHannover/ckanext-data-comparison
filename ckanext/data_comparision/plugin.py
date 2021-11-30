@@ -36,5 +36,6 @@ class DataComparisionPlugin(plugins.SingletonPlugin):
     def get_helpers(self):
         return {'is_csv': Helper.is_csv,
             'is_xlsx': Helper.is_xlsx,
+            'get_data': Helper.get_data,
             'get_columns': Helper.get_columns
         }
