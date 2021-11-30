@@ -1,3 +1,5 @@
+{% asset 'ckanext-data-comparision/browes-css' %}
+
 <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#add_data_modal">
   <i class="fa fa-plus" id="browes_btn">{{_('Browes Data')}}</i>
 </button>
@@ -25,7 +27,16 @@
                                         <li>{{res.name}} </li>
                                             <ul class="nested">
                                                 {% for col in h.get_columns(dt.id, res.id, 'csv') %}
-                                                    <li>{{col}}</li>
+                                                    <li>
+                                                        <label class="checkbox-container" value={{res.id}} >{{col}}
+                                                            <input type="checkbox" 
+                                                                class="column-box"
+                                                                name='' 
+                                                                value=''                                                                
+                                                            >
+                                                            <span class="checkmark"></span>
+                                                        </label>
+                                                    </li>
                                                 {% endfor %}    
                                             </ul>
                                     {% elif h.is_xlsx(res) %}
@@ -35,7 +46,16 @@
                                                 <li>{{sheet + " Sheet"}}</li>
                                                 <ul class="nested">
                                                     {% for col in cols %}
-                                                        <li>{{col}}</li>
+                                                        <li>
+                                                            <label class="checkbox-container" value={{res.id}} >{{col}}
+                                                                <input type="checkbox" 
+                                                                    class="column-box"
+                                                                    name='' 
+                                                                    value=''                                                                
+                                                                >
+                                                                <span class="checkmark"></span>
+                                                            </label>
+                                                        </li>
                                                     {% endfor %}
                                                 </ul>
                                             </ul>
@@ -47,11 +67,6 @@
                 </ul>
             </div>
         </div>
-
-
-
-
-
 
       </div>
       <div class="modal-footer">

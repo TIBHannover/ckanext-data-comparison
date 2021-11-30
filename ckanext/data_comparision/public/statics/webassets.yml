@@ -1,0 +1,16 @@
+browes-css:
+  output: ckanext-data-comparision/%(version)s_my.css
+  contents:
+    - browes.css
+
+beowes-js:  
+  output: ckanext-data-comparision/%(version)s_my.js
+  extra:
+    preload:
+      - base/main
+      - vendor/vendor
+      - vendor/bootstrap
+      - vendor/jquery
+      - vendor/jquery.ui.core
+  contents:
+    - browes.js

@@ -15,7 +15,7 @@ class DataComparisionPlugin(plugins.SingletonPlugin):
     def update_config(self, config_):
         toolkit.add_template_directory(config_, 'templates')
         toolkit.add_public_directory(config_, 'public')
-        toolkit.add_resource('public/statics', 'ckanext-datas-comparision')
+        toolkit.add_resource('public/statics', 'ckanext-data-comparision')
 
 
     def get_blueprint(self):
