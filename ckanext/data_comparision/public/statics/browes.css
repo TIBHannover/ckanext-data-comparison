@@ -8,10 +8,12 @@
   
   
   
+  #modal-browes-btn{
+    height: 150px;
+    width: 150px;
+  }
   
-  
-  
-  
+
   .checkbox-container {
     display: block;
     position: relative;

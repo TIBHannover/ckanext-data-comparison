@@ -25,3 +25,14 @@
 .dcom-table-cell{
     cursor: pointer;
 }
+
+.browes-btn-div{
+    float: left;
+    margin-left: 40px;
+    margin-top: 50px;
+}
+
+.table-div{
+    float: left;
+    margin-right: 20px;
+}
