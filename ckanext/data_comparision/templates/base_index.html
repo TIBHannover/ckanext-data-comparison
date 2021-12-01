@@ -6,7 +6,7 @@
     {% asset 'ckanext-data-comparision/page-js' %}
     {% set action_process = h.url_for('data_comparision.process_columns', _external=True) %}
     <input type="hidden" id="process_url" value="{{action_process}}">
-     <section class="module module-resource data-comparision-module" role="complementary">
+     <section class="data-comparision-module">
        
         <table class="data-comp-table">
             <tr class="dcom-table-header-row">
@@ -30,9 +30,12 @@
                   {% endfor %}
                 </tr>
             {% endfor %}
-        
-        
-        </table>    
+        </table>
+        <div class="row">
+            {% snippet 'snippets/data_comparision_browes.html', 
+              datasets=datasets
+            %}
+        </div>    
      </section>
       <div class="row">
           <div class="col-sm-12">
