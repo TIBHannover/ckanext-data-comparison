@@ -21,3 +21,7 @@
 .hidden-checkbox{
     display: none;
 }
+
+.dcom-table-cell{
+    cursor: pointer;
+}

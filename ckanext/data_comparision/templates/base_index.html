@@ -18,7 +18,7 @@
                   value="{{resource['id'] ~ '@_@' ~ col}}" 
                   name="chosen_columns" 
                   class="hidden-checkbox"
-                  id="{{resource['id'] ~ '@_@' ~ loop.index}}"
+                  id="{{'col-checkbox-'  ~ loop.index}}"
                 >
               {% endfor %}
             </tr>
