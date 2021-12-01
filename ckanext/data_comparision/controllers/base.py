@@ -5,6 +5,8 @@ import ckan.plugins.toolkit as toolkit
 from ckanext.data_comparision.libs.base_lib import Helper
 import json
 
+from ckanext.data_comparision.libs.template_helper import TemplateHelper
+
 class BaseController():
 
     def base_view(package_name, resId):
@@ -37,5 +39,9 @@ class BaseController():
     
 
     def import_data():
+        resources = request.form.getlist('resources[]') 
+        imported_tables = {}
+        for res_id in resources:
+            imported_tables[res_id] = Helper.get_resource_table(res_id, 'csv')
 
-        return ''
+        return json.dumps(imported_tables)

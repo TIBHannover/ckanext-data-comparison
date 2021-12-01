@@ -1,7 +1,7 @@
 $(document).ready(function(){
     $('#import-btn').click(function(){
         send_columns_data();
-        
+
     });
 });
 
@@ -25,7 +25,8 @@ $(document).ready(function(){
     let req = new XMLHttpRequest();
     req.onreadystatechange = function() {
         if (req.readyState == XMLHttpRequest.DONE && req.status === 200) {       
-               console.info(req.responseText)                       
+            data = JSON.parse(req.responseText);
+            console.info(data)                       
         }
     }
     req.open("POST", dest_url);

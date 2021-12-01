@@ -52,6 +52,13 @@ class Helper():
             if TemplateHelper.is_csv(resource) or TemplateHelper.is_xlsx(resource):
                 return True
         return False
+    
+
+    def get_resource_table(resource_id, file_type):
+        columns = TemplateHelper.get_columns('', resource_id, file_type)
+        data_rows = TemplateHelper.get_data('', resource_id, file_type)
+
+        return [columns, data_rows]
 
 
     
