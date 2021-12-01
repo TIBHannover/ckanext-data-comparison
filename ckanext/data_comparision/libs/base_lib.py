@@ -5,6 +5,7 @@ import ckan.lib.helpers as h
 from ckan.model import Package
 import clevercsv
 import pandas as pd
+from ckanext.data_comparision.libs.template_helper import TemplateHelper
 
 
 RESOURCE_DIR = toolkit.config['ckan.storage_path'] + '/resources/'
@@ -29,7 +30,7 @@ class Helper():
         datasets = Package.search_by_name('')
         result = []
         for dt in datasets:
-            if dt.state == 'active' and dt.type == 'dataset' and Helper.check_access_view_package(dt.id):
+            if dt.state == 'active' and dt.type == 'dataset' and Helper.check_access_view_package(dt.id) and Helper.dataset_has_csv_xlsx(dt):
                 result.append(dt)
         return result
     
@@ -45,6 +46,12 @@ class Helper():
 
             except:
                 return None
+    
+    def dataset_has_csv_xlsx(dataset):
+        for resource in dataset.resources:
+            if TemplateHelper.is_csv(resource) or TemplateHelper.is_xlsx(resource):
+                return True
+        return False
 
 
     
