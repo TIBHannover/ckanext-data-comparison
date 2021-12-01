@@ -28,6 +28,13 @@ class DataComparisionPlugin(plugins.SingletonPlugin):
             BaseController.base_view,
             methods=['GET']
             )
+        
+        blueprint.add_url_rule(
+            u'/data_comparision/process_columns',
+            u'process_columns',
+            BaseController.process_columns,
+            methods=['GET']
+            )
 
         return blueprint
     

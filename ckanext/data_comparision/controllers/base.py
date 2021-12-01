@@ -19,3 +19,7 @@ class BaseController():
             resource=resource
         
         )
+    
+    def process_columns():
+
+        return '0'
