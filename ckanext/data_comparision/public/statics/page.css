@@ -17,3 +17,7 @@
     text-overflow: ellipsis;
     white-space: nowrap;
 }
+
+.hidden-checkbox{
+    display: none;
+}
