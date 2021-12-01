@@ -34,3 +34,8 @@ class BaseController():
             
 
         return json.dumps(result_columns)
+    
+
+    def import_data():
+
+        return ''

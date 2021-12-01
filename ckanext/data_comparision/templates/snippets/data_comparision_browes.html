@@ -24,7 +24,16 @@
                             <ul class="nested">
                                 {% for res in dt.resources %}
                                     {% if h.is_csv(res) or h.is_xlsx(res) %}
-                                        <li>{{res.name}}</li>                                                          
+                                        <li>
+                                            <label class="checkbox-container" value={{res.id}} >{{res.name}}
+                                                <input type="checkbox" 
+                                                class="resource-box"
+                                                name="chosen_resources"  
+                                                value={{res.id}}
+                                                >
+                                                <span class="checkmark"></span>
+                                            </label>
+                                        </li>                    
                                     {% endif %}
                                 {% endfor %}
                             </ul>
@@ -36,7 +45,7 @@
       </div>
       <div class="modal-footer">
         <button type="button" class="btn btn-secondary" data-dismiss="modal">{{_('Close')}}</button>
-        <button type="button" class="btn btn-primary">{{_('Add')}}</button>
+        <button type="button" class="btn btn-primary">{{_('Import')}}</button>
       </div>
     </div>
   </div>
