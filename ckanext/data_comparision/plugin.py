@@ -2,7 +2,7 @@ import ckan.plugins as plugins
 import ckan.plugins.toolkit as toolkit
 from flask import Blueprint
 from ckanext.data_comparision.controllers.base import BaseController
-from ckanext.data_comparision.libs.base_lib import Helper
+from ckanext.data_comparision.libs.template_helper import TemplateHelper
 
 
 class DataComparisionPlugin(plugins.SingletonPlugin):
@@ -41,8 +41,8 @@ class DataComparisionPlugin(plugins.SingletonPlugin):
     #ITemplateHelpers
 
     def get_helpers(self):
-        return {'is_csv': Helper.is_csv,
-            'is_xlsx': Helper.is_xlsx,
-            'get_data': Helper.get_data,
-            'get_columns': Helper.get_columns
+        return {'is_csv': TemplateHelper.is_csv,
+            'is_xlsx': TemplateHelper.is_xlsx,
+            'get_data': TemplateHelper.get_data,
+            'get_columns': TemplateHelper.get_columns
         }
