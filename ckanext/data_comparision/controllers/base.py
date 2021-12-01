@@ -1,8 +1,9 @@
 # encoding: utf-8
 
-from flask import render_template
+from flask import render_template, request
 import ckan.plugins.toolkit as toolkit
 from ckanext.data_comparision.libs.base_lib import Helper
+import json
 
 class BaseController():
 
@@ -21,5 +22,15 @@ class BaseController():
         )
     
     def process_columns():
+        columns_data = request.form.getlist('columns[]')       
+        result_columns = {}        
+        for value in columns_data:
+            temp = value.split('@_@')
+            resource_id = temp[0]
+            col_name = temp[1]
+            col_data = Helper.get_one_column(resource_id, col_name, 'csv')
+            if col_data:
+                result_columns[col_name] = col_data
+            
 
-        return '0'
+        return json.dumps(result_columns)

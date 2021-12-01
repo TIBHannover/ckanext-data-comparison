@@ -102,6 +102,19 @@ class Helper():
                 return {'Error': []}
     
 
+    def get_one_column(resource_id, column_name, file_type):
+        file_path = RESOURCE_DIR + resource_id[0:3] + '/' + resource_id[3:6] + '/' + resource_id[6:]
+        if file_type == 'csv':
+            try:
+                df = clevercsv.read_dataframe(file_path)
+                return list(df[column_name])
+
+            except:
+                return None
+
+
+    
+
     
 
             

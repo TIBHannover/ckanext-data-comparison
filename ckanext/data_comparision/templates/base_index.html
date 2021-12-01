@@ -4,7 +4,8 @@
 {% block pre_primary %}
     {% asset 'ckanext-data-comparision/page-css' %}
     {% asset 'ckanext-data-comparision/page-js' %}
-
+    {% set action_process = h.url_for('data_comparision.process_columns', _external=True) %}
+    <input type="hidden" id="process_url" value="{{action_process}}">
      <section class="module module-resource data-comparision-module" role="complementary">
        
         <table class="data-comp-table">
@@ -32,10 +33,16 @@
         
         
         </table>    
-
-
      </section>
+      <div class="row">
+          <div class="col-sm-12">
+            <button class="btn btn-primary" type="button" id="process_btn">{{_('Process data')}}</button>
+          </div>
+      </div>
+
+
+
 {% endblock pre_primary %}
 
 {% block primary %}{% endblock %}
-{% block secondary_content %}{% endblock secondary_content %}
+{% block secondary %}{% endblock  %}

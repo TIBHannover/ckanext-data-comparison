@@ -33,7 +33,7 @@ class DataComparisionPlugin(plugins.SingletonPlugin):
             u'/data_comparision/process_columns',
             u'process_columns',
             BaseController.process_columns,
-            methods=['GET']
+            methods=['POST']
             )
 
         return blueprint
