@@ -6,6 +6,7 @@ from ckan.model import Package
 import clevercsv
 import pandas as pd
 from ckanext.data_comparision.libs.template_helper import TemplateHelper
+from ckanext.data_comparision.libs.table_builder import Builder
 
 
 RESOURCE_DIR = toolkit.config['ckan.storage_path'] + '/resources/'
@@ -69,10 +70,11 @@ class Helper():
     def get_resource_table(resource_id, file_type):
         columns = TemplateHelper.get_columns('', resource_id, file_type)
         data_rows = TemplateHelper.get_data('', resource_id, file_type)
+        
+        return Builder.build_data_table(resource_id, columns, data_rows)
 
-        return [columns, data_rows]
 
-
+   
     
 
     
