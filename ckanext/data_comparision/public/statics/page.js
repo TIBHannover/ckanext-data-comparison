@@ -42,6 +42,30 @@ $(document).ready(function(){
         }
     });
 
+    /**
+     * Click next page pagination
+     */
+     $('body').on('click', '.next-btn', function() {
+        let id_elem = $(this).attr('id');
+        let id = id_elem.split('page-next-')[1]
+        let page = $('#page-number-' + id).val();
+        $('#page-number-' + id).val(parseInt(page) + 1);
+
+        
+    });
+
+    /**
+     * Click prev page pagination
+     */
+     $('body').on('click', '.prev-btn', function() {
+        let id_elem = $(this).attr('id');
+        let id = id_elem.split('page-prev-')[1]
+        let page = $('#page-number-' + id).val();
+        if (parseInt(page) > 1){
+            $('#page-number-' + id).val(parseInt(page) - 1);
+        }        
+    });
+
 
     /**
      * Click on process data button
