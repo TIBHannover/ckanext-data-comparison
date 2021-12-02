@@ -14,7 +14,7 @@ class Builder():
         header_section = Builder.build_table_header(resource_id, columns)
         body_section = ''
         for row in resource_data:
-            body_section += Builder.build_table_row(row)
+            body_section += Builder.build_table_row(row, resource_id)
         
         table = root_div + table_start + header_section + body_section + table_end + root_div_end
         return table
@@ -28,7 +28,7 @@ class Builder():
         Id = 1
         inner_content = ''
         for col in columns:
-            cell = Builder.build_header_cell(Id, col)
+            cell = Builder.build_header_cell(Id, col, resource_id)
             checkbox = Builder.build_checkbox_input(Id, col, resource_id)
             inner_content += (cell + checkbox) 
             Id += 1
@@ -38,14 +38,14 @@ class Builder():
 
 
 
-    def build_table_row(data_row):
+    def build_table_row(data_row, resource_id):
         table_row = ''
         body_row = ' <tr class="dcom-table-content-row">'
         body_row_end = '</tr>'
         Id = 1
         inner_content = ''
         for value in data_row:
-            cell = Builder.build_body_cell(Id, value)
+            cell = Builder.build_body_cell(Id, value, resource_id)
             Id += 1
             inner_content += cell
         
@@ -54,19 +54,19 @@ class Builder():
 
 
 
-    def build_header_cell(Id, value):
+    def build_header_cell(Id, value, resource_id):
         cell = '<th class="dcom-table-cell dcom-table-header-cell '
-        cell += ('dcom-column-' + str(Id) + '" ')
-        cell += ('name="dcom-column-name-' + str(Id) + '"> ')
+        cell += ('dcom-column-' + str(resource_id) + '-' + str(Id) + '" ')
+        cell += ('name="' +  str(resource_id) + '-' + str(Id) + '"> ')
         cell += str(value)
         cell + '</th>'
         return cell
     
 
-    def build_body_cell(Id, value):
+    def build_body_cell(Id, value, resource_id):
         cell = '<td class="dcom-table-cell '
-        cell += ('dcom-column-' + str(Id) + '" ')
-        cell += ('name="dcom-column-name-' + str(Id) + '"> ')
+        cell += ('dcom-column-' + str(resource_id) + '-' + str(Id) + '" ')
+        cell += ('name="' +  str(resource_id) + '-' + str(Id) + '"> ')
         cell += str(value)
         cell += '</td>'
         return cell
@@ -75,6 +75,6 @@ class Builder():
 
     def build_checkbox_input(Id, column, resource_id):
         checkbox = '<input  type="checkbox" name="chosen_columns" class="hidden-checkbox" '
-        checkbox += ('value="' + str(resource_id) + '@_@' + str(column) + '" ')
-        checkbox += ('id="col-checkbox-' + str(Id) + '" >')
+        checkbox += ('value="' + str(resource_id) + '-' + str(column) + '" ')
+        checkbox += ('id="' +  str(resource_id) + '-' + str(Id) + '" > ')
         return checkbox

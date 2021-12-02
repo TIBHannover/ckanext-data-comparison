@@ -5,8 +5,8 @@ $(document).ready(function(){
      */
      $('body').on('mouseover', '.dcom-table-cell', function() {
         let id = $(this).attr('name');
-        id = id[id.length - 1];
-        let checkbox = $('#col-checkbox-' + id);
+        // id = id[id.length - 1];
+        let checkbox = $('#' + id);
         if ($(checkbox).prop('checked') === false){
             $('.dcom-column-' + id).css('background-color', 'yellow');        
         }
@@ -18,8 +18,8 @@ $(document).ready(function(){
      */
      $('body').on('mouseout', '.dcom-table-cell', function() {
         let id = $(this).attr('name');
-        id = id[id.length - 1];
-        let checkbox = $('#col-checkbox-' + id);
+        // id = id[id.length - 1];
+        let checkbox = $('#' + id);
         if ($(checkbox).prop('checked') === false){
             $('.dcom-column-' + id).css('background-color', '');       
         }
@@ -31,8 +31,8 @@ $(document).ready(function(){
      */
      $('body').on('click', '.dcom-table-cell', function() {
         let id = $(this).attr('name');
-        id = id[id.length - 1];
-        let checkbox = $('#col-checkbox-' + id);
+        // id = id[id.length - 1];
+        let checkbox = $('#' + id);
         $(checkbox).click();
         if ($(checkbox).prop('checked') === true){
             $('.dcom-column-' + id).css('background-color', 'green');        
