@@ -37,7 +37,7 @@ class BaseController():
             temp = value.split('@_@')
             resource_id = temp[0]
             col_name = temp[1]
-            col_data = Helper.get_one_column(resource_id, col_name, 'csv')
+            col_data = Helper.get_one_column(resource_id, col_name)
             if col_data:
                 result_columns[col_name] = col_data
             
@@ -52,6 +52,6 @@ class BaseController():
         resources = request.form.getlist('resources[]') 
         imported_tables = {}
         for res_id in resources:
-            imported_tables[res_id] = Helper.get_resource_table(res_id, 'csv')
+            imported_tables[res_id] = Helper.get_resource_table(res_id, 1)
 
         return json.dumps(imported_tables)

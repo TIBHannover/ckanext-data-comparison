@@ -26,14 +26,28 @@ class TemplateHelper():
             return True 
         return False
 
+
+    '''
+        Get the type of a resource
+    '''    
+    def get_resource_type(resource_id):
+        resource = toolkit.get_action('resource_show')({}, {'id': resource_id})
+        if resource['format'] in ['CSV'] or '.csv' in  resource['name']: 
+            return 'csv'
+        if resource['format'] in ['XLSX'] or '.xlsx' in  resource['name']: 
+            return 'xlsx'
+
+        return None
+
     
     '''
         Return a table data to a template view
     '''
-    def get_data(package_id, resource_id, page, file_type):
+    def get_data(package_id, resource_id, page):
         file_path = RESOURCE_DIR + resource_id[0:3] + '/' + resource_id[3:6] + '/' + resource_id[6:]
         lower_bound = (page -1) * PAGINATION_SIZE
         upper_bound = page * PAGINATION_SIZE
+        file_type = TemplateHelper.get_resource_type(resource_id)
         if file_type == 'csv':
             result = []
             try:
@@ -68,8 +82,9 @@ class TemplateHelper():
     '''
         Return a table columns to a template view
     '''
-    def get_columns(package_id, resource_id, file_type):
+    def get_columns(package_id, resource_id):
         file_path = RESOURCE_DIR + resource_id[0:3] + '/' + resource_id[3:6] + '/' + resource_id[6:]
+        file_type = TemplateHelper.get_resource_type(resource_id)
         if file_type == 'csv':
             try:
                 df = clevercsv.read_dataframe(file_path)
@@ -96,8 +111,9 @@ class TemplateHelper():
     '''
         calculate max number of pages for a data table
     '''
-    def get_max_table_page_count(resource_id, file_type):
+    def get_max_table_page_count(resource_id):
         file_path = RESOURCE_DIR + resource_id[0:3] + '/' + resource_id[3:6] + '/' + resource_id[6:]
+        file_type = TemplateHelper.get_resource_type(resource_id)
         if file_type == 'csv':
             try:
                 df = clevercsv.read_dataframe(file_path)

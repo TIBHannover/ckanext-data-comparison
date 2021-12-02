@@ -43,8 +43,9 @@ class Helper():
     '''
         Return the data of one column in a dataframe
     '''
-    def get_one_column(resource_id, column_name, file_type):
+    def get_one_column(resource_id, column_name):
         file_path = RESOURCE_DIR + resource_id[0:3] + '/' + resource_id[3:6] + '/' + resource_id[6:]
+        file_type = TemplateHelper.get_resource_type(resource_id)
         if file_type == 'csv':
             try:
                 df = clevercsv.read_dataframe(file_path)
@@ -67,9 +68,9 @@ class Helper():
     '''
         Return a dataframe inside from a resource 
     '''
-    def get_resource_table(resource_id, file_type):
-        columns = TemplateHelper.get_columns('', resource_id, file_type)
-        data_rows = TemplateHelper.get_data('', resource_id, file_type)
+    def get_resource_table(resource_id, page):
+        columns = TemplateHelper.get_columns('', resource_id)
+        data_rows = TemplateHelper.get_data('', resource_id, page)
         
         return Builder.build_data_table(resource_id, columns, data_rows)
 
