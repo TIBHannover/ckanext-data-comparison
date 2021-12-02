@@ -3,21 +3,20 @@ $(document).ready(function(){
     /**
      * Mouse over a column in a data table
      */
-    $('.dcom-table-cell').mouseover(function(){
+     $('body').on('mouseover', '.dcom-table-cell', function() {
         let id = $(this).attr('name');
         id = id[id.length - 1];
         let checkbox = $('#col-checkbox-' + id);
         if ($(checkbox).prop('checked') === false){
             $('.dcom-column-' + id).css('background-color', 'yellow');        
         }
-
     });
 
 
     /**
      * Mouse out a column in a data table
      */
-    $('.dcom-table-cell').mouseout(function(){
+     $('body').on('mouseout', '.dcom-table-cell', function() {
         let id = $(this).attr('name');
         id = id[id.length - 1];
         let checkbox = $('#col-checkbox-' + id);
@@ -25,12 +24,12 @@ $(document).ready(function(){
             $('.dcom-column-' + id).css('background-color', '');       
         }
     });
-
+    
 
     /**
      * Click on a column in a data table. It click on the column checkbox
      */
-    $('.dcom-table-cell').click(function(){
+     $('body').on('click', '.dcom-table-cell', function() {
         let id = $(this).attr('name');
         id = id[id.length - 1];
         let checkbox = $('#col-checkbox-' + id);
@@ -43,6 +42,7 @@ $(document).ready(function(){
         }
     });
 
+
     /**
      * Click on process data button
      */
@@ -50,10 +50,8 @@ $(document).ready(function(){
         send_columns_data();
     });
 
-
-
-
 });
+
 
 /**
  * Post columns data to backend for processing
