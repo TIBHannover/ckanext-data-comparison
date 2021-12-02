@@ -48,3 +48,12 @@
     height: 5px;
     width: 100%;
 }
+
+.page-number{
+    width: 30px;
+}
+
+.pagination-area{
+    text-align: center;
+    margin-bottom: 5px;
+}
