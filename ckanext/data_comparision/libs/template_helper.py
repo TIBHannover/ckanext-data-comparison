@@ -26,6 +26,9 @@ class TemplateHelper():
         return False
 
     
+    '''
+        Return a table data to a template view
+    '''
     def get_data(package_id, resource_id, file_type):
         file_path = RESOURCE_DIR + resource_id[0:3] + '/' + resource_id[3:6] + '/' + resource_id[6:]
         if file_type == 'csv':
@@ -54,6 +57,10 @@ class TemplateHelper():
                 return {'Error': []}
     
 
+
+    '''
+        Return a table columns to a template view
+    '''
     def get_columns(package_id, resource_id, file_type):
         file_path = RESOURCE_DIR + resource_id[0:3] + '/' + resource_id[3:6] + '/' + resource_id[6:]
         if file_type == 'csv':

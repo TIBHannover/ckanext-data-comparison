@@ -9,6 +9,9 @@ from ckanext.data_comparision.libs.template_helper import TemplateHelper
 
 class BaseController():
 
+    '''
+        The plugin index view
+    '''
     def base_view(package_name, resId):
         datasets = Helper.get_all_datasets()
         package = toolkit.get_action('package_show')({}, {'name_or_id': package_name})
@@ -23,6 +26,10 @@ class BaseController():
         
         )
     
+
+    '''
+        process the selected columns (add them to selected space)
+    '''
     def process_columns():
         columns_data = request.form.getlist('columns[]')       
         result_columns = {}        
@@ -38,6 +45,9 @@ class BaseController():
         return json.dumps(result_columns)
     
 
+    '''
+        Import data from selected resources in browes view
+    '''
     def import_data():
         resources = request.form.getlist('resources[]') 
         imported_tables = {}

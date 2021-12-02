@@ -26,6 +26,9 @@ class Helper():
             return False
     
 
+    '''
+        Return all site datasets which has CSV or/and XLSX
+    '''
     def get_all_datasets():
         datasets = Package.search_by_name('')
         result = []
@@ -36,7 +39,9 @@ class Helper():
     
    
     
-
+    '''
+        Return the data of one column in a dataframe
+    '''
     def get_one_column(resource_id, column_name, file_type):
         file_path = RESOURCE_DIR + resource_id[0:3] + '/' + resource_id[3:6] + '/' + resource_id[6:]
         if file_type == 'csv':
@@ -47,6 +52,10 @@ class Helper():
             except:
                 return None
     
+
+    '''
+        Check if a dataset contains csv or xlsx data resource
+    '''
     def dataset_has_csv_xlsx(dataset):
         for resource in dataset.resources:
             if TemplateHelper.is_csv(resource) or TemplateHelper.is_xlsx(resource):
@@ -54,6 +63,9 @@ class Helper():
         return False
     
 
+    '''
+        Return a dataframe inside from a resource 
+    '''
     def get_resource_table(resource_id, file_type):
         columns = TemplateHelper.get_columns('', resource_id, file_type)
         data_rows = TemplateHelper.get_data('', resource_id, file_type)

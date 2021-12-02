@@ -36,3 +36,15 @@
     float: left;
     margin-right: 20px;
 }
+
+#analysis-result-area{
+    margin-top: 20px;
+    height: 800px;
+    
+}
+
+#end-of-import-area-line{
+    background-color: #E6E6E6;
+    height: 5px;
+    width: 100%;
+}

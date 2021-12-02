@@ -7,6 +7,7 @@
     {% set action_process = h.url_for('data_comparision.process_columns', _external=True) %}
     <input type="hidden" id="process_url" value="{{action_process}}">
      <div class="data-comparision-module">
+        {# Start of a table #}
         <div class="table-div">
           <table class="data-comp-table">
             <tr class="dcom-table-header-row">
@@ -32,16 +33,29 @@
             {% endfor %}
           </table>
         </div>
+        {# End of a table #}
         <div class="row browes-btn-div">
             {% snippet 'snippets/data_comparision_browes.html', 
               datasets=datasets
             %}
         </div>    
      </div>
+      <div id="end-of-import-area-line"><div>
+      <br>
       <div class="row">
-          <div class="col-sm-12">
+          <div class="col-sm-12 text-center">
             <button class="btn btn-primary" type="button" id="process_btn">{{_('Process data')}}</button>
           </div>
+      </div>
+      <br>
+      <hr>
+      {# Result section starts #}
+      <div class="row">
+        <div class="col-sm-12" id="analysis-result-area">
+            <div class="row text-center">
+              <h2><b>{{_('Process Result')}}</b></h2>
+            </div>
+        </div>
       </div>
 
 
