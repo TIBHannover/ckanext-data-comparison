@@ -92,6 +92,22 @@ class TemplateHelper():
             except:
                 return {'Error': []}
     
+
+    '''
+        calculate max number of pages for a data table
+    '''
+    def get_max_table_page_count(resource_id, file_type):
+        file_path = RESOURCE_DIR + resource_id[0:3] + '/' + resource_id[3:6] + '/' + resource_id[6:]
+        if file_type == 'csv':
+            try:
+                df = clevercsv.read_dataframe(file_path)
+                return int(len(df) / PAGINATION_SIZE) + 1
+
+            except:
+                return 1
+
+        return 1
+    
     
 
 

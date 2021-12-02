@@ -49,9 +49,11 @@ $(document).ready(function(){
         let id_elem = $(this).attr('id');
         let id = id_elem.split('page-next-')[1]
         let page = $('#page-number-' + id).val();
-        $('#page-number-' + id).val(parseInt(page) + 1);
+        let max_page = $('#page-number-max-' + id).val();
+        if(parseInt(page) < parseInt(max_page)){
+            $('#page-number-' + id).val(parseInt(page) + 1);
+        }
 
-        
     });
 
     /**

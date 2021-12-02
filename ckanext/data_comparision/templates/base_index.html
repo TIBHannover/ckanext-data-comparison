@@ -12,6 +12,7 @@
           <div class="row pagination-area">
               <button type="button" class="btn prev-btn" id="{{'page-prev-' ~ resource['id']}}"><i class="fa fa fa-step-backward"></i></button>
               <input type="text" class="page-number" id="{{'page-number-' ~ resource['id']}}" value="1">
+              <input type="hidden" id="{{'page-number-max-' ~ resource['id']}}" value="{{h.get_max_table_page_count( resource['id'], 'csv')}}">
               <button type="button" class="btn next-btn" id="{{'page-next-' ~ resource['id']}}"><i class="fa fa fa-step-forward"></i></button>
           </div>
           <table class="data-comp-table">
