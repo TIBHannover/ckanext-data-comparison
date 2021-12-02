@@ -71,8 +71,9 @@ class Helper():
     def get_resource_table(resource_id, page):
         columns = TemplateHelper.get_columns('', resource_id)
         data_rows = TemplateHelper.get_data('', resource_id, page)
+        max_page = TemplateHelper.get_max_table_page_count(resource_id)
         
-        return Builder.build_data_table(resource_id, columns, data_rows)
+        return Builder.build_data_table(resource_id, columns, data_rows, max_page)
 
 
    
