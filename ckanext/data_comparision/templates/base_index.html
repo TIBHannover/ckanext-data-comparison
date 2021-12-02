@@ -9,6 +9,7 @@
      <div class="data-comparision-module" id="raw_tables_area">
         {# Start of a table #}
         <div class="table-div">
+          <input type="hidden" class="page-number" id="{{'page-number-' ~ resource['id']}}" value="1">
           <table class="data-comp-table">
             <tr class="dcom-table-header-row">
               {% for col in h.get_columns(pkg_dict['id'], resource['id'], 'csv') %}
@@ -25,7 +26,7 @@
                 >
               {% endfor %}
             </tr>
-            {% for row in h.get_data(pkg_dict['id'], resource['id'], 'csv') %}
+            {% for row in h.get_data(pkg_dict['id'], resource['id'], 1, 'csv') %}
                 <tr class="dcom-table-content-row">
                   {% for value in row %}
                     <td class="dcom-table-cell {{'dcom-column-' ~ resource['id'] ~ '-' ~ loop.index}}" 

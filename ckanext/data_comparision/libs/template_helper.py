@@ -7,6 +7,7 @@ import pandas as pd
 
 
 RESOURCE_DIR = toolkit.config['ckan.storage_path'] + '/resources/'
+PAGINATION_SIZE = 50
 
 class TemplateHelper():
  
@@ -29,14 +30,20 @@ class TemplateHelper():
     '''
         Return a table data to a template view
     '''
-    def get_data(package_id, resource_id, file_type):
+    def get_data(package_id, resource_id, page, file_type):
         file_path = RESOURCE_DIR + resource_id[0:3] + '/' + resource_id[3:6] + '/' + resource_id[6:]
+        lower_bound = (page -1) * PAGINATION_SIZE
+        upper_bound = page * PAGINATION_SIZE
         if file_type == 'csv':
             result = []
             try:
                 df = clevercsv.read_dataframe(file_path)
-                for index, row in df.iterrows():
+                if upper_bound > len(df):
+                    upper_bound = len(df)
+                
+                for index, row in df.iloc[lower_bound:upper_bound].iterrows():                    
                     result.append(list(row))
+                    
                 return result
 
             except:
