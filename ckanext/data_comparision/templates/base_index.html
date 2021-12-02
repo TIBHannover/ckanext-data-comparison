@@ -6,7 +6,7 @@
     {% asset 'ckanext-data-comparision/page-js' %}
     {% set action_process = h.url_for('data_comparision.process_columns', _external=True) %}
     <input type="hidden" id="process_url" value="{{action_process}}">
-     <div class="data-comparision-module">
+     <div class="data-comparision-module" id="raw_tables_area">
         {# Start of a table #}
         <div class="table-div">
           <table class="data-comp-table">
@@ -55,6 +55,7 @@
             <div class="row text-center">
               <h2><b>{{_('Process Result')}}</b></h2>
             </div>
+
         </div>
       </div>
 

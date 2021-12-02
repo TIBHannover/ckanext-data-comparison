@@ -26,7 +26,11 @@ $(document).ready(function(){
     req.onreadystatechange = function() {
         if (req.readyState == XMLHttpRequest.DONE && req.status === 200) {       
             data = JSON.parse(req.responseText);
-            console.info(data)                       
+            let keys = Object.keys(data); 
+            keys.forEach( function(key) {
+                let table = data[key]
+                $('#raw_tables_area').append(table);
+            })
         }
     }
     req.open("POST", dest_url);
