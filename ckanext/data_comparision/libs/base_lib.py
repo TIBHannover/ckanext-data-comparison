@@ -68,12 +68,14 @@ class Helper():
     '''
         Return a dataframe inside from a resource 
     '''
-    def get_resource_table(resource_id, page):
+    def get_resource_table(resource_id, page, load_first_time):
         columns = TemplateHelper.get_columns('', resource_id)
         data_rows = TemplateHelper.get_data('', resource_id, page)
         max_page = TemplateHelper.get_max_table_page_count(resource_id)
+        if page > max_page or page < 1:
+            return None
         
-        return Builder.build_data_table(resource_id, columns, data_rows, max_page)
+        return Builder.build_data_table(resource_id, columns, data_rows, max_page, load_first_time)
 
 
    

@@ -52,6 +52,7 @@ $(document).ready(function(){
         let max_page = $('#page-number-max-' + id).val();
         if(parseInt(page) < parseInt(max_page)){
             $('#page-number-' + id).val(parseInt(page) + 1);
+            get_new_page(id, parseInt(page) + 1);
         }
 
     });
@@ -65,6 +66,7 @@ $(document).ready(function(){
         let page = $('#page-number-' + id).val();
         if (parseInt(page) > 1){
             $('#page-number-' + id).val(parseInt(page) - 1);
+            get_new_page(id, parseInt(page) - 1);
         }        
     });
 
@@ -101,6 +103,33 @@ function send_columns_data(){
         if (req.readyState == XMLHttpRequest.DONE && req.status === 200) {       
             let data=req.responseText;
             let jsonResponse = JSON.parse(data);                           
+        }
+    }
+    req.open("POST", dest_url);
+    req.send(formdata);
+}
+
+
+/**
+ * Get new page on pagination
+ */
+ function get_new_page(resourceId, page){
+    let formdata = new FormData();
+    formdata.set('page', page);
+    formdata.set('resourceId', resourceId);
+    let dest_url = $('#new_page_url').val();
+    let req = new XMLHttpRequest();
+    req.onreadystatechange = function() {
+        if (req.readyState == XMLHttpRequest.DONE && req.status === 200) {       
+            data = JSON.parse(req.responseText);
+            let tableDiv = $('#data-table-' + resourceId).parent();
+            $('#data-table-' + resourceId).remove();
+            $(tableDiv).append(data['table']);
+            // let keys = Object.keys(data); 
+            // keys.forEach( function(key) {
+            //     let table = data[key]
+            //     $('#raw_tables_area').append(table);
+            // })
         }
     }
     req.open("POST", dest_url);

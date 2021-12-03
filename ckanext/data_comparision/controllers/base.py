@@ -52,7 +52,7 @@ class BaseController():
         resources = request.form.getlist('resources[]') 
         imported_tables = {}
         for res_id in resources:
-            imported_tables[res_id] = Helper.get_resource_table(res_id, 1)
+            imported_tables[res_id] = Helper.get_resource_table(res_id, 1, True)
 
         return json.dumps(imported_tables)
     
@@ -61,5 +61,10 @@ class BaseController():
         Load new data page for a table
     '''
     def load_new_page():
+        page_number = request.form.get('page')
+        resource_id = request.form.get('resourceId')
+        table = Helper.get_resource_table(resource_id, int(page_number), False)
+        if not table:
+            return '0'
 
-        return '0'
+        return json.dumps({'table': table})

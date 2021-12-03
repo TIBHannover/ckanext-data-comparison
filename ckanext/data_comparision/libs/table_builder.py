@@ -6,7 +6,7 @@ class Builder():
     '''
         Build a table in html format to add to the page
     '''
-    def build_data_table(resource_id, columns, resource_data, max_page):
+    def build_data_table(resource_id, columns, resource_data, max_page, load_first_time):
         root_div = '<div class="table-div">'
         root_div_end = '</div>'
         table_start = '<table class="data-comp-table"  id="data-table-' + str(resource_id) + '">'
@@ -17,7 +17,11 @@ class Builder():
         for row in resource_data:
             body_section += Builder.build_table_row(row, resource_id)
         
-        table = root_div + pagination_section + table_start + header_section + body_section + table_end + root_div_end
+        if load_first_time:
+            table = root_div + pagination_section + table_start + header_section + body_section + table_end + root_div_end
+        else:
+            table = root_div  + table_start + header_section + body_section + table_end + root_div_end
+
         return table
     
 
