@@ -13,10 +13,11 @@ class Builder():
         table_end = '</table>'
         pagination_section = Builder.build_pagination(resource_id, max_page)
         header_section = Builder.build_table_header(resource_id, columns)
-        body_section = ''
+        body_section = '<tbody>'
         for row in resource_data:
             body_section += Builder.build_table_row(row, resource_id)
         
+        body_section += '</tbody>'
         if load_first_time:
             table = root_div + pagination_section + table_start + header_section + body_section + table_end + root_div_end
         else:
@@ -28,8 +29,8 @@ class Builder():
 
     def build_table_header(resource_id, columns):
         table_header = ''
-        header_row = '<tr class="dcom-table-header-row">'
-        header_row_end = '</tr>'
+        header_row = '<thead><tr class="dcom-table-header-row">'
+        header_row_end = '</tr><thead>'
         Id = 1
         inner_content = ''
         for col in columns:
@@ -69,7 +70,7 @@ class Builder():
     
 
     def build_body_cell(Id, value, resource_id):
-        cell = '<td class="dcom-table-cell '
+        cell = '<td class="dcom-table-cell dcom-table-body-cell '
         cell += ('dcom-column-' + str(resource_id) + '-' + str(Id) + '" ')
         cell += ('name="' +  str(resource_id) + '-' + str(Id) + '"> ')
         cell += str(value)

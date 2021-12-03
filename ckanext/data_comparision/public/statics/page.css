@@ -1,12 +1,7 @@
 .data-comparision-module{
-    height: 400px;
+    height: 500px;
     padding: 40px 20px 20px 20px;
-    display: block;
-    overflow-y:scroll;
-    overflow-x: scroll;
-}
-.data-comp-table{
-    border: 1px solid black;
+   
 }
 .hidden-checkbox{
     display: none;
@@ -72,4 +67,22 @@
     padding-left: 4px;
     padding-right: 4px;
 }
+
+.data-comp-table{
+    overflow-x: scroll;
+    border: 1px solid black;
+}
+
+.table-div{
+    position: relative;
+    overflow-y: scroll;
+    overflow-x: hidden;
+    height: 400px;
+}
+
+
+
+/* .table-div > thead{
+    position: absolute;
+} */
 

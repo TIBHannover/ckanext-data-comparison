@@ -18,29 +18,33 @@
               <button type="button" class="btn next-btn" id="{{'page-next-' ~ resource['id']}}"><i class="fa fa-step-forward"></i></button>
           </div>
           <table class="data-comp-table" id="{{'data-table-' ~ resource['id']}}">
-            <tr class="dcom-table-header-row">
-              {% for col in h.get_columns(pkg_dict['id'], resource['id']) %}
-                <th class="dcom-table-cell dcom-table-header-cell {{'dcom-column-' ~ resource['id'] ~ '-' ~ loop.index}}" 
-                      name="{{resource['id'] ~ '-' ~ loop.index}}">
-                  {{col}}
-                </th>
-                <input 
-                  type="checkbox" 
-                  value="{{resource['id'] ~ '@_@' ~ col}}" 
-                  name="chosen_columns" 
-                  class="hidden-checkbox"
-                  id="{{resource['id'] ~ '-' ~ loop.index}}"
-                >
+            <thead>
+              <tr class="dcom-table-header-row">
+                {% for col in h.get_columns(pkg_dict['id'], resource['id']) %}
+                  <th class="dcom-table-cell dcom-table-header-cell {{'dcom-column-' ~ resource['id'] ~ '-' ~ loop.index}}" 
+                        name="{{resource['id'] ~ '-' ~ loop.index}}">
+                    {{col}}
+                  </th>
+                  <input 
+                    type="checkbox" 
+                    value="{{resource['id'] ~ '@_@' ~ col}}" 
+                    name="chosen_columns" 
+                    class="hidden-checkbox"
+                    id="{{resource['id'] ~ '-' ~ loop.index}}"
+                  >
+                {% endfor %}
+              </tr>
+            </thead>
+            <tbody>
+              {% for row in h.get_data(pkg_dict['id'], resource['id'], 1) %}
+                  <tr class="dcom-table-content-row">
+                    {% for value in row %}
+                      <td class="dcom-table-cell dcom-table-body-cell {{'dcom-column-' ~ resource['id'] ~ '-' ~ loop.index}}" 
+                        name="{{resource['id'] ~ '-' ~ loop.index}}">{{value}}</td>
+                    {% endfor %}
+                  </tr>
               {% endfor %}
-            </tr>
-            {% for row in h.get_data(pkg_dict['id'], resource['id'], 1) %}
-                <tr class="dcom-table-content-row">
-                  {% for value in row %}
-                    <td class="dcom-table-cell dcom-table-body-cell {{'dcom-column-' ~ resource['id'] ~ '-' ~ loop.index}}" 
-                      name="{{resource['id'] ~ '-' ~ loop.index}}">{{value}}</td>
-                  {% endfor %}
-                </tr>
-            {% endfor %}
+            </tbody>            
           </table>
         </div>
         {# End of a table #}
