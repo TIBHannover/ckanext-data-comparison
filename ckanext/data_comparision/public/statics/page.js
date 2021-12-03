@@ -125,11 +125,6 @@ function send_columns_data(){
             let tableDiv = $('#data-table-' + resourceId).parent();
             $('#data-table-' + resourceId).remove();
             $(tableDiv).append(data['table']);
-            // let keys = Object.keys(data); 
-            // keys.forEach( function(key) {
-            //     let table = data[key]
-            //     $('#raw_tables_area').append(table);
-            // })
         }
     }
     req.open("POST", dest_url);

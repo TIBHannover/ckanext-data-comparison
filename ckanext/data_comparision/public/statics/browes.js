@@ -29,7 +29,7 @@ $(document).ready(function(){
             let keys = Object.keys(data); 
             keys.forEach( function(key) {
                 let table = data[key]
-                $('#raw_tables_area').append(table);
+                $('#raw_tables_area').find('.data-comparision-module-col').append(table);
             })
         }
     }
