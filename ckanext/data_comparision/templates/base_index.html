@@ -12,10 +12,10 @@
         {# Start of a table #}
         <div class="table-div">
           <div class="row pagination-area">
-              <button type="button" class="btn prev-btn" id="{{'page-prev-' ~ resource['id']}}"><i class="fa fa fa-step-backward"></i></button>
+              <button type="button" class="btn prev-btn" id="{{'page-prev-' ~ resource['id']}}"><i class="fa fa-step-backward"></i></button>
               <input type="text" class="page-number" id="{{'page-number-' ~ resource['id']}}" value="1">
               <input type="hidden" id="{{'page-number-max-' ~ resource['id']}}" value="{{h.get_max_table_page_count( resource['id'])}}">
-              <button type="button" class="btn next-btn" id="{{'page-next-' ~ resource['id']}}"><i class="fa fa fa-step-forward"></i></button>
+              <button type="button" class="btn next-btn" id="{{'page-next-' ~ resource['id']}}"><i class="fa fa-step-forward"></i></button>
           </div>
           <table class="data-comp-table" id="{{'data-table-' ~ resource['id']}}">
             <tr class="dcom-table-header-row">
@@ -36,7 +36,7 @@
             {% for row in h.get_data(pkg_dict['id'], resource['id'], 1) %}
                 <tr class="dcom-table-content-row">
                   {% for value in row %}
-                    <td class="dcom-table-cell {{'dcom-column-' ~ resource['id'] ~ '-' ~ loop.index}}" 
+                    <td class="dcom-table-cell dcom-table-body-cell {{'dcom-column-' ~ resource['id'] ~ '-' ~ loop.index}}" 
                       name="{{resource['id'] ~ '-' ~ loop.index}}">{{value}}</td>
                   {% endfor %}
                 </tr>
