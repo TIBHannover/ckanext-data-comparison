@@ -42,6 +42,13 @@ class DataComparisionPlugin(plugins.SingletonPlugin):
             BaseController.import_data,
             methods=['POST']
             )
+        
+        blueprint.add_url_rule(
+            u'/data_comparision/load_new_page',
+            u'load_new_page',
+            BaseController.load_new_page,
+            methods=['POST']
+            )
 
         return blueprint
     

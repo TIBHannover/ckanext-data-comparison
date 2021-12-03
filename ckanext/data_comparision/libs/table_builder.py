@@ -9,7 +9,7 @@ class Builder():
     def build_data_table(resource_id, columns, resource_data, max_page):
         root_div = '<div class="table-div">'
         root_div_end = '</div>'
-        table_start = '<table class="data-comp-table">'
+        table_start = '<table class="data-comp-table"  id="data-table-' + str(resource_id) + '">'
         table_end = '</table>'
         pagination_section = Builder.build_pagination(resource_id, max_page)
         header_section = Builder.build_table_header(resource_id, columns)

@@ -15,7 +15,7 @@
               <input type="hidden" id="{{'page-number-max-' ~ resource['id']}}" value="{{h.get_max_table_page_count( resource['id'])}}">
               <button type="button" class="btn next-btn" id="{{'page-next-' ~ resource['id']}}"><i class="fa fa fa-step-forward"></i></button>
           </div>
-          <table class="data-comp-table">
+          <table class="data-comp-table" id="{{'data-table-' ~ resource['id']}}">
             <tr class="dcom-table-header-row">
               {% for col in h.get_columns(pkg_dict['id'], resource['id']) %}
                 <th class="dcom-table-cell dcom-table-header-cell {{'dcom-column-' ~ resource['id'] ~ '-' ~ loop.index}}" 

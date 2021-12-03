@@ -55,3 +55,11 @@ class BaseController():
             imported_tables[res_id] = Helper.get_resource_table(res_id, 1)
 
         return json.dumps(imported_tables)
+    
+
+    '''
+        Load new data page for a table
+    '''
+    def load_new_page():
+
+        return '0'
