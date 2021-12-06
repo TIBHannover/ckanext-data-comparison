@@ -57,16 +57,13 @@ class BaseController():
         columns_data = request.form.getlist('columns[]')       
         result_columns = {}        
         for value in columns_data:
-            print(value)
-            print('--------------------------------------&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&')
-            temp = value.split('@_@')
-            resource_id = temp[0]
-            col_name = temp[1]
-            col_data = Helper.get_one_column(resource_id, col_name)
-            if col_data:
-                result_columns[col_name] = col_data
+            if '@_@' in value:
+                resource_id = value.split('@_@')[0]
+                col_name = value.split('@_@')[1]
+                col_data = Helper.get_one_column(resource_id, col_name)
+                if col_data:
+                    result_columns[col_name] = col_data
             
-
         return json.dumps(result_columns)
     
 
