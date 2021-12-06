@@ -8,10 +8,15 @@
     {% set action_new_page = h.url_for('data_comparision.load_new_page', _external=True) %}
     <input type="hidden" id="process_url" value="{{action_process}}">
     <input type="hidden" id="new_page_url" value="{{action_new_page}}">
+    <div class="row browes-btn-div">
+              {% snippet 'snippets/data_comparision_browes.html', 
+                datasets=datasets
+              %}
+    </div>  
      <div class="row data-comparision-module" id="raw_tables_area">
       <div class="col-sm-12 data-comparision-module-col">
             {# Start of a table #}
-          <div class="table-div">
+          <div class="element-container-box  table-div">
             <div class="row pagination-area">
                 <button type="button" class="btn prev-btn" id="{{'page-prev-' ~ resource['id']}}"><i class="fa fa-step-backward"></i></button>
                 <input type="text" class="page-number" id="{{'page-number-' ~ resource['id']}}" value="1">
@@ -48,12 +53,7 @@
               </tbody>            
             </table>
           </div>
-          {# End of a table #}
-          <div class="row browes-btn-div">
-              {% snippet 'snippets/data_comparision_browes.html', 
-                datasets=datasets
-              %}
-        </div>    
+          {# End of a table #}  
       </div>
         
      </div>

@@ -7,7 +7,7 @@ class Builder():
         Build a table in html format to add to the page
     '''
     def build_data_table(resource_id, columns, resource_data, max_page, load_first_time):
-        root_div = '<div class="table-div">'
+        root_div = '<div class="element-container-box table-div">'
         root_div_end = '</div>'
         table_start = '<table class="data-comp-table"  id="data-table-' + str(resource_id) + '">'
         table_end = '</table>'

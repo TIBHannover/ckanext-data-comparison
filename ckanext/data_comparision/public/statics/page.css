@@ -1,17 +1,36 @@
 .data-comparision-module{
-    height: 500px;
+    /* height: 500px; */
     padding: 40px 20px 20px 20px;
-    overflow-y: scroll;
+    white-space: nowrap;
+    position: relative;
+    overflow-x: scroll;
+    overflow-y: hidden;
    
 }
+
+.element-container-box{
+    float: none;
+    display: inline-block;
+    zoom: 1;
+}
+
+.table-div{
+    position: relative;
+    overflow-y: scroll;
+    overflow-x: hidden;
+    height: 400px;
+    margin-right: 20px;
+}
+
 .hidden-checkbox{
     display: none;
 }
+
 .browes-btn-div{
-    /* float: left; */
-    margin-left: 40px;
-    margin-top: 50px;
+    padding-top: 20px;
+    padding-left: 45%;
 }
+
 #analysis-result-area{
     margin-top: 20px;
     height: 800px;
@@ -70,17 +89,4 @@
     border: 1px solid black;
 }
 
-.table-div{
-    position: relative;
-    overflow-y: scroll;
-    overflow-x: hidden;
-    height: 400px;
-    float: right;
-    margin-right: 20px;
-}
-
-.row.wrapper.no-nav{
-    overflow-x: scroll;
-    overflow-y: scroll;
-}
 
