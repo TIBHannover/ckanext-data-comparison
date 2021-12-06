@@ -10,8 +10,22 @@ RESOURCE_DIR = toolkit.config['ckan.storage_path'] + '/resources/'
 PAGINATION_SIZE = 50
 
 class TemplateHelper():
- 
+    '''
+        The class that provides Helper functions for ckan template (ITemplateHelpers). 
+    '''
+    
+    @staticmethod
     def is_csv(resource):
+        '''
+            Check if a data resource in csv or not.
+
+            Args:
+                - resource: the data resource object.
+            
+            Returns:
+                - Boolean        
+        '''
+
         if resource.format in ['CSV']:
             return True
         if  '.csv' in  resource.name:
@@ -19,7 +33,18 @@ class TemplateHelper():
         return False
 
     
+    @staticmethod
     def is_xlsx(resource):
+        '''
+            Check if a data resource in xlsx or not.
+
+            Args:
+                - resource: the data resource object.
+            
+            Returns:
+                - Boolean        
+        '''
+
         if resource.format in ['XLSX']:
             return True
         if  '.xlsx' in  resource.name:
@@ -27,10 +52,19 @@ class TemplateHelper():
         return False
 
 
-    '''
-        Get the type of a resource
-    '''    
+
+    @staticmethod   
     def get_resource_type(resource_id):
+        '''
+            Get a data resource type.
+
+            Args:
+                - resource_id: the id of the target data resource in ckan
+            
+            Returns:
+                - the resource type as String
+        '''
+
         resource = toolkit.get_action('resource_show')({}, {'id': resource_id})
         if resource['format'] in ['CSV'] or '.csv' in  resource['name']: 
             return 'csv'
@@ -40,10 +74,21 @@ class TemplateHelper():
         return None
 
     
-    '''
-        Return a table data to a template view
-    '''
-    def get_data(package_id, resource_id, page):
+    
+    @staticmethod
+    def get_data(resource_id, page):
+        '''
+            Get a ckan data reosurce table data.
+
+            Args:
+                - resource_id: the id of the target data resource in ckan
+                - page: page number for pagination
+            
+            Returns:
+                - list of data rows (list of lists)
+        '''
+
+
         file_path = RESOURCE_DIR + resource_id[0:3] + '/' + resource_id[3:6] + '/' + resource_id[6:]
         lower_bound = (page -1) * PAGINATION_SIZE
         upper_bound = page * PAGINATION_SIZE
@@ -79,10 +124,18 @@ class TemplateHelper():
     
 
 
-    '''
-        Return a table columns to a template view
-    '''
-    def get_columns(package_id, resource_id):
+    @staticmethod
+    def get_columns(resource_id):
+        '''
+            Get a ckan data reosurce table column.
+
+            Args:
+                - resource_id: the id of the target data resource in ckan
+            
+            Returns:
+                - list of columns names
+        '''
+
         file_path = RESOURCE_DIR + resource_id[0:3] + '/' + resource_id[3:6] + '/' + resource_id[6:]
         file_type = TemplateHelper.get_resource_type(resource_id)
         if file_type == 'csv':
@@ -108,10 +161,18 @@ class TemplateHelper():
                 return {'Error': []}
     
 
-    '''
-        calculate max number of pages for a data table
-    '''
+    @staticmethod
     def get_max_table_page_count(resource_id):
+        '''
+            Calculate max number of pages for a data table.
+
+            Args:
+                - resource_id: the id of the target data resource in ckan
+            
+            Returns:
+                - Max page count
+        '''
+
         file_path = RESOURCE_DIR + resource_id[0:3] + '/' + resource_id[3:6] + '/' + resource_id[6:]
         file_type = TemplateHelper.get_resource_type(resource_id)
         if file_type == 'csv':
