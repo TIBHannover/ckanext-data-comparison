@@ -29,8 +29,8 @@ class Builder():
 
     def build_table_header(resource_id, columns):
         table_header = ''
-        header_row = '<thead><tr class="dcom-table-header-row">'
-        header_row_end = '</tr><thead>'
+        header_row = '<tr class="dcom-table-header-row">'
+        header_row_end = '</tr>'
         Id = 1
         inner_content = ''
         for col in columns:
