@@ -8,15 +8,30 @@ import json
 from ckanext.data_comparision.libs.template_helper import TemplateHelper
 
 class BaseController():
+    '''
+        The controller class contains the Plugin logic.
+    '''
 
-    '''
-        The plugin index view
-    '''
+
+    @staticmethod
     def base_view(package_name, resId):
+        '''
+            The function for rendering the plugin index page.
+
+            Method:
+                - GET
+
+            Args:
+                - package_name: the target dataset name
+                - resId: The target data resource id in ckan
+
+            Returns:
+                - The base_index.html page        
+        '''
+
         datasets = Helper.get_all_datasets()
         package = toolkit.get_action('package_show')({}, {'name_or_id': package_name})
         resource = toolkit.get_action('resource_show')({}, {'id': resId})
-
 
         return render_template('base_index.html', 
             datasets=datasets,
@@ -27,10 +42,18 @@ class BaseController():
         )
     
 
-    '''
-        process the selected columns (add them to selected space)
-    '''
+    @staticmethod
     def process_columns():
+        '''
+            The function for processing the selected data columns.
+
+            Method:
+                - POST
+
+            Returns:
+                - ???        
+        '''
+
         columns_data = request.form.getlist('columns[]')       
         result_columns = {}        
         for value in columns_data:
@@ -45,10 +68,19 @@ class BaseController():
         return json.dumps(result_columns)
     
 
-    '''
-        Import data from selected resources in browes view
-    '''
+
+    @staticmethod
     def import_data():
+        '''
+            Import data from selected resources in the browes view.
+
+            Method:
+                - POST
+
+            Returns:
+                - The dictionary contains html tables. The key is a resource id, and the value is the table.        
+        '''
+
         resources = request.form.getlist('resources[]') 
         imported_tables = {}
         for res_id in resources:
@@ -57,10 +89,19 @@ class BaseController():
         return json.dumps(imported_tables)
     
 
-    '''
-        Load new data page for a table
-    '''
+    
+    @staticmethod
     def load_new_page():
+        '''
+            Load new data page for a table.
+
+            Method:
+                - POST
+
+            Returns:
+                - An html table contains the new page data        
+        '''
+
         page_number = request.form.get('page')
         resource_id = request.form.get('resourceId')
         table = Helper.get_resource_table(resource_id, int(page_number), False)
