@@ -5,7 +5,6 @@ $(document).ready(function(){
      */
      $('body').on('mouseover', '.dcom-table-cell', function() {
         let id = $(this).attr('name');
-        // id = id[id.length - 1];
         let checkbox = $('#' + id);
         if ($(checkbox).prop('checked') === false){
             $('.dcom-column-' + id).css('background-color', 'yellow');        
@@ -18,7 +17,6 @@ $(document).ready(function(){
      */
      $('body').on('mouseout', '.dcom-table-cell', function() {
         let id = $(this).attr('name');
-        // id = id[id.length - 1];
         let checkbox = $('#' + id);
         if ($(checkbox).prop('checked') === false){
             $('.dcom-column-' + id).css('background-color', '');       
@@ -31,9 +29,8 @@ $(document).ready(function(){
      */
      $('body').on('click', '.dcom-table-cell', function() {
         let id = $(this).attr('name');
-        // id = id[id.length - 1];
         let checkbox = $('#' + id);
-        $(checkbox).click();
+        $(checkbox).prop('checked', !$(checkbox).is(":checked"));
         if ($(checkbox).prop('checked') === true){
             $('.dcom-column-' + id).css('background-color', 'green');        
         }
@@ -93,7 +90,6 @@ function send_columns_data(){
             checked_ones.push($(checkboxes[i]).val());
         }
     }
-    // formdata.set('columns', JSON.stringify(checked_ones));
     for (let i = 0; i < checked_ones.length; i++) {
         formdata.append('columns[]', checked_ones[i]);
     }
