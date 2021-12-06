@@ -1,3 +1,10 @@
+.site-footer{
+    width: 100% !important;
+    position:absolute;
+    bottom:0;
+    left:0;
+}
+
 .data-comparision-module{
     /* height: 500px; */
     padding: 40px 200px 20px 20px;
