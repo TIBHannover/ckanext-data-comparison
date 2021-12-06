@@ -1,3 +1,12 @@
+{% set action_download =  h.url_for('data_comparision.download_file', _external=True) %}
+
 <div class="row text-center">
-    <h2><b>{{_('Process Result')}}</b></h2>
+    <h2><b>{{_('Result')}}</b></h2>
+</div>
+<hr>
+<div class="row">
+    <div class="col-sm-12">
+        <b>{{_('Here you can download the selected data columns as one CSV file.')}}</b>
+        <a class="btn btn-primary" href="{{action_download}}">{{_('Download')}}</a>
+    </div>
 </div>

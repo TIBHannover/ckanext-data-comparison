@@ -108,3 +108,20 @@ class BaseController():
             return '0'
 
         return json.dumps({'table': table})
+    
+
+    @staticmethod
+    def download_file():
+        '''
+            Download the selcted data columns as a csv file.
+
+            Method:
+                - GET
+
+            Return:
+                - A csv file
+        
+        '''
+
+
+        return '0'
