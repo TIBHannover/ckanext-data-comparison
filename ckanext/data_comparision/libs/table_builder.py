@@ -21,7 +21,7 @@ class Builder():
         if load_first_time:
             table = root_div + pagination_section + table_start + header_section + body_section + table_end + root_div_end
         else:
-            table = root_div  + table_start + header_section + body_section + table_end + root_div_end
+            table = table_start + header_section + body_section + table_end
 
         return table
     
