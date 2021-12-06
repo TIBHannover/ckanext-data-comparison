@@ -57,6 +57,8 @@ class BaseController():
         columns_data = request.form.getlist('columns[]')       
         result_columns = {}        
         for value in columns_data:
+            print(value)
+            print('--------------------------------------&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&')
             temp = value.split('@_@')
             resource_id = temp[0]
             col_name = temp[1]

@@ -175,7 +175,7 @@ class Builder():
         '''
 
         checkbox = '<input  type="checkbox" name="chosen_columns" class="hidden-checkbox" '
-        checkbox += ('value="' + str(resource_id) + '-' + str(column) + '" ')
+        checkbox += ('value="' + str(resource_id) + '@_@' + str(column) + '" ')
         checkbox += ('id="' +  str(resource_id) + '-' + str(Id) + '" > ')
         return checkbox
     

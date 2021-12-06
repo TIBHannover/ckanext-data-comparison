@@ -1,6 +1,6 @@
 $(document).ready(function(){
     $('#import-btn').click(function(){
-        send_columns_data();
+        import_table();
 
     });
 });
@@ -9,7 +9,7 @@ $(document).ready(function(){
 /**
  * Post resources name data to backend for importing
  */
- function send_columns_data(){
+ function import_table(){
     let formdata = new FormData();
     let checkboxes = $('.resource-box');
     let checked_ones = [];

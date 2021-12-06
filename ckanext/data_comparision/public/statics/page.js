@@ -98,7 +98,8 @@ function send_columns_data(){
     req.onreadystatechange = function() {
         if (req.readyState == XMLHttpRequest.DONE && req.status === 200) {       
             let data=req.responseText;
-            let jsonResponse = JSON.parse(data);                           
+            let jsonResponse = JSON.parse(data);   
+            console.info(jsonResponse);                        
         }
     }
     req.open("POST", dest_url);
