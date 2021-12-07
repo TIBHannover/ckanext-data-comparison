@@ -51,11 +51,10 @@ class Helper():
         '''
         
         Commons.check_access_view_resource(resource_id)
-        file_path = RESOURCE_DIR + resource_id[0:3] + '/' + resource_id[3:6] + '/' + resource_id[6:]
-        file_type = TemplateHelper.get_resource_type(resource_id)
+        file_type = Commons.get_resource_type(resource_id)
         if file_type == 'csv':
             try:
-                df = clevercsv.read_dataframe(file_path)
+                df = Commons.csv_to_dataframe(resource_id)
                 return list(df[column_name])
 
             except:
@@ -106,6 +105,7 @@ class Helper():
         return Builder.build_data_table(resource_id, columns, data_rows, max_page, load_first_time)
     
 
+
     @staticmethod
     def gather_data_from_columns(columns_data):
         '''
@@ -132,6 +132,7 @@ class Helper():
 
         return result_columns
     
+
 
     @staticmethod
     def prepare_data_for_download(data_dict):
