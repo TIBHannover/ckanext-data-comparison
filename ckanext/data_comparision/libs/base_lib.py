@@ -7,6 +7,7 @@ import clevercsv
 import pandas as pd
 from ckanext.data_comparision.libs.template_helper import TemplateHelper
 from ckanext.data_comparision.libs.table_builder import Builder
+from ckanext.data_comparision.libs.commons import Commons
 from itertools import zip_longest
 
 
@@ -17,50 +18,6 @@ class Helper():
         The Helper class includes functions that preform the plugin functionalities.
     '''
 
-    @staticmethod
-    def check_access_view_package(package_id):
-        '''
-            Check a user can view a dataset in ckan or not.
-
-            Args:
-                - package_id: the datset id in ckan
-            
-            Returns:
-                - Boolean
-        '''
-        
-        context = {'user': toolkit.g.user, 'auth_user_obj': toolkit.g.userobj}
-        data_dict = {'id':package_id}
-        try:
-            toolkit.check_access('package_show', context, data_dict)
-            return True
-
-        except toolkit.NotAuthorized:
-            return False
-    
-
-    @staticmethod
-    def check_access_view_resource(resource_id):
-        '''
-            Check a user can view a data resource in ckan or not.
-
-            Args:
-                - resource_id: the data resource id in ckan
-            
-            Returns:
-                - Boolean
-        '''
-        
-        context = {'user': toolkit.g.user, 'auth_user_obj': toolkit.g.userobj}
-        data_dict = {'id':resource_id}
-        try:
-            toolkit.check_access('resource_show', context, data_dict)
-            return True
-
-        except toolkit.NotAuthorized:
-            return toolkit.abort(403, "You do not have the required authorization.")
-
-    
 
     @staticmethod
     def get_all_datasets():
@@ -74,7 +31,7 @@ class Helper():
         datasets = Package.search_by_name('')
         result = []
         for dt in datasets:
-            if dt.state == 'active' and dt.type == 'dataset' and Helper.check_access_view_package(dt.id) and Helper.dataset_has_csv_xlsx(dt):
+            if dt.state == 'active' and dt.type == 'dataset' and Commons.check_access_view_package(dt.id) and Helper.dataset_has_csv_xlsx(dt):
                 result.append(dt)
         return result
     
@@ -93,7 +50,7 @@ class Helper():
                 - list of the column data
         '''
         
-        Helper.check_access_view_resource(resource_id)
+        Commons.check_access_view_resource(resource_id)
         file_path = RESOURCE_DIR + resource_id[0:3] + '/' + resource_id[3:6] + '/' + resource_id[6:]
         file_type = TemplateHelper.get_resource_type(resource_id)
         if file_type == 'csv':
@@ -139,7 +96,7 @@ class Helper():
                 - The html table for the target data resource.
         '''
 
-        Helper.check_access_view_resource(resource_id)
+        Commons.check_access_view_resource(resource_id)
         columns = TemplateHelper.get_columns(resource_id)
         data_rows = TemplateHelper.get_data(resource_id, page)
         max_page = TemplateHelper.get_max_table_page_count(resource_id)
@@ -166,7 +123,7 @@ class Helper():
         for value in columns_data:
             if '@_@' in value:
                 resource_id = value.split('@_@')[0]
-                Helper.check_access_view_resource(resource_id)
+                Commons.check_access_view_resource(resource_id)
                 col_name = value.split('@_@')[1]
                 col_data = Helper.get_one_column(resource_id, col_name)
                 if col_data:
