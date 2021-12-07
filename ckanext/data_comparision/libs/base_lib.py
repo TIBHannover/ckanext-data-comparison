@@ -126,8 +126,11 @@ class Helper():
                 Commons.check_access_view_resource(resource_id)
                 col_name = value.split('@_@')[1]
                 col_data = Helper.get_one_column(resource_id, col_name)
-                if col_data:
+                if col_data and col_name not in result_columns.keys():
                     result_columns[col_name] = col_data
+                elif col_data and col_name in result_columns.keys():
+                    resource = toolkit.get_action('resource_show')({}, {'id': resource_id})
+                    result_columns[resource['name'] + '__' +  col_name] = col_data
         
 
         return result_columns
