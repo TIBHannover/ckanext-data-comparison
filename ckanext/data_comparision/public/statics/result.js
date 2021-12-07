@@ -38,6 +38,4 @@ $(document).ready(function(){
     }
     req.open("POST", dest_url);
     req.send(formdata);
-
-
 }

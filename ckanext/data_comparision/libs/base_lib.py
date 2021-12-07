@@ -7,6 +7,7 @@ import clevercsv
 import pandas as pd
 from ckanext.data_comparision.libs.template_helper import TemplateHelper
 from ckanext.data_comparision.libs.table_builder import Builder
+from itertools import zip_longest
 
 
 RESOURCE_DIR = toolkit.config['ckan.storage_path'] + '/resources/'
@@ -170,8 +171,32 @@ class Helper():
                 col_data = Helper.get_one_column(resource_id, col_name)
                 if col_data:
                     result_columns[col_name] = col_data
+        
 
         return result_columns
+    
+
+    @staticmethod
+    def prepare_data_for_download(data_dict):
+        '''
+            Prepares the data resource for downloading.
+
+            Args:
+                - data_dict: the dictionary of selected data columns. the key is the column name and the value is the column values.
+
+            Returns:
+                - list of dataframes rows
+        '''
+
+        result_rows = []
+        columns_names = data_dict.keys()
+        result_rows.append(columns_names)
+        body = data_dict.values()
+        zipped_body = zip_longest(*body)
+        for row in zipped_body:
+            result_rows.append(list(row))
+
+        return result_rows
 
 
    

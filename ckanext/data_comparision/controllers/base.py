@@ -118,12 +118,17 @@ class BaseController():
         
         '''
 
-        columns_data = request.form.getlist('columns[]')
-        csv_data = Helper.gather_data_from_columns(columns_data)
-        string_io_object = StringIO()
-        csv_writer_object = csv.writer(string_io_object)
-        csv_writer_object.writerows(csv_data)
-        csv_file = make_response(string_io_object.getvalue())
-        csv_file.headers["Content-Disposition"] = "attachment; filename=export.csv"
-        csv_file.headers["Content-type"] = "text/csv"
-        return csv_file
+        try:
+            columns_data = request.form.getlist('columns[]')
+            csv_data_dict = Helper.gather_data_from_columns(columns_data)
+            csv_data = Helper.prepare_data_for_download(csv_data_dict)
+            string_io_object = StringIO()
+            csv_writer_object = csv.writer(string_io_object)
+            csv_writer_object.writerows(csv_data)
+            csv_file = make_response(string_io_object.getvalue())
+            csv_file.headers["Content-Disposition"] = "attachment; filename=export.csv"
+            csv_file.headers["Content-type"] = "text/csv"
+            return csv_file
+        
+        except:
+            return toolkit.abort(500, 'Download failed!') 
