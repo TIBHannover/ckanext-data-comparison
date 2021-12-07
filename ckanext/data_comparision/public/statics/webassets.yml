@@ -8,6 +8,12 @@ page-css:
   contents:
     - page.css
 
+result-css:
+  output: ckanext-data-comparision/%(version)s_my.css
+  contents:
+    - result.css
+
+
 browes-js:  
   output: ckanext-data-comparision/%(version)s_my.js
   extra:
@@ -32,3 +38,14 @@ page-js:
   contents:
     - page.js
   
+result-js:  
+  output: ckanext-data-comparision/%(version)s_my.js
+  extra:
+    preload:
+      - base/main
+      - vendor/vendor
+      - vendor/bootstrap
+      - vendor/jquery
+      - vendor/jquery.ui.core
+  contents:
+    - result.js

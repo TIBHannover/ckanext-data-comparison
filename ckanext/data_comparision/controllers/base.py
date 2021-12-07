@@ -111,7 +111,7 @@ class BaseController():
             Download the selcted data columns as a csv file.
 
             Method:
-                - GET
+                - POST
 
             Return:
                 - A csv file
@@ -119,8 +119,8 @@ class BaseController():
         '''
 
         columns_data = request.form.getlist('columns[]')
-        csv_data = Helper.gather_data_from_columns(columns_data)  
-        string_io_object = StringIO.StringIO()
+        csv_data = Helper.gather_data_from_columns(columns_data)
+        string_io_object = StringIO()
         csv_writer_object = csv.writer(string_io_object)
         csv_writer_object.writerows(csv_data)
         csv_file = make_response(string_io_object.getvalue())

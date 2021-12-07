@@ -54,7 +54,7 @@ class DataComparisionPlugin(plugins.SingletonPlugin):
             u'/data_comparision/download_file',
             u'download_file',
             BaseController.download_file,
-            methods=['GET']
+            methods=['POST']
             )
 
         return blueprint

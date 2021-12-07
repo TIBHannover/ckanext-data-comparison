@@ -1,3 +1,6 @@
+{% asset 'ckanext-data-comparision/result-css' %}
+{% asset 'ckanext-data-comparision/result-js' %}
+
 {% set action_download =  h.url_for('data_comparision.download_file', _external=True) %}
 
 <div class="row text-center">
@@ -7,6 +10,7 @@
 <div class="row">
     <div class="col-sm-12">
         <b>{{_('Here you can download the selected data columns as one CSV file.')}}</b>
-        <a class="btn btn-primary" href="{{action_download}}">{{_('Download')}}</a>
+        <input type="hidden" id="download_url"  value="{{action_download}}">
+        <button class="btn btn-primary" id="download_btn">{{_('Download')}}</button>
     </div>
 </div>
