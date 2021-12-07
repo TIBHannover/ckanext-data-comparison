@@ -39,6 +39,29 @@ class Helper():
     
 
     @staticmethod
+    def check_access_view_resource(resource_id):
+        '''
+            Check a user can view a data resource in ckan or not.
+
+            Args:
+                - resource_id: the data resource id in ckan
+            
+            Returns:
+                - Boolean
+        '''
+        
+        context = {'user': toolkit.g.user, 'auth_user_obj': toolkit.g.userobj}
+        data_dict = {'id':resource_id}
+        try:
+            toolkit.check_access('resource_show', context, data_dict)
+            return True
+
+        except toolkit.NotAuthorized:
+            return toolkit.abort(403, "You do not have the required authorization.")
+
+    
+
+    @staticmethod
     def get_all_datasets():
         '''
              Return all datasets in ckan that are: active, authoriezed for the user, and contain csv/xlsx resources.
@@ -68,7 +91,8 @@ class Helper():
             Returns:
                 - list of the column data
         '''
-
+        
+        Helper.check_access_view_resource(resource_id)
         file_path = RESOURCE_DIR + resource_id[0:3] + '/' + resource_id[3:6] + '/' + resource_id[6:]
         file_type = TemplateHelper.get_resource_type(resource_id)
         if file_type == 'csv':
@@ -114,6 +138,7 @@ class Helper():
                 - The html table for the target data resource.
         '''
 
+        Helper.check_access_view_resource(resource_id)
         columns = TemplateHelper.get_columns(resource_id)
         data_rows = TemplateHelper.get_data(resource_id, page)
         max_page = TemplateHelper.get_max_table_page_count(resource_id)
@@ -121,6 +146,32 @@ class Helper():
             return None
         
         return Builder.build_data_table(resource_id, columns, data_rows, max_page, load_first_time)
+    
+
+    @staticmethod
+    def gather_data_from_columns(columns_data):
+        '''
+            Gathers data from different columns in different data resources.
+
+            Args:
+                - columns_data: the list of resource/column strings. Each element has the target data resource id and column name
+                    separated by @_@. for Example: resource_x_id@_@column_name.
+
+            Returns:
+                - A dictionary in which the key is the column name and the value is a list of values for that column. 
+        '''
+
+        result_columns = {}        
+        for value in columns_data:
+            if '@_@' in value:
+                resource_id = value.split('@_@')[0]
+                Helper.check_access_view_resource(resource_id)
+                col_name = value.split('@_@')[1]
+                col_data = Helper.get_one_column(resource_id, col_name)
+                if col_data:
+                    result_columns[col_name] = col_data
+
+        return result_columns
 
 
    

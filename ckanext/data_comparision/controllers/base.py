@@ -1,9 +1,11 @@
 # encoding: utf-8
 
-from flask import render_template, request
+from flask import render_template, request, make_response
 import ckan.plugins.toolkit as toolkit
 from ckanext.data_comparision.libs.base_lib import Helper
 import json
+import csv
+from io import StringIO
 
 from ckanext.data_comparision.libs.template_helper import TemplateHelper
 
@@ -55,14 +57,7 @@ class BaseController():
         '''
 
         columns_data = request.form.getlist('columns[]')       
-        result_columns = {}        
-        for value in columns_data:
-            if '@_@' in value:
-                resource_id = value.split('@_@')[0]
-                col_name = value.split('@_@')[1]
-                col_data = Helper.get_one_column(resource_id, col_name)
-                if col_data:
-                    result_columns[col_name] = col_data
+        result_columns = Helper.gather_data_from_columns(columns_data)        
             
         return json.dumps(result_columns)
     
@@ -123,5 +118,12 @@ class BaseController():
         
         '''
 
-
-        return '0'
+        columns_data = request.form.getlist('columns[]')
+        csv_data = Helper.gather_data_from_columns(columns_data)  
+        string_io_object = StringIO.StringIO()
+        csv_writer_object = csv.writer(string_io_object)
+        csv_writer_object.writerows(csv_data)
+        csv_file = make_response(string_io_object.getvalue())
+        csv_file.headers["Content-Disposition"] = "attachment; filename=export.csv"
+        csv_file.headers["Content-type"] = "text/csv"
+        return csv_file
