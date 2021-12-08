@@ -7,14 +7,23 @@
     {% asset 'ckanext-data-comparision/page-js' %}
     {% set action_process = h.url_for('data_comparision.process_columns', _external=True) %}
     {% set action_new_page = h.url_for('data_comparision.load_new_page', _external=True) %}
+    {% set action_go_back_resource = h.url_for('dataset_resource.read', resource_id=resource['id'], package_type=package['type'], id=package['id'], _external=True) %}
     <input type="hidden" id="process_url" value="{{action_process}}">
     <input type="hidden" id="new_page_url" value="{{action_new_page}}">
     <article class="module" role="main">
         <div class="module-content">
             {# Selection section #}
             <div id="selection-section-div">
-                <div class="row browes-btn-div">
+                <div class="row">
+                  <div class="col-sm-3 back-to-resource-div">
+                      <a href="{{action_go_back_resource}}" class="btn btn-secondary">
+                        <i class="fa fa-arrow-left"></i>
+                        {{_('Back to resource')}}                    
+                      </a>
+                  </div>
+                  <div class="col-sm-9 browes-btn-div">
                       {% snippet 'snippets/data_comparision_browes.html', datasets=datasets %}
+                  </div>
                 </div>  
                 <div class="row data-comparision-module" id="raw_tables_area">
                   <div class="col-sm-12 data-comparision-module-col">
