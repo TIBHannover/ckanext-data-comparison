@@ -3,6 +3,14 @@
 
 {% set action_download =  h.url_for('data_comparision.download_file', _external=True) %}
 
+<div class="row">
+    <div class="col-sm-12 text-center">
+    <button class="btn btn-primary" type="button" id="back_to_selection_btn">
+        {{_('Back to data selection')}} <br>
+        <i class="fa fa-angle-double-up"></i>  
+    </button>
+    </div>
+</div>
 <div class="row text-center">
     <h2><b>{{_('Result')}}</b></h2>
 </div>

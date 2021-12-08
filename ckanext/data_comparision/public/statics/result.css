@@ -1,0 +1,9 @@
+#back_to_selection_btn{
+    width: 100%;
+    white-space: normal;
+    font-size: 16px;
+}
+
+#back_to_selection_btn > i{
+    font-size: 24px !important;
+}

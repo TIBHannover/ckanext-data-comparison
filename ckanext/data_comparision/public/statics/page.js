@@ -4,6 +4,8 @@ $(document).ready(function(){
      * Click on process data button
      */
     $('#process_btn').click(function(){
+        $('#selection-section-div').fadeOut();
+        $('#analysis-result-area').fadeIn();
         send_columns_data();
     });
 

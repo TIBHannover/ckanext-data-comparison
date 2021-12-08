@@ -21,11 +21,14 @@
                         {% snippet 'snippets/data_comparision_table_base.html', resource=resource %}
                   </div>            
                 </div>
-                  <div id="end-of-import-area-line"><div>
+                  <div id="end-of-import-area-line"></div>
                   <br>
                   <div class="row">
                       <div class="col-sm-12 text-center">
-                        <button class="btn btn-primary" type="button" id="process_btn">{{_('Process data')}}</button>
+                        <button class="btn btn-primary" type="button" id="process_btn">
+                          {{_('Process data')}} <br>
+                          <i class="fa fa-angle-double-down"></i>  
+                        </button>
                       </div>
                   </div>
             </div>

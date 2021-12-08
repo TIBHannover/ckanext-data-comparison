@@ -1,6 +1,18 @@
 $(document).ready(function(){
+    
+    /**
+     * Click on the download button.
+     */
     $('#download_btn').click(function(){
         downloadData();
+    });
+
+    /**
+     * Click on back to selection that shows the selection section.
+     */
+    $('#back_to_selection_btn').click(function(){
+        $('#selection-section-div').fadeIn();
+        $('#analysis-result-area').fadeOut();
     });
 });
 

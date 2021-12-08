@@ -1,3 +1,6 @@
+.module-content{
+    padding: 0px !important;
+}
 .data-comparision-module{
     padding: 40px 200px 20px 20px;
     white-space: nowrap;
@@ -25,6 +28,12 @@
 #analysis-result-main-col{
     padding: 20px 20px 20px 40px;
 }
-#selection-section-div{
-    padding-bottom: 60px;
+#process_btn{
+    width: 100%;
+    white-space: normal;
+    font-size: 16px;
+}
+
+#process_btn > i{
+    font-size: 24px !important;
 }
