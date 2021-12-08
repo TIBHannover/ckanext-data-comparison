@@ -196,10 +196,25 @@ class Builder():
         '''
 
         pagination_section = '<div class="row pagination-area">'
+        pagination_section += Builder.build_close_btn()
+        pagination_section += '<div class="col-sm-8">'
         pagination_section += ('<button type="button" class="btn prev-btn" id="page-prev-' + str(resource_id) + '" > ')
         pagination_section += '<i class="fa fa fa-step-backward"></i></button>'
         pagination_section += ('<input type="text" class="page-number" id="page-number-' + str(resource_id) + '" value="1">' )
         pagination_section += ('<input type="hidden" id="page-number-max-' + str(resource_id) + '" value="' + str(max_page) + '">')
         pagination_section += ('<button type="button" class="btn next-btn" id="page-next-' + str(resource_id) + '"><i class="fa fa fa-step-forward"></i></button>')
-        pagination_section += '</div>'        
+        pagination_section += '</div></div>'        
         return pagination_section
+    
+
+    @staticmethod
+    def build_close_btn():
+        '''
+            Create the close button.
+            
+            Returns:
+                - a column contains the close button.  
+        '''
+
+        close_btn = '<div class="col-sm-2 close-table-column"><button class="btn btn-sm btn-danger close_table_btn"><i class="fa fa-close"></i></button></div>'       
+        return close_btn

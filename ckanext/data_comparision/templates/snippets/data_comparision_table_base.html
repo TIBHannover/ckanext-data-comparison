@@ -3,10 +3,15 @@
 
 <div class="element-container-box  table-div">
     <div class="row pagination-area">
-        <button type="button" class="btn prev-btn" id="{{'page-prev-' ~ resource['id']}}"><i class="fa fa-step-backward"></i></button>
-        <input type="text" class="page-number" id="{{'page-number-' ~ resource['id']}}" value="1">
-        <input type="hidden" id="{{'page-number-max-' ~ resource['id']}}" value="{{h.get_max_table_page_count( resource['id'])}}">
-        <button type="button" class="btn next-btn" id="{{'page-next-' ~ resource['id']}}"><i class="fa fa-step-forward"></i></button>
+        <div class="col-sm-2 close-table-column">   
+            <button class="btn btn-sm btn-danger close_table_btn"><i class="fa fa-close"></i></button>
+        </div>
+        <div class="col-sm-8">
+            <button type="button" class="btn prev-btn" id="{{'page-prev-' ~ resource['id']}}"><i class="fa fa-step-backward"></i></button>
+            <input type="text" class="page-number" id="{{'page-number-' ~ resource['id']}}" value="1">
+            <input type="hidden" id="{{'page-number-max-' ~ resource['id']}}" value="{{h.get_max_table_page_count( resource['id'])}}">
+            <button type="button" class="btn next-btn" id="{{'page-next-' ~ resource['id']}}"><i class="fa fa-step-forward"></i></button>
+        </div>
     </div>
     <table class="data-comp-table" id="{{'data-table-' ~ resource['id']}}">
         <thead>

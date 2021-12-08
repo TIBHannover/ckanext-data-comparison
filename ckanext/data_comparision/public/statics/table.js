@@ -67,6 +67,14 @@ $(document).ready(function(){
         }        
     });
 
+    /**
+     * Close a table. 
+     */
+     $('body').on('click', '.close_table_btn', function() {
+        let table = $(this).parent().parent().parent();
+        $(table).remove(); 
+    });
+    
 });
 
 
