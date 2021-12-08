@@ -1,5 +1,12 @@
 $(document).ready(function(){
 
+    let checkboxes = $('.hidden-checkbox');
+    for (let i=0; i < checkboxes.length; i++){
+        if ($(checkboxes[i]).prop('checked') === true){
+            $(checkboxes[i]).prop('checked', false);
+        }
+    }
+
     /**
      * Mouse over a column in a data table
      */
