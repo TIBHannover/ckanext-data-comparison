@@ -85,12 +85,11 @@ $(document).ready(function(){
             let tableBody = $('#data-table-body-' + resourceId);
             $(tableBody).remove();
             $($('#data-table-' + resourceId)).append(data['table']);
-            let checkboxes = $('#data-table-' + resourceId).find('.hidden-checkbox');
-            for(let i=0; i < checkboxes.length; i++){
-                if($(checkboxes[i]).prop('checked') === true){
-                    let id = $(this).attr('id');
-                    id = id[id.length - 1]
-                    console.info(id);
+            let headers = $('#data-table-' + resourceId).find('th');
+            for(let i=1; i <= headers.length; i++){
+                let id = resourceId + '-' + i
+                if($('#' + id).prop('checked') === true){
+                    $('.dcom-column-' + id).css('background-color', 'green'); 
                 }
             }
         }
