@@ -32,6 +32,7 @@ $(document).ready(function(){
         let checkbox = $('#' + id);
         $(checkbox).prop('checked', !$(checkbox).is(":checked"));
         if ($(checkbox).prop('checked') === true){
+            $('.no_col_selcted_div').hide();
             $('.dcom-column-' + id).css('background-color', '#96f9ff');        
         }
         else{

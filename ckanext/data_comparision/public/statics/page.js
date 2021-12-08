@@ -4,9 +4,15 @@ $(document).ready(function(){
      * Click on process data button
      */
     $('#process_btn').click(function(){
-        $('#selection-section-div').fadeOut();
-        $('#analysis-result-area').fadeIn();
-        send_columns_data();
+        if(check_column_selected()){
+            $('.no_col_selcted_div').hide();
+            $('#selection-section-div').fadeOut();
+            $('#analysis-result-area').fadeIn();
+            send_columns_data();
+        }
+        else{
+            $('.no_col_selcted_div').show();
+        }        
     });
 
 });
@@ -38,4 +44,18 @@ function send_columns_data(){
     }
     req.open("POST", dest_url);
     req.send(formdata);
+}
+
+/**
+ * Check atleast a column is selected
+ */
+
+function check_column_selected(){
+    let checkboxes = $('.hidden-checkbox');
+    for (let i=0; i < checkboxes.length; i++){
+        if ($(checkboxes[i]).prop('checked') === true){
+            return true;
+        }
+    }
+    return false;
 }

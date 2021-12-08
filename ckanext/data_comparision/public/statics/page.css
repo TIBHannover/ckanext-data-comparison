@@ -39,3 +39,9 @@
 #process_btn > i{
     font-size: 24px !important;
 }
+.no_col_selcted_div{
+    padding: 10px;
+    text-align: center;
+    margin-left: 25%;
+    display: none;
+}
