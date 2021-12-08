@@ -32,7 +32,7 @@ $(document).ready(function(){
         let checkbox = $('#' + id);
         $(checkbox).prop('checked', !$(checkbox).is(":checked"));
         if ($(checkbox).prop('checked') === true){
-            $('.dcom-column-' + id).css('background-color', 'green');        
+            $('.dcom-column-' + id).css('background-color', '#96f9ff');        
         }
         else{
             $('.dcom-column-' + id).css('background-color', '');
@@ -97,7 +97,7 @@ $(document).ready(function(){
             for(let i=1; i <= headers.length; i++){
                 let id = resourceId + '-' + i
                 if($('#' + id).prop('checked') === true){
-                    $('.dcom-column-' + id).css('background-color', 'green'); 
+                    $('.dcom-column-' + id).css('background-color', '#96f9ff'); 
                 }
             }
         }
