@@ -22,17 +22,18 @@ class Builder():
                 - The html table 
         '''
 
-        root_div = '<div class="element-container-box table-div">'
-        root_div_end = '</div>'
-        table_start = '<table class="data-comp-table"  id="data-table-' + str(resource_id) + '">'
-        table_end = '</table>'
-        pagination_section = Builder.build_pagination(resource_id, max_page)
-        header_section = Builder.build_table_header(resource_id, columns)
-        body_section = Builder.build_table_body(resource_id, resource_data)
+        
         if load_first_time:
+            root_div = '<div class="element-container-box table-div">'
+            root_div_end = '</div>'
+            table_start = '<table class="data-comp-table"  id="data-table-' + str(resource_id) + '">'
+            table_end = '</table>'
+            pagination_section = Builder.build_pagination(resource_id, max_page)
+            header_section = Builder.build_table_header(resource_id, columns)
+            body_section = Builder.build_table_body(resource_id, resource_data)
             table = root_div + pagination_section + table_start + header_section + body_section + table_end + root_div_end
         else:
-            table = table_start + header_section + body_section + table_end
+            table = Builder.build_table_body(resource_id, resource_data)
 
         return table
     
@@ -79,7 +80,7 @@ class Builder():
         
         '''
 
-        body_section = '<tbody>'
+        body_section = '<tbody id="data-table-body-' + str(resource_id) + '">'
         for row in resource_data_rows:
             body_section += Builder.build_table_row(row, resource_id)
         

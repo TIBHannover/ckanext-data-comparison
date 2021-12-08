@@ -26,7 +26,7 @@
             {% endfor %}
         </tr>
         </thead>
-        <tbody>
+        <tbody id="{{'data-table-body-' ~ resource['id']}}">
         {% for row in h.get_data(resource['id'], 1) %}
             <tr class="dcom-table-content-row">
                 {% for value in row %}

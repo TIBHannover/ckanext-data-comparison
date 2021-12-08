@@ -82,9 +82,17 @@ $(document).ready(function(){
     req.onreadystatechange = function() {
         if (req.readyState == XMLHttpRequest.DONE && req.status === 200) {       
             data = JSON.parse(req.responseText);
-            let tableDiv = $('#data-table-' + resourceId).parent();
-            $('#data-table-' + resourceId).remove();
-            $(tableDiv).append(data['table']);
+            let tableBody = $('#data-table-body-' + resourceId);
+            $(tableBody).remove();
+            $($('#data-table-' + resourceId)).append(data['table']);
+            let checkboxes = $('#data-table-' + resourceId).find('.hidden-checkbox');
+            for(let i=0; i < checkboxes.length; i++){
+                if($(checkboxes[i]).prop('checked') === true){
+                    let id = $(this).attr('id');
+                    id = id[id.length - 1]
+                    console.info(id);
+                }
+            }
         }
     }
     req.open("POST", dest_url);
