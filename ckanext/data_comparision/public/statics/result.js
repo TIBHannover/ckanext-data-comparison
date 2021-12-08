@@ -11,8 +11,8 @@ $(document).ready(function(){
      * Click on back to selection that shows the selection section.
      */
     $('#back_to_selection_btn').click(function(){
-        $('#selection-section-div').fadeIn();
-        $('#analysis-result-area').fadeOut();
+        $('#analysis-result-area').fadeOut(1000);
+        $('#selection-section-div').fadeIn(1000);
     });
 });
 
