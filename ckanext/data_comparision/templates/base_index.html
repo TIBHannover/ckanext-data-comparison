@@ -8,71 +8,34 @@
     {% set action_new_page = h.url_for('data_comparision.load_new_page', _external=True) %}
     <input type="hidden" id="process_url" value="{{action_process}}">
     <input type="hidden" id="new_page_url" value="{{action_new_page}}">
-    <div class="row browes-btn-div">
-              {% snippet 'snippets/data_comparision_browes.html', 
-                datasets=datasets
-              %}
-    </div>  
-     <div class="row data-comparision-module" id="raw_tables_area">
-      <div class="col-sm-12 data-comparision-module-col">
-            {# Start of a table #}
-          <div class="element-container-box  table-div">
-            <div class="row pagination-area">
-                <button type="button" class="btn prev-btn" id="{{'page-prev-' ~ resource['id']}}"><i class="fa fa-step-backward"></i></button>
-                <input type="text" class="page-number" id="{{'page-number-' ~ resource['id']}}" value="1">
-                <input type="hidden" id="{{'page-number-max-' ~ resource['id']}}" value="{{h.get_max_table_page_count( resource['id'])}}">
-                <button type="button" class="btn next-btn" id="{{'page-next-' ~ resource['id']}}"><i class="fa fa-step-forward"></i></button>
-            </div>
-            <table class="data-comp-table" id="{{'data-table-' ~ resource['id']}}">
-              <thead>
-                <tr class="dcom-table-header-row">
-                  {% for col in h.get_columns(resource['id']) %}
-                    <th class="dcom-table-cell dcom-table-header-cell {{'dcom-column-' ~ resource['id'] ~ '-' ~ loop.index}}" 
-                          name="{{resource['id'] ~ '-' ~ loop.index}}">
-                      {{col}}
-                    </th>
-                    <input 
-                      type="checkbox" 
-                      value="{{resource['id'] ~ '@_@' ~ col}}" 
-                      name="chosen_columns" 
-                      class="hidden-checkbox"
-                      id="{{resource['id'] ~ '-' ~ loop.index}}"
-                    >
-                  {% endfor %}
-                </tr>
-              </thead>
-              <tbody>
-                {% for row in h.get_data(resource['id'], 1) %}
-                    <tr class="dcom-table-content-row">
-                      {% for value in row %}
-                        <td class="dcom-table-cell dcom-table-body-cell {{'dcom-column-' ~ resource['id'] ~ '-' ~ loop.index}}" 
-                          name="{{resource['id'] ~ '-' ~ loop.index}}">{{value}}</td>
-                      {% endfor %}
-                    </tr>
-                {% endfor %}
-              </tbody>            
-            </table>
-          </div>
-          {# End of a table #}  
-      </div>
-        
-     </div>
-      <div id="end-of-import-area-line"><div>
-      <br>
-      <div class="row">
-          <div class="col-sm-12 text-center">
-            <button class="btn btn-primary" type="button" id="process_btn">{{_('Process data')}}</button>
-          </div>
-      </div>
-      <br>
-      <hr>
-      {# Result section starts #}
-      <div class="row">
-        <div class="col-sm-12" id="analysis-result-area">
-            {% snippet 'snippets/data_comparision_result_section.html'%}
+    {# Selection section #}
+    <div id="selection-section-div">
+        <div class="row browes-btn-div">
+              {% snippet 'snippets/data_comparision_browes.html', datasets=datasets %}
+        </div>  
+        <div class="row data-comparision-module" id="raw_tables_area">
+          <div class="col-sm-12 data-comparision-module-col">
+                {% snippet 'snippets/data_comparision_table_base.html', resource=resource %}
+          </div>            
         </div>
+          <div id="end-of-import-area-line"><div>
+          <br>
+          <div class="row">
+              <div class="col-sm-12 text-center">
+                <button class="btn btn-primary" type="button" id="process_btn">{{_('Process data')}}</button>
+              </div>
+          </div>
+    </div>
+    {# Selection section #}
+    <br>
+    <hr>
+    {# Result section #}
+    <div class="row"  id="analysis-result-area">
+      <div class="col-sm-12">
+          {% snippet 'snippets/data_comparision_result_section.html'%}
       </div>
-
+    </div>
+    {# Result section #}
 
 
 {% endblock pre_primary %}

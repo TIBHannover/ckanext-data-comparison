@@ -3,6 +3,11 @@ browes-css:
   contents:
     - browes.css
 
+table-css:
+  output: ckanext-data-comparision/%(version)s_my.css
+  contents:
+    - table.css
+
 page-css:
   output: ckanext-data-comparision/%(version)s_my.css
   contents:
