@@ -3,6 +3,20 @@ $(document).ready(function(){
         import_table();
 
     });
+
+    /**
+     * unckecked all checkbox on modal open
+     */
+    $('#modal-browes-btn').click(function(){
+        let checkboxes = $('.resource-box');
+        for (let i=0; i < checkboxes.length; i++){
+            if ($(checkboxes[i]).prop('checked') === true){
+                $(checkboxes[i]).click();
+            }
+        }
+    });
+
+
 });
 
 
