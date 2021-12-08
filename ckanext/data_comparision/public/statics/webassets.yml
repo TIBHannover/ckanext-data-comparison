@@ -31,6 +31,18 @@ browes-js:
   contents:
     - browes.js
 
+table-js:  
+  output: ckanext-data-comparision/%(version)s_my.js
+  extra:
+    preload:
+      - base/main
+      - vendor/vendor
+      - vendor/bootstrap
+      - vendor/jquery
+      - vendor/jquery.ui.core
+  contents:
+    - table.js
+
 page-js:  
   output: ckanext-data-comparision/%(version)s_my.js
   extra:
