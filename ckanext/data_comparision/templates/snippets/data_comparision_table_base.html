@@ -8,7 +8,7 @@
         </div>
         <div class="col-sm-8">
             <button type="button" class="btn prev-btn" id="{{'page-prev-' ~ resource['id']}}"><i class="fa fa-step-backward"></i></button>
-            <input type="text" class="page-number" id="{{'page-number-' ~ resource['id']}}" value="1">
+            <input type="text" class="page-number" id="{{'page-number-' ~ resource['id']}}" value="1" readonly>
             <input type="hidden" id="{{'page-number-max-' ~ resource['id']}}" value="{{h.get_max_table_page_count( resource['id'])}}">
             <button type="button" class="btn next-btn" id="{{'page-next-' ~ resource['id']}}"><i class="fa fa-step-forward"></i></button>
         </div>
