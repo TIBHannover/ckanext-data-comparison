@@ -6,6 +6,7 @@ from ckanext.data_comparision.libs.base_lib import Helper
 import json
 import csv
 from io import StringIO
+from ckanext.data_comparision.libs.commons import Commons
 
 
 class BaseController():
@@ -96,8 +97,8 @@ class BaseController():
         '''
 
         page_number = request.form.get('page')
-        resource_id = request.form.get('resourceId')
-        table = Helper.get_resource_table(resource_id, int(page_number), False)
+        resource_id, sheet = Commons.process_resource_id(request.form.get('resourceId'))
+        table = Helper.get_resource_table(resource_id, sheet, int(page_number), False)
         if not table:
             return '0'
 

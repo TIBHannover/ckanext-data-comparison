@@ -80,12 +80,13 @@ class Helper():
     
 
     @staticmethod
-    def get_resource_table(resource_id, page, load_first_time):
+    def get_resource_table(resource_id, sheet, page, load_first_time):
         '''
             Create a data resource html table.
 
             Args:
                 - resource_id: the data resource id in ckan
+                - sheet: the data sheet in case of xlsx
                 - page: the data table page number (pagination)
                 - load_first_time: is the table loading first time or not (pagination page changes)
             
@@ -95,12 +96,14 @@ class Helper():
 
         Commons.check_access_view_resource(resource_id)
         columns = TemplateHelper.get_columns(resource_id)
-        data_rows = TemplateHelper.get_data(resource_id, page)
-        max_page = TemplateHelper.get_max_table_page_count(resource_id)
+        if sheet != 'None': # xlsx file
+            columns = columns[sheet]
+        data_rows = TemplateHelper.get_data(resource_id, page, sheet)
+        max_page = TemplateHelper.get_max_table_page_count(resource_id, sheet)
         if page > max_page or page < 1:
             return None
         
-        return Builder.build_data_table(resource_id, columns, data_rows, max_page, load_first_time)
+        return Builder.build_data_table(resource_id, sheet, columns, data_rows, max_page, load_first_time)
     
 
 

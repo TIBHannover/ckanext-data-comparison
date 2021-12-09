@@ -2,7 +2,7 @@
 {% asset 'ckanext-data-comparision/table-js' %}
 
 {% set resource_url = h.url_for('dataset_resource.read', resource_id=resource['id'], package_type=package['type'], id=package['id'], _external=True) %}
-{% set res_id_addon = resource['id'] + '@_@' + sheet  %}
+{% set res_id_addon = resource['id'] + '---' + sheet  %}
 <div class="element-container-box  table-div">
     <div class="row text-center resource-name-div">
         <h3>

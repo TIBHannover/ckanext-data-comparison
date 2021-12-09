@@ -1,5 +1,6 @@
 # encoding: utf-8
 
+from os import stat
 import ckan.plugins.toolkit as toolkit
 import clevercsv
 import pandas as pd
@@ -123,4 +124,22 @@ class Commons():
             result_df[sheet] = final_data_df
 
         return result_df
+    
+
+    @staticmethod
+    def process_resource_id(raw_id):
+        '''
+            Process the input resource Id to get the sheet name and resource Id.
+
+            Args:
+                - raw_id: the raw resource id input
+            
+            Returns:
+                - resource id and sheet name
+        '''
+
+        resource_id = raw_id.split('---')[0]
+        sheet = raw_id.split('---')[1]
+        return [resource_id, sheet]
+
 
