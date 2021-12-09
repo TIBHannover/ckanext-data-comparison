@@ -1,5 +1,8 @@
 # encoding: utf-8
 
+import ckan.plugins.toolkit as toolkit
+import ckan.lib.helpers as h
+
 
 class Builder():
     '''
@@ -31,7 +34,8 @@ class Builder():
             pagination_section = Builder.build_pagination(resource_id, max_page)
             header_section = Builder.build_table_header(resource_id, columns)
             body_section = Builder.build_table_body(resource_id, resource_data)
-            table = root_div + pagination_section + table_start + header_section + body_section + table_end + root_div_end
+            table_title = Builder.build_table_title(resource_id)
+            table = root_div + table_title  + pagination_section + table_start + header_section + body_section + table_end + root_div_end
         else:
             table = Builder.build_table_body(resource_id, resource_data)
 
@@ -218,3 +222,26 @@ class Builder():
 
         close_btn = '<div class="col-sm-2 close-table-column"><button class="btn btn-sm btn-danger close_table_btn"><i class="fa fa-close"></i></button></div>'       
         return close_btn
+
+
+    @staticmethod
+    def build_table_title(resource_id):
+        '''
+            Create a table title with the resource name and url. 
+
+            Args:
+                - resource_id: the id of the target data resource in ckan
+            
+            Returns:
+                - a div contains table title
+        '''
+
+        resource = toolkit.get_action('resource_show')({}, {'id': resource_id})
+        package = toolkit.get_action('package_show')({}, {'name_or_id': resource['package_id']})
+        res_url = h.url_for('dataset_resource.read', resource_id=resource['id'], package_type=package['type'], id=package['id'], _external=True)
+        title = '<div class="row text-center resource-name-div"><h3>'
+        title += ('<a href="' + res_url + '" target="_blank">')
+        title += ('<b>' + resource['name'] + '</b>')
+        title += ('</a></h3></div>')
+
+        return title
