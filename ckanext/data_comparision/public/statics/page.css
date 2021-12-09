@@ -6,7 +6,7 @@
     white-space: nowrap;
     position: relative;
     overflow-x: scroll;
-    overflow-y: hidden;
+    overflow-y: scroll;
     margin-right: 0 !important;
     margin-left: 0 !important;
    
