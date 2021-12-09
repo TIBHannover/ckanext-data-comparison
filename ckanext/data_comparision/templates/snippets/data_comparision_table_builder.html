@@ -1,6 +1,18 @@
 {% if h.is_csv(resource) %}
-    {% snippet 'snippets/data_comparision_table_base.html', resource=resource, package=package %}
+    {% snippet 'snippets/data_comparision_table_base.html',
+        resource=resource,
+        sheet='None',
+        columns=h.get_columns(resource['id']),
+        package=package 
+    %}
 
-{# {% else %} #}
-
+{% elif h.is_xlsx(resource) %}
+    {%  for sheet, headers in h.get_columns(resource['id']).items() %}
+        {% snippet 'snippets/data_comparision_table_base.html',
+             resource=resource,
+            sheet=sheet,
+            columns=headers,
+            package=package 
+        %}
+    {% endfor %}
 {% endif %}

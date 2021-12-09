@@ -49,11 +49,16 @@ class TemplateHelper():
                 - Boolean        
         '''
 
-        if resource.format in ['XLSX']:
-            return True
-        if  '.xlsx' in  resource.name:
-            return True 
-        return False
+        format = ''
+        name = ''
+        if isinstance(resource, dict):
+            format = resource['format']
+            name = resource['name']
+        else:
+            format = resource.format
+            name = resource.name
+        
+        return (format in ['XLSX']) or ('.xlsx' in name)
     
     
     @staticmethod
@@ -122,6 +127,8 @@ class TemplateHelper():
                 excel_data = Commons.xlsx_to_dataframe(resource_id)
                 for sheet, df in excel_data.items():
                     columns[sheet] = list(df.columns)
+                
+                return columns
 
             except:
                 return {'Error': []}
