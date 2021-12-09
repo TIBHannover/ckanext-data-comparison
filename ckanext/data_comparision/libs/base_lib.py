@@ -3,8 +3,6 @@
 import ckan.plugins.toolkit as toolkit
 import ckan.lib.helpers as h
 from ckan.model import Package
-import clevercsv
-import pandas as pd
 from ckanext.data_comparision.libs.template_helper import TemplateHelper
 from ckanext.data_comparision.libs.table_builder import Builder
 from ckanext.data_comparision.libs.commons import Commons

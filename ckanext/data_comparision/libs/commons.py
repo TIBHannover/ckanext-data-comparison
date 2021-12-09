@@ -2,6 +2,7 @@
 
 import ckan.plugins.toolkit as toolkit
 import clevercsv
+import pandas as pd
 
 
 
@@ -98,4 +99,28 @@ class Commons():
         df = clevercsv.read_dataframe(file_path)
 
         return df
+
+
+    @staticmethod
+    def xlsx_to_dataframe(resource_id):
+        '''
+            Read a xlsx file as pandas dataframe.
+
+            Args:
+                - resource_id: the data resource id in ckan
+            
+            Returns:
+                - a dictionary where key is the sheet name and value is a dataframe
+        '''
+
+        result_df = {}
+        file_path = RESOURCE_DIR + resource_id[0:3] + '/' + resource_id[3:6] + '/' + resource_id[6:]
+        data_sheets = pd.read_excel(file_path, sheet_name=None, header=None)
+        for sheet, data_f in data_sheets.items():
+            temp_df = data_f.dropna(how='all').dropna(how='all', axis=1)
+            headers = temp_df.iloc[0]
+            final_data_df  = pd.DataFrame(temp_df.values[1:], columns=headers)
+            result_df[sheet] = final_data_df
+
+        return result_df
 
