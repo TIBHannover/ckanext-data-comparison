@@ -1,0 +1,6 @@
+{% if h.is_csv(resource) %}
+    {% snippet 'snippets/data_comparision_table_base.html', resource=resource, package=package %}
+
+{# {% else %} #}
+
+{% endif %}

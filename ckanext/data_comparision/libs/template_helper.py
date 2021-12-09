@@ -1,5 +1,6 @@
 # encoding: utf-8
 
+from unicodedata import name
 import ckan.plugins.toolkit as toolkit
 import ckan.lib.helpers as h
 import pandas as pd
@@ -24,12 +25,16 @@ class TemplateHelper():
             Returns:
                 - Boolean        
         '''
-
-        if resource.format in ['CSV']:
-            return True
-        if  '.csv' in  resource.name:
-            return True 
-        return False
+        format = ''
+        name = ''
+        if isinstance(resource, dict):
+            format = resource['format']
+            name = resource['name']
+        else:
+            format = resource.format
+            name = resource.name
+        
+        return (format in ['CSV']) or ('.csv' in name)
 
     
     @staticmethod

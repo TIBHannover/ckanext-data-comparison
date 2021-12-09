@@ -7,7 +7,6 @@ import json
 import csv
 from io import StringIO
 
-from ckanext.data_comparision.libs.template_helper import TemplateHelper
 
 class BaseController():
     '''
