@@ -7,6 +7,7 @@ import json
 import csv
 from io import StringIO
 from ckanext.data_comparision.libs.commons import Commons
+from ckanext.data_comparision.libs.template_helper import TemplateHelper
 
 
 class BaseController():
@@ -78,7 +79,16 @@ class BaseController():
         resources = request.form.getlist('resources[]') 
         imported_tables = {}
         for res_id in resources:
-            imported_tables[res_id] = Helper.get_resource_table(res_id, 1, True)
+            columns = TemplateHelper.get_columns(res_id)
+            if isinstance(columns, list):
+                # resource is a CSV 
+                imported_tables[res_id] = Helper.get_resource_table(res_id, 'None', 1, True)
+            else:
+                # resource is a XLSX
+                for sheet in columns.keys():
+                    Id = res_id + '---' + sheet
+                    imported_tables[Id] = Helper.get_resource_table(res_id, sheet, 1, True)
+
 
         return json.dumps(imported_tables)
     

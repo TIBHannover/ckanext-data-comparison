@@ -64,8 +64,8 @@ class Builder():
         Id = 1
         inner_content = ''
         for col in columns:
-            cell = Builder.build_header_cell(Id, col, resource_id)
-            checkbox = Builder.build_checkbox_input(Id, col, resource_id)
+            cell = Builder.build_header_cell(Id, col, resource_id, sheet)
+            checkbox = Builder.build_checkbox_input(Id, col, resource_id, sheet)
             inner_content += (cell + checkbox) 
             Id += 1
         
