@@ -36,12 +36,13 @@ class Helper():
    
     
     @staticmethod
-    def get_one_column(resource_id, column_name):
+    def get_one_column(resource_id, sheet, column_name):
         '''
             Return the data of one column in a data resource table.
 
             Args:
                 - resource_id: the data resource id in ckan
+                - sheet: name of the target sheet in a xlsx data resource
                 - column_name: target column name
             
             Returns:
@@ -50,14 +51,26 @@ class Helper():
         
         Commons.check_access_view_resource(resource_id)
         file_type = Commons.get_resource_type(resource_id)
-        if file_type == 'csv':
-            try:
-                df = Commons.csv_to_dataframe(resource_id)
-                return list(df[column_name])
+        df = None
+        # if file_type == 'csv':
+        #     df = Commons.csv_to_dataframe(resource_id)
 
-            except:
-                return None
-    
+        # elif file_type == 'xlsx':
+        #     df = Commons.xlsx_to_dataframe(resource_id)[sheet] 
+        
+        # return list(df[column_name])
+        try:
+            if file_type == 'csv':
+                df = Commons.csv_to_dataframe(resource_id)
+
+            elif file_type == 'xlsx':
+                df = Commons.xlsx_to_dataframe(resource_id)[sheet] 
+            
+            return list(df[column_name])
+
+        except:
+            return None
+        
 
     
     @staticmethod
@@ -123,15 +136,21 @@ class Helper():
         result_columns = {}        
         for value in columns_data:
             if '@_@' in value:
-                resource_id = value.split('@_@')[0]
+                resource_id_raw = value.split('@_@')[0]
+                resource_id, sheet = Commons.process_resource_id(resource_id_raw)                                
                 Commons.check_access_view_resource(resource_id)
                 col_name = value.split('@_@')[1]
-                col_data = Helper.get_one_column(resource_id, col_name)
-                if col_data and col_name not in result_columns.keys():
+                col_data = Helper.get_one_column(resource_id, sheet, col_name)
+                if col_data and col_name not in result_columns.keys() and sheet == 'None': #csv
                     result_columns[col_name] = col_data
-                elif col_data and col_name in result_columns.keys():
+                elif col_data and col_name not in result_columns.keys() and sheet != 'None': #xlsx
+                    result_columns[sheet + '__' + col_name] = col_data
+                elif col_data and col_name in result_columns.keys() and sheet == 'None': #csv
                     resource = toolkit.get_action('resource_show')({}, {'id': resource_id})
                     result_columns[resource['name'] + '__' +  col_name] = col_data
+                elif col_data and col_name in result_columns.keys() and sheet != 'None': #xlsx
+                    resource = toolkit.get_action('resource_show')({}, {'id': resource_id})
+                    result_columns[resource['name'] + '__' + sheet +  '__' +  col_name] = col_data
         
 
         return result_columns
