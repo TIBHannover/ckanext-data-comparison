@@ -6,9 +6,15 @@
 <div class="element-container-box  table-div">
     <div class="row text-center resource-name-div">
         <h3>
-            <a href="{{resource_url}}" target="_blank">
-                <b>{{resource['name']}} ({{sheet}})</b>
-            </a>
+            {% if sheet != 'None' %}
+                <a href="{{resource_url}}" target="_blank">
+                    <b>{{resource['name']}} ({{sheet}})</b>
+                </a>
+            {% else %}
+                <a href="{{resource_url}}" target="_blank">
+                    <b>{{resource['name']}}</b>
+                </a>
+            {% endif %}
         </h3>
     </div>
     <div class="row pagination-area">

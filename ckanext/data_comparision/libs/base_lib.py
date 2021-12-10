@@ -52,13 +52,6 @@ class Helper():
         Commons.check_access_view_resource(resource_id)
         file_type = Commons.get_resource_type(resource_id)
         df = None
-        # if file_type == 'csv':
-        #     df = Commons.csv_to_dataframe(resource_id)
-
-        # elif file_type == 'xlsx':
-        #     df = Commons.xlsx_to_dataframe(resource_id)[sheet] 
-        
-        # return list(df[column_name])
         try:
             if file_type == 'csv':
                 df = Commons.csv_to_dataframe(resource_id)

@@ -244,7 +244,10 @@ class Builder():
         res_url = h.url_for('dataset_resource.read', resource_id=resource['id'], package_type=package['type'], id=package['id'], _external=True)
         title = '<div class="row text-center resource-name-div"><h3>'
         title += ('<a href="' + res_url + '" target="_blank">')
-        title += ('<b>' + resource['name'] + '(' + sheet + ')' + '</b>')
+        if sheet != 'None':
+            title += ('<b>' + resource['name'] + '(' + sheet + ')' + '</b>')
+        else:
+            title += ('<b>' + resource['name'] + '</b>')
         title += ('</a></h3></div>')
 
         return title
