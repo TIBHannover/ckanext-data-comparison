@@ -123,10 +123,14 @@ class Helper():
                     separated by @_@. for Example: resource_x_id@_@column_name.
 
             Returns:
-                - A dictionary in which the key is the column name and the value is a list of values for that column. 
+                - A dictionary in which the key is the column name placeholder and the value is a list of values for that column. 
+                - A dictionary that contains the columns' name placeholder references (resource url)
         '''
 
-        result_columns = {}        
+        result_columns = {}
+        column_name_prefix = 'F_' 
+        column_references = {}
+        column_number = 1
         for value in columns_data:
             if '@_@' in value:
                 resource_id_raw = value.split('@_@')[0]
@@ -134,29 +138,31 @@ class Helper():
                 Commons.check_access_view_resource(resource_id)
                 col_name = value.split('@_@')[1]
                 col_data = Helper.get_one_column(resource_id, sheet, col_name)
-                if col_data and col_name not in result_columns.keys() and sheet == 'None': #csv
-                    result_columns[col_name] = col_data
-                elif col_data and col_name not in result_columns.keys() and sheet != 'None': #xlsx
-                    result_columns[sheet + '__' + col_name] = col_data
-                elif col_data and col_name in result_columns.keys() and sheet == 'None': #csv
-                    resource = toolkit.get_action('resource_show')({}, {'id': resource_id})
-                    result_columns[resource['name'] + '__' +  col_name] = col_data
-                elif col_data and col_name in result_columns.keys() and sheet != 'None': #xlsx
-                    resource = toolkit.get_action('resource_show')({}, {'id': resource_id})
-                    result_columns[resource['name'] + '__' + sheet +  '__' +  col_name] = col_data
-        
+                col_name_placeholder = column_name_prefix + str(column_number)
+                resource = toolkit.get_action('resource_show')({}, {'id': resource_id})
+                package = toolkit.get_action('package_show')({}, {'name_or_id': resource['package_id']})
+                res_url = h.url_for('dataset_resource.read', resource_id=resource['id'], package_type=package['type'], id=package['id'], _external=True)
+                column_references[col_name_placeholder] = res_url
+                if col_data and col_name not in result_columns.keys() and sheet == 'None': #csv 
+                    result_columns[col_name_placeholder] = col_data
 
-        return result_columns
+                elif col_data and col_name not in result_columns.keys() and sheet != 'None': #xlsx
+                    result_columns[col_name_placeholder + ' (sheet: ' + sheet + ')'] = col_data
+               
+                column_number += 1
+
+        return [result_columns, column_references]
     
 
 
     @staticmethod
-    def prepare_data_for_download(data_dict):
+    def prepare_data_for_download(data_dict, columns_refs):
         '''
             Prepares the data resource for downloading.
 
             Args:
                 - data_dict: the dictionary of selected data columns. the key is the column name and the value is the column values.
+                - columns_refs: the dictionary of columns placeholder and their resource url in ckan.
 
             Returns:
                 - list of dataframes rows
@@ -169,6 +175,13 @@ class Helper():
         zipped_body = zip_longest(*body)
         for row in zipped_body:
             result_rows.append(list(row))
+        
+        result_rows.append([])
+        result_rows.append([])
+        result_rows.append([])
+        for col, ref in columns_refs.items():
+            refs = [col, ref]
+            result_rows.append(refs)
 
         return result_rows
 

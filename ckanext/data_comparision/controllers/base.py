@@ -129,8 +129,8 @@ class BaseController():
 
         try:
             columns_data = request.form.getlist('columns[]')
-            csv_data_dict = Helper.gather_data_from_columns(columns_data)
-            csv_data = Helper.prepare_data_for_download(csv_data_dict)
+            csv_data_dict, columns_references = Helper.gather_data_from_columns(columns_data)
+            csv_data = Helper.prepare_data_for_download(csv_data_dict, columns_references)
             string_io_object = StringIO()
             csv_writer_object = csv.writer(string_io_object)
             csv_writer_object.writerows(csv_data)
