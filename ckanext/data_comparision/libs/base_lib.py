@@ -142,12 +142,13 @@ class Helper():
                 resource = toolkit.get_action('resource_show')({}, {'id': resource_id})
                 package = toolkit.get_action('package_show')({}, {'name_or_id': resource['package_id']})
                 res_url = h.url_for('dataset_resource.read', resource_id=resource['id'], package_type=package['type'], id=package['id'], _external=True)
-                column_references[col_name_placeholder] = res_url
                 if col_data and col_name not in result_columns.keys() and sheet == 'None': #csv 
                     result_columns[col_name_placeholder] = col_data
+                    column_references[col_name_placeholder] = [col_name, res_url]
 
                 elif col_data and col_name not in result_columns.keys() and sheet != 'None': #xlsx
-                    result_columns[col_name_placeholder + ' (sheet: ' + sheet + ')'] = col_data
+                    result_columns[col_name_placeholder] = col_data
+                    column_references[col_name_placeholder + ' (sheet: ' + sheet + ')'] = [col_name, res_url]
                
                 column_number += 1
 
@@ -169,20 +170,21 @@ class Helper():
         '''
 
         result_rows = []
-        columns_names = data_dict.keys()
-        result_rows.append(columns_names)
         body = data_dict.values()
         zipped_body = zip_longest(*body)
-        for row in zipped_body:
-            result_rows.append(list(row))
+        for col, ref in columns_refs.items():
+            refs = [col, ref[0], ref[1]]
+            result_rows.append(refs)
         
         result_rows.append([])
         result_rows.append([])
         result_rows.append([])
-        for col, ref in columns_refs.items():
-            refs = [col, ref]
-            result_rows.append(refs)
+        columns_names = data_dict.keys()
+        result_rows.append(columns_names)
 
+        for row in zipped_body:
+            result_rows.append(list(row))
+    
         return result_rows
 
 
