@@ -1,6 +1,5 @@
 $(document).ready(function(){
-    var linePlot = null;
-    draw('line');
+    
 
     /**
      * Click on the download button.
@@ -54,36 +53,7 @@ $(document).ready(function(){
     req.send(formdata);
 }
 
-/**
- * Draw the result plot
- */
-function draw(plotType){
-    let plotArea = document.getElementById('resultPlot');
-    let xAxis = [1,2,3,4,5,6,7];
-    let yAxisData = [[12, 19, 3, 5, 2, 3], [16, 29, 5, 7, 12, 23]];
-    let legends = ['col1', 'col2']
-    let backgroundColrs = ['red', 'green'];
-    let borderColrs = ['red', 'green'];
-    let chartObject = {};
-    chartObject['type'] = plotType;
-    chartObject['options'] = {scales: {y: {beginAtZero: true}}}
-    chartObject['data'] = {}
-    chartObject['data']['labels'] = xAxis; 
-    chartObject['data']['datasets'] = []; 
-    for (let i=0; i<yAxisData.length; i++){
-        let temp = {};
-        temp['label'] = legends[i];
-        temp['data'] = yAxisData[i];
-        temp['borderWidth'] = 1;
-        temp['backgroundColor'] = backgroundColrs[i];
-        temp['borderColor'] = borderColrs[i];
-        chartObject['data']['datasets'][i] = temp;
-        
-    }
 
-    plot = new Chart(plotArea, chartObject);
-    
-}
 
 
 
