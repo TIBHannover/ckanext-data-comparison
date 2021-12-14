@@ -65,4 +65,5 @@ result-js:
       - vendor/jquery
       - vendor/jquery.ui.core
   contents:
+    - chart.js/dist/chart.js
     - result.js
