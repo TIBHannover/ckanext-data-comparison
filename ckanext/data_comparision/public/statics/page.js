@@ -8,7 +8,7 @@ $(document).ready(function(){
             $('.no_col_selcted_div').hide();
             $('#selection-section-div').fadeOut();
             $('#analysis-result-area').fadeIn();
-            send_columns_data();
+            getPlotData();
         }
         else{
             $('.no_col_selcted_div').show();
@@ -19,9 +19,9 @@ $(document).ready(function(){
 
 
 /**
- * Post columns data to backend for processing
+ * get selected columsn to visulaize
  */
-function send_columns_data(){
+ function getPlotData(){
     let formdata = new FormData();
     let checkboxes = $('.hidden-checkbox');
     let checked_ones = [];
@@ -33,17 +33,23 @@ function send_columns_data(){
     for (let i = 0; i < checked_ones.length; i++) {
         formdata.append('columns[]', checked_ones[i]);
     }
-    let dest_url = $('#process_url').val();
+    let dest_url = $('#get_selected_url').val();
     let req = new XMLHttpRequest();
     req.onreadystatechange = function() {
         if (req.readyState == XMLHttpRequest.DONE && req.status === 200) {       
-            let data=req.responseText;
-            let jsonResponse = JSON.parse(data);                          
+            data = JSON.parse(req.responseText);
+            let keys = Object.keys(data); 
+            keys.forEach( function(key) {
+                let table = data[key]
+                console.info(key);
+                console.info(table);
+            })
         }
     }
     req.open("POST", dest_url);
     req.send(formdata);
 }
+
 
 /**
  * Check atleast a column is selected

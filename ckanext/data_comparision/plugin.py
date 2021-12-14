@@ -30,9 +30,9 @@ class DataComparisionPlugin(plugins.SingletonPlugin):
             )
         
         blueprint.add_url_rule(
-            u'/data_comparision/process_columns',
-            u'process_columns',
-            BaseController.process_columns,
+            u'/data_comparision/get_selected_columns',
+            u'get_selected_columns',
+            BaseController.get_selected_columns,
             methods=['POST']
             )
         

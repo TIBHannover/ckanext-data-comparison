@@ -5,7 +5,6 @@
 {% block primary %}
     {% asset 'ckanext-data-comparision/page-css' %}
     {% asset 'ckanext-data-comparision/page-js' %}
-    {% set action_process = h.url_for('data_comparision.process_columns', _external=True) %}
     {% set action_new_page = h.url_for('data_comparision.load_new_page', _external=True) %}
     {% set action_go_back_resource = h.url_for('dataset_resource.read', resource_id=resource['id'], package_type=package['type'], id=package['id'], _external=True) %}
     <input type="hidden" id="process_url" value="{{action_process}}">

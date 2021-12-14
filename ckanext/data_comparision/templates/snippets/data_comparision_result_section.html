@@ -2,6 +2,9 @@
 {% asset 'ckanext-data-comparision/result-js' %}
 
 {% set action_download =  h.url_for('data_comparision.download_file', _external=True) %}
+{% set action_get_selected_columns =  h.url_for('data_comparision.get_selected_columns', _external=True) %}
+
+<input type="hidden" id="get_selected_url" value="{{action_get_selected_columns}}">
 
 <div class="row">
     <div class="col-sm-12 text-center">

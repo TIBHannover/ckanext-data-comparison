@@ -46,9 +46,9 @@ class BaseController():
     
 
     @staticmethod
-    def process_columns():
+    def get_selected_columns():
         '''
-            The function for processing the selected data columns.
+            The function for fetching the selected data columns from resources in ckan.
 
             Method:
                 - POST
@@ -58,7 +58,7 @@ class BaseController():
         '''
 
         columns_data = request.form.getlist('columns[]')       
-        result_columns = Helper.gather_data_from_columns(columns_data)        
+        result_columns, col_refs = Helper.gather_data_from_columns(columns_data)        
             
         return json.dumps(result_columns)
     
