@@ -58,9 +58,13 @@ class BaseController():
         '''
 
         columns_data = request.form.getlist('columns[]')       
-        result_columns, col_refs = Helper.gather_data_from_columns(columns_data)        
+        result_columns, col_refs = Helper.gather_data_from_columns(columns_data) 
+        processed_columns = {}
+        for key, data in col_refs.items():
+            place_holder = key.split(' (sheet: ')[0]
+            processed_columns[data[0]] = result_columns[place_holder]
             
-        return json.dumps(result_columns)
+        return json.dumps(processed_columns)
     
 
 
