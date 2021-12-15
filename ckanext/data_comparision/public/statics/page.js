@@ -41,7 +41,7 @@ $(document).ready(function(){
             data = JSON.parse(req.responseText);
             let keys = Object.keys(data);
             let xAxis = [];
-            let yAxisData = []
+            let yAxisData = [];
             let legends = []; 
             keys.forEach( function(key) {
                 let table = data[key];
