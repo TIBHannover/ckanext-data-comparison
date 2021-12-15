@@ -42,6 +42,12 @@ $(document).ready(function(){
             let keys = Object.keys(data);
             createSelectOptions($('#xAxisColumn'), keys);
             selectedData = data;
+            let canvas = document.getElementById('resultPlot');
+            let context = canvas.getContext("2d");
+            context.fillStyle = "blue";
+            context.font = "bold 16px Arial";
+            context.fillText("Please select the X axis for the plot.", (canvas.width / 2) - (canvas.width / 4) , (canvas.height / 2) + 8);
+            $(canvas).css('background', '#edf783');
             // let xAxis = [];
             // let yAxisData = [];
             // let legends = []; 
@@ -56,7 +62,7 @@ $(document).ready(function(){
             //     }
 
             // })
-            // draw(plotType, xAxis, yAxisData, legends);
+            // draw(plotType, [], [], []);
         }
     }
     req.open("POST", dest_url);
