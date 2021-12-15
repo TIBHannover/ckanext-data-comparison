@@ -87,7 +87,7 @@ function check_column_selected(){
     let borderColrs = ['red', 'green'];
     let chartObject = {};
     chartObject['type'] = plotType;
-    chartObject['options'] = {scales: {y: {beginAtZero: true}}, responsive:true}
+    chartObject['options'] = {scales: {y: {beginAtZero: true, max: getMax(yAxisData)}}, responsive:true}
     chartObject['data'] = {}
     chartObject['data']['labels'] = xAxis; 
     chartObject['data']['datasets'] = []; 
@@ -104,4 +104,15 @@ function check_column_selected(){
 
     linePlot = new Chart(plotArea, chartObject);
     
+}
+
+/**
+ * get the max value from y axis data
+ */
+function getMax(yAxisData){
+    allMax = [];
+    for (let i=0; i < yAxisData.length; i++){
+        allMax.push(Math.max.apply(Math, yAxisData[i])); 
+    }
+    return Math.max.apply(Math, allMax);
 }
