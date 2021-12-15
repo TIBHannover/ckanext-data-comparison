@@ -147,7 +147,7 @@ function getMax(yAxisData){
  */
 function createSelectOptions(selectId, data){
     let options = $('.col_options');
-    $(selectId).select2("val", "0");
+    $(selectId).select2("val", "");
     if (options.length !== 0){
         for (let i=0; i < options.length; i++){
             $(options[i]).remove();
