@@ -48,7 +48,7 @@ $(document).ready(function(){
         if (linePlot){
             linePlot.destroy();
         }  
-        draw(plotType, xAxis, yAxisData, legends);      
+        draw(plotType, xAxis, yAxisData, legends, xAxisName);      
     });
 
 
@@ -78,7 +78,7 @@ $(document).ready(function(){
             if (linePlot){
                 linePlot.destroy();
             }  
-            draw(plotType, xAxis, yAxisData, legends);  
+            draw(plotType, xAxis, yAxisData, legends), xAxisName;  
         }           
     });
 });
@@ -138,16 +138,18 @@ function check_column_selected(){
 /**
  * Draw the result plot
  */
- function draw(plotType, xAxis, yAxisData, legends){
+ function draw(plotType, xAxis, yAxisData, legends, xAxisName){
     let plotArea = document.getElementById('resultPlot');
     let backgroundColrs = ['red', 'green'];
     let borderColrs = ['red', 'green'];
     let chartObject = {};
     chartObject['type'] = plotType;
-    chartObject['options'] = {scales: {y: {beginAtZero: true, max: getMax(yAxisData)}}, responsive:true}
-    chartObject['data'] = {}
+    plugins = {'title': {'display': true, 'text': 'Visualization Result'}};
+    chartObject['options'] = {scales: {y: {beginAtZero: true, max: getMax(yAxisData)}}, responsive:true, 'plugins': plugins};
+    chartObject['data'] = {};
     chartObject['data']['labels'] = xAxis; 
     chartObject['data']['datasets'] = []; 
+        
     for (let i=0; i<yAxisData.length; i++){
         let temp = {};
         temp['label'] = legends[i];
