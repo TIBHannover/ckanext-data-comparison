@@ -1,4 +1,5 @@
 var selectedData = null;
+var linePlot = null;
 
 $(document).ready(function(){
     
@@ -38,7 +39,10 @@ $(document).ready(function(){
             }
 
         });
-        $('#resultPlot').css('background', '');  
+        $('#resultPlot').css('background', '');
+        if (linePlot){
+            linePlot.destroy();
+        }  
         draw('line', xAxis, yAxisData, legends);      
     });
 });
@@ -99,7 +103,6 @@ function check_column_selected(){
  * Draw the result plot
  */
  function draw(plotType, xAxis, yAxisData, legends){
-    var linePlot = null;
     let plotArea = document.getElementById('resultPlot');
     let backgroundColrs = ['red', 'green'];
     let borderColrs = ['red', 'green'];
