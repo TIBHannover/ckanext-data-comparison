@@ -32,6 +32,7 @@ $(document).ready(function(){
         let yAxisData = [];
         let legends = [];
         let keys = Object.keys(selectedData); 
+        let plotType = $.trim($('#plotType').val());
         keys.forEach( function(key) {
             let table = data[key];            
             if(key === xAxisName){
@@ -47,7 +48,38 @@ $(document).ready(function(){
         if (linePlot){
             linePlot.destroy();
         }  
-        draw('line', xAxis, yAxisData, legends);      
+        draw(plotType, xAxis, yAxisData, legends);      
+    });
+
+
+    /**
+     * Select the plot type
+     */
+     $('body').on('change', '.plot-type', function() {
+        let xAxisName = $.trim($('.x-axis-col').select2('data').text);
+        if(xAxisName !== ''){
+            let xAxis = [];
+            let yAxisData = [];
+            let legends = [];
+            let keys = Object.keys(selectedData); 
+            let plotType = $.trim($(this).val());
+            keys.forEach( function(key) {
+                let table = data[key];            
+                if(key === xAxisName){
+                    xAxis = table;
+                }
+                else{
+                    yAxisData.push(table);  
+                    legends.push(key);
+                }
+
+            });
+            $('#resultPlot').css('background', '');
+            if (linePlot){
+                linePlot.destroy();
+            }  
+            draw(plotType, xAxis, yAxisData, legends);  
+        }           
     });
 });
 
