@@ -39,7 +39,7 @@ $(document).ready(function(){
             }
             else{
                 yAxisData.push(table);  
-                legends.push(key);  
+                legends.push(key);
             }
 
         });
@@ -146,8 +146,15 @@ function getMax(yAxisData){
  * Create select2 options
  */
 function createSelectOptions(selectId, data){
+    let options = $('.col_options');
+    $(selectId).select2("val", "0");
+    if (options.length !== 0){
+        for (let i=0; i < options.length; i++){
+            $(options[i]).remove();
+        }
+    }
     for (let i=1; i <= data.length; i++){
-        let option = '<option value="' + i + '">' + data[i - 1] + '</option>';
+        let option = '<option class="col_options" value="' + i + '">' + data[i - 1] + '</option>';
         $(selectId).append(option);
     }
 }
