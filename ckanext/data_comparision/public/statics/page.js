@@ -12,6 +12,10 @@ $(document).ready(function(){
             $('.no_col_selcted_div').hide();
             $('#selection-section-div').fadeOut();
             $('#analysis-result-area').fadeIn();
+            if (linePlot){
+                linePlot.destroy();
+                linePlot = null;
+            }
             getPlotData();
         }
         else{
