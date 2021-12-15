@@ -1,5 +1,7 @@
+var selectedData = null;
+
 $(document).ready(function(){
-    var selectedData = null;
+    
 
     /**
      * Click on process data button
@@ -9,20 +11,43 @@ $(document).ready(function(){
             $('.no_col_selcted_div').hide();
             $('#selection-section-div').fadeOut();
             $('#analysis-result-area').fadeIn();
-            getPlotData('line');
+            getPlotData();
         }
         else{
             $('.no_col_selcted_div').show();
         }        
     });
 
+    /**
+     * Select the x axis
+     */
+     $('body').on('change', '.x-axis-col', function() {
+        let xAxisName = $.trim($(this).select2('data').text);       
+        let xAxis = [];
+        let yAxisData = [];
+        let legends = [];
+        let keys = Object.keys(selectedData); 
+        keys.forEach( function(key) {
+            let table = data[key];            
+            if(key === xAxisName){
+                xAxis = table;
+            }
+            else{
+                yAxisData.push(table);  
+                legends.push(key);  
+            }
+
+        });
+        $('#resultPlot').css('background', '');  
+        draw('line', xAxis, yAxisData, legends);      
+    });
 });
 
 
 /**
  * get selected columsn to visulaize and call draw function
  */
- function getPlotData(plotType){
+ function getPlotData(){
     let formdata = new FormData();
     let checkboxes = $('.hidden-checkbox');
     let checked_ones = [];
@@ -47,22 +72,7 @@ $(document).ready(function(){
             context.fillStyle = "blue";
             context.font = "bold 16px Arial";
             context.fillText("Please select the X axis for the plot.", (canvas.width / 2) - (canvas.width / 4) , (canvas.height / 2) + 8);
-            $(canvas).css('background', '#edf783');
-            // let xAxis = [];
-            // let yAxisData = [];
-            // let legends = []; 
-            // keys.forEach( function(key) {
-            //     let table = data[key];
-            //     if(key === 'F_2'){
-            //         yAxisData.push(table);  
-            //         legends.push(key);  
-            //     }
-            //     else{
-            //         xAxis = table;
-            //     }
-
-            // })
-            // draw(plotType, [], [], []);
+            $(canvas).css('background', '#edf783');            
         }
     }
     req.open("POST", dest_url);
@@ -129,8 +139,8 @@ function getMax(yAxisData){
  * Create select2 options
  */
 function createSelectOptions(selectId, data){
-    for (let i=0; i < data.length; i++){
-        let option = '<option value="' + i + '">' + data[i] + '</option>';
+    for (let i=1; i <= data.length; i++){
+        let option = '<option value="' + i + '">' + data[i - 1] + '</option>';
         $(selectId).append(option);
     }
 }
