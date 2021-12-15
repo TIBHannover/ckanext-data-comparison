@@ -1,5 +1,5 @@
 $(document).ready(function(){
-
+    var selectedData = null;
 
     /**
      * Click on process data button
@@ -40,21 +40,23 @@ $(document).ready(function(){
         if (req.readyState == XMLHttpRequest.DONE && req.status === 200) {       
             data = JSON.parse(req.responseText);
             let keys = Object.keys(data);
-            let xAxis = [];
-            let yAxisData = [];
-            let legends = []; 
-            keys.forEach( function(key) {
-                let table = data[key];
-                if(key === 'F_2'){
-                    yAxisData.push(table);  
-                    legends.push(key);  
-                }
-                else{
-                    xAxis = table;
-                }
+            createSelectOptions($('#xAxisColumn'), keys);
+            selectedData = data;
+            // let xAxis = [];
+            // let yAxisData = [];
+            // let legends = []; 
+            // keys.forEach( function(key) {
+            //     let table = data[key];
+            //     if(key === 'F_2'){
+            //         yAxisData.push(table);  
+            //         legends.push(key);  
+            //     }
+            //     else{
+            //         xAxis = table;
+            //     }
 
-            })
-            draw(plotType, xAxis, yAxisData, legends);
+            // })
+            // draw(plotType, xAxis, yAxisData, legends);
         }
     }
     req.open("POST", dest_url);
@@ -115,4 +117,14 @@ function getMax(yAxisData){
         allMax.push(Math.max.apply(Math, yAxisData[i])); 
     }
     return Math.max.apply(Math, allMax);
+}
+
+/**
+ * Create select2 options
+ */
+function createSelectOptions(selectId, data){
+    for (let i=0; i < data.length; i++){
+        let option = '<option value="' + i + '">' + data[i] + '</option>';
+        $(selectId).append(option);
+    }
 }

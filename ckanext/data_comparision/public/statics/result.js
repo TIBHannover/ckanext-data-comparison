@@ -1,5 +1,6 @@
 $(document).ready(function(){
-    
+    $('select.x-axis-col').select2();
+
 
     /**
      * Click on the download button.
