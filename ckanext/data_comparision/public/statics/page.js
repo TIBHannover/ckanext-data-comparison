@@ -141,8 +141,13 @@ function check_column_selected(){
  */
  function draw(plotType, xAxis, yAxisData, legends, xAxisName){
     let plotArea = document.getElementById('resultPlot');
-    let backgroundColrs = ['red', 'green'];
-    let borderColrs = ['red', 'green'];
+    let backgroundColrs = [];
+    let borderColrs = [];
+    for (let i=0; i < yAxisData.length; i++){
+        let color = getRandomColor();
+        backgroundColrs.push(color);
+        borderColrs.push(color);
+    }
     let chartObject = {};
     chartObject['type'] = plotType;
     plugins = {'title': {'display': true, 'text': 'Visualization Result'}};
@@ -194,3 +199,18 @@ function createSelectOptions(selectId, data){
         $(selectId).append(option);
     }
 }
+
+
+/**
+ * Generate a random color
+ * source: https://stackoverflow.com/questions/1484506/random-color-generator
+ * 
+ */
+function getRandomColor() {
+    var letters = '0123456789ABCDEF';
+    var color = '#';
+    for (var i = 0; i < 6; i++) {
+      color += letters[Math.floor(Math.random() * 16)];
+    }
+    return color;
+  }
