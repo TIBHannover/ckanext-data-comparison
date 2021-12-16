@@ -47,7 +47,8 @@ $(document).ready(function(){
         $('#resultPlot').css('background', '');
         if (linePlot){
             linePlot.destroy();
-        }  
+        }
+
         draw(plotType, xAxis, yAxisData, legends, xAxisName);      
     });
 
@@ -160,7 +161,8 @@ function check_column_selected(){
         chartObject['data']['datasets'][i] = temp;
         
     }
-
+    console.info(yAxisData);
+    console.info(plotType);
     linePlot = new Chart(plotArea, chartObject);
     
 }

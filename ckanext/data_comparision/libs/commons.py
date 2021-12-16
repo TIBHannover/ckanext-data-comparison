@@ -98,6 +98,7 @@ class Commons():
 
         file_path = RESOURCE_DIR + resource_id[0:3] + '/' + resource_id[3:6] + '/' + resource_id[6:]
         df = clevercsv.read_dataframe(file_path)
+        df = df.fillna(0)
 
         return df
 
@@ -141,5 +142,29 @@ class Commons():
         resource_id = raw_id.split('---')[0]
         sheet = raw_id.split('---')[1]
         return [resource_id, sheet]
+    
+
+
+    @staticmethod
+    def cast_string_to_num(List):
+        '''
+            Cast the values in a list from string to float for the visualization.
+
+            Args:
+                - List: the input list of string.
+
+            Returns:
+                - List of float numbers
+        
+        '''
+        
+        result = []
+        for val in List:
+            if ',' in val:
+                result.append(val.replace(',', '.'))
+            else:
+                result.append(val)
+        
+        return list(map(float, result))
 
 

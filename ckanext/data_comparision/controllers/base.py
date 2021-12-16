@@ -63,6 +63,7 @@ class BaseController():
         for key, data in col_refs.items():
             place_holder = key.split(' (sheet: ')[0]
             processed_columns[data[0]] = result_columns[place_holder]
+            processed_columns[data[0]] = Commons.cast_string_to_num(processed_columns[data[0]])
             
         return json.dumps(processed_columns)
     
