@@ -160,7 +160,7 @@ class Commons():
         
         result = []
         for val in List:
-            if ',' in val:
+            if isinstance(val, str) and ',' in val:
                 result.append(val.replace(',', '.'))
             else:
                 result.append(val)
