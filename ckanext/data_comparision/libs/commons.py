@@ -160,11 +160,18 @@ class Commons():
         
         result = []
         for val in List:
+            num = None
             if isinstance(val, str) and ',' in val:
-                result.append(val.replace(',', '.'))
+                num = val.replace(',', '.')
             else:
-                result.append(val)
+                num = val
+            
+            try:
+                num = float(num)
+                result.append(num)
+            except:
+                continue
         
-        return list(map(float, result))
+        return result
 
 
