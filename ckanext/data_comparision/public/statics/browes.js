@@ -1,5 +1,6 @@
 $(document).ready(function(){
     $('#import-btn').click(function(){
+        $('#import_loader').show();
         import_table();
 
     });
@@ -44,6 +45,7 @@ $(document).ready(function(){
             keys.forEach( function(key) {
                 let table = data[key]
                 $('#raw_tables_area').find('.data-comparision-module-col').append(table);
+                $('#import_loader').hide();
             })
         }
     }
