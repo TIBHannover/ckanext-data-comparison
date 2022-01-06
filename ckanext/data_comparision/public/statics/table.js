@@ -1,3 +1,7 @@
+var onclickColor = '#96f9ff'
+var dbclickColor = '#a1fcb2'
+var mouseoverColor = 'yellow'
+
 $(document).ready(function(){
 
     let checkboxes = $('.hidden-checkbox');
@@ -14,7 +18,7 @@ $(document).ready(function(){
         let id = $(this).attr('name');
         let checkbox = $('#' + id);
         if ($(checkbox).prop('checked') === false){
-            $('.dcom-column-' + id).css('background-color', 'yellow');        
+            $('.dcom-column-' + id).css('background-color', mouseoverColor);        
         }
     });
 
@@ -44,13 +48,13 @@ $(document).ready(function(){
             $(checkbox).prop('checked', true);
             $('#' + id + '-dbclick').val('1');
             $('.no_col_selcted_div').hide();
-            $('.dcom-column-' + id).css('background-color', '#96f9ff');
+            $('.dcom-column-' + id).css('background-color', onclickColor);
         }
         else if (dbClickChecker === '1'){
             // already clicked once. This is the double click
             $('#' + id + '-dbclick').val('2');
             $('.no_col_selcted_div').hide();
-            $('.dcom-column-' + id).css('background-color', '#a1fcb2');
+            $('.dcom-column-' + id).css('background-color', dbclickColor);
         }
         else{
             // double clicked already. now deselect.
@@ -120,8 +124,14 @@ $(document).ready(function(){
             let headers = $('#data-table-' + resourceId).find('th');
             for(let i=1; i <= headers.length; i++){
                 let id = resourceId + '-' + i
-                if($('#' + id).prop('checked') === true){
-                    $('.dcom-column-' + id).css('background-color', '#96f9ff'); 
+                if($('#' + id).prop('checked') === true && $('#' + id + "-dbclick").val() === '1'){
+                    $('.dcom-column-' + id).css('background-color', onclickColor); 
+                }
+                else if($('#' + id).prop('checked') === true && $('#' + id + "-dbclick").val() === '2'){
+                    $('.dcom-column-' + id).css('background-color', dbclickColor); 
+                }
+                else{
+                    
                 }
             }
         }
