@@ -66,7 +66,8 @@ class Builder():
         for col in columns:
             cell = Builder.build_header_cell(Id, col, resource_id, sheet)
             checkbox = Builder.build_checkbox_input(Id, col, resource_id, sheet)
-            inner_content += (cell + checkbox) 
+            dbclick_input = Builder.build_dbclick_input(Id, col, resource_id, sheet)
+            inner_content += (cell + checkbox + dbclick_input) 
             Id += 1
         
         table_header = header_row + inner_content + header_row_end
@@ -251,3 +252,23 @@ class Builder():
         title += ('</a></h3></div>')
 
         return title
+    
+
+    @staticmethod
+    def build_dbclick_input(Id, column, resource_id, sheet):
+        '''
+            Create a hidden input for checking the double click on a column.
+
+            Args:
+                - Id: The column Id 
+                - value: The value for this cell
+                - resource_id: the id of the target data resource in ckan
+                - sheet: the sheet name for xlsx
+            
+            Returns:
+                - a hidden html input. 
+        '''
+
+        dbcick_input = '<input  type="hidden" name="hidden_dbclick_checker" value="0"'
+        dbcick_input += ('id="' +  str(resource_id) + Tokenizer + sheet + '-' + str(Id) + '-dbclick" > ')
+        return dbcick_input

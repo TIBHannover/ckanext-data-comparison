@@ -43,6 +43,12 @@
                         class="hidden-checkbox"
                         id="{{res_id_addon ~ '-' ~ loop.index}}"
                     >
+                    <input 
+                        type="hidden"
+                        value='0'
+                        name='hidden_dbclick_checker'
+                        id="{{res_id_addon ~ '-' ~ loop.index ~ '-dbclick'}}"
+                    >
                 {% endfor %}
             </tr>
         </thead>

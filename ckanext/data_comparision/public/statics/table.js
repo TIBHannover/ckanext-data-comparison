@@ -32,20 +32,36 @@ $(document).ready(function(){
     
 
     /**
-     * Click on a column in a data table. It click on the column checkbox
+     * Click on a column in a data table. It click on the column checkbox.
+     * The first click is for the normal selection and the second click is for the shared column(s) selection (x-Axis)
      */
      $('body').on('click', '.dcom-table-cell', function() {
         let id = $(this).attr('name');
         let checkbox = $('#' + id);
-        $(checkbox).prop('checked', !$(checkbox).is(":checked"));
-        if ($(checkbox).prop('checked') === true){
+        let dbClickChecker = $('#' + id + '-dbclick').val(); // we use this to check wether the click is second click or first
+        if(dbClickChecker === '0'){
+            // not clicked yet
+            $(checkbox).prop('checked', true);
+            $('#' + id + '-dbclick').val('1');
             $('.no_col_selcted_div').hide();
-            $('.dcom-column-' + id).css('background-color', '#96f9ff');        
+            $('.dcom-column-' + id).css('background-color', '#96f9ff');
+        }
+        else if (dbClickChecker === '1'){
+            // already clicked once. This is the double click
+            $('#' + id + '-dbclick').val('2');
+            $('.no_col_selcted_div').hide();
+            $('.dcom-column-' + id).css('background-color', '#a1fcb2');
         }
         else{
+            // double clicked already. now deselect.
+            $(checkbox).prop('checked', false);
+            $('#' + id + '-dbclick').val('0');
+            $('.no_col_selcted_div').hide();
             $('.dcom-column-' + id).css('background-color', '');
         }
+
     });
+
 
     /**
      * Click next page pagination
