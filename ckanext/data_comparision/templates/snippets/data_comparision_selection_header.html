@@ -1,0 +1,22 @@
+<div class="row">
+    <div class="col-sm-3 back-to-resource-div">
+        <a href="{{action_go_back_resource}}" class="btn btn-secondary">
+        <i class="fa fa-arrow-left"></i>
+        {{_('Back to resource')}}                    
+        </a>
+    </div>
+    <div class="col-sm-9 browes-btn-div">
+        {% snippet 'snippets/data_comparision_browes.html', datasets=datasets %}
+    </div>
+</div>
+
+<div class="row">
+    <div class="col-sm-4 color-hint">
+    {{_('One click: selecting a column')}} <div class="color-demo" id="one-click-color"></div>
+    </div>
+</div>  
+<div class="row">
+    <div class="col-sm-4 color-hint">                    
+    {{_('Two clicks: selecting a column as the shared variable (x-Axis)')}} <div class="color-demo" id="two-click-color"></div>                    
+    </div>
+</div>  
