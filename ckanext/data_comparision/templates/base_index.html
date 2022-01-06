@@ -23,6 +23,16 @@
                   <div class="col-sm-9 browes-btn-div">
                       {% snippet 'snippets/data_comparision_browes.html', datasets=datasets %}
                   </div>
+                </div>
+                <div class="row">
+                  <div class="col-sm-4 color-hint">
+                    {{_('One click: selecting a column')}} <div class="color-demo" id="one-click-color"></div>
+                  </div>
+                </div>  
+                <div class="row">
+                  <div class="col-sm-4 color-hint">                    
+                    {{_('Two clicks: selecting a column as the shared variable (x-Axis)')}} <div class="color-demo" id="two-click-color"></div>                    
+                  </div>
                 </div>  
                 <div class="row data-comparision-module" id="raw_tables_area">
                   <div class="col-sm-12 data-comparision-module-col">
@@ -46,7 +56,7 @@
                   </div>
             </div>
             
-            {# Selection section #}
+            {# End Selection section #}
             <br>
             {# Result section #}
             <div class="row"  id="analysis-result-area">
@@ -54,7 +64,7 @@
                   {% snippet 'snippets/data_comparision_result_section.html'%}
               </div>              
             </div>
-            {# Result section #}
+            {# End Result section #}
       </div>
     </article>
 

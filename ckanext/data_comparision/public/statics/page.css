@@ -48,3 +48,23 @@
     margin-left: 25%;
     display: none;
 }
+.color-demo{
+    width: 20px;
+    height: 10px;
+}
+
+#one-click-color{
+    display: inline-block;
+    background-color: #96f9ff;
+}
+
+#two-click-color{
+    display: inline-block;
+    background-color: #a1fcb2;
+}
+
+.color-hint{
+    margin-top: 10px;
+    margin-left: 10%;
+    font-weight: bold;
+}
