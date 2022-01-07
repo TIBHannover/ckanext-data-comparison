@@ -132,7 +132,8 @@ function check_column_selected(){
     let chartObject = {};
     chartObject['type'] = plotType;
     plugins = {'title': {'display': true, 'text': 'Visualization Result'}};
-    chartObject['options'] = {scales: {y: {beginAtZero: true, max: getMax(yAxisData)}}, responsive:true, 'plugins': plugins};
+    y_scales = {beginAtZero: true, max: getMax(yAxisData) + 20}
+    chartObject['options'] = {scales: {y: y_scales}, responsive:true, 'plugins': plugins};
     chartObject['data'] = {};
     chartObject['data']['labels'] = xAxis; 
     chartObject['data']['datasets'] = []; 
