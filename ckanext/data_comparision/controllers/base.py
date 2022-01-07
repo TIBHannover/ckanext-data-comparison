@@ -57,15 +57,60 @@ class BaseController():
                 - ???        
         '''
 
-        columns_data = request.form.getlist('columns[]')       
-        result_columns, col_refs = Helper.gather_data_from_columns(columns_data) 
-        processed_columns = {}
-        for key, data in col_refs.items():
-            place_holder = key.split(' (sheet: ')[0]
-            processed_columns[data[0]] = result_columns[place_holder]
-            processed_columns[data[0]] = Commons.cast_string_to_num(processed_columns[data[0]])
+        columns_data = request.form.getlist('columns[]') 
+        x_axis_raw_data = []
+        y_axis_raw_data = {}
+        resource_x_y_axis_map = {}
+        for value in columns_data:
+            if '@_@' in value:
+                resource_id_raw = value.split('@_@')[0]
+                col_name = value.split('@_@')[1]
+                dbClickedValue = value.split('@_@')[2]
+                resource_id, sheet = Commons.process_resource_id(resource_id_raw)
+                Commons.check_access_view_resource(resource_id)
+                col_data = Helper.get_one_column(resource_id, sheet, col_name)
+                if dbClickedValue == '2':
+                    # x axis data. need to merge together
+                    if resource_id not in resource_x_y_axis_map.keys():
+                        resource_x_y_axis_map[resource_id] = {}
+                    resource_x_y_axis_map[resource_id]['x'] = col_data
+                    x_axis_raw_data.extend(Commons.cast_string_to_num(col_data))
+
+                elif dbClickedValue == '1':
+                    # y axis data.
+                    if resource_id not in resource_x_y_axis_map.keys():
+                        resource_x_y_axis_map[resource_id] = {}
+                        resource_x_y_axis_map[resource_id]['y'] = []
+                        resource_x_y_axis_map[resource_id]['y'].append([col_name, Commons.cast_string_to_num(col_data)]) 
+                    elif 'y' not in resource_x_y_axis_map[resource_id].keys():
+                        resource_x_y_axis_map[resource_id]['y'] = []
+                        resource_x_y_axis_map[resource_id]['y'].append([col_name, Commons.cast_string_to_num(col_data)]) 
+                    else:
+                        resource_x_y_axis_map[resource_id]['y'].append([col_name, Commons.cast_string_to_num(col_data)]) 
+        
+        # sort the x axis data to merge all selected x axises (double clicked). remove duplicates
+        x_axis = sorted(list(set(x_axis_raw_data)))
+
+        y_axis = {}
+        for x_value in x_axis:
+            for resource_id, resource_data in resource_x_y_axis_map.items():
+                if x_value not in resource_data['x']:
+                    for y_vars in resource_data['y']:
+                        if y_vars[0] in y_axis.keys():
+                            y_axis[y_vars[0]].append(0)
+                        else:
+                            y_axis[y_vars[0]] = [0]
+                else:
+                    x_index = resource_data['x'].index(x_value)
+                    for y_vars in resource_data['y']:            
+                        if y_vars[0] in y_axis.keys():
+                            y_axis[y_vars[0]].append(y_vars[1][x_index])
+                        else:
+                            y_axis[y_vars[0]] = [y_vars[1][x_index]]
+        
+        plot_data = {'x': x_axis, 'y': y_axis}
             
-        return json.dumps(processed_columns)
+        return json.dumps(plot_data)
     
 
 

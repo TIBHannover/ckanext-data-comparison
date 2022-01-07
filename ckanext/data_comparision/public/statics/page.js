@@ -23,35 +23,6 @@ $(document).ready(function(){
         }        
     });
 
-    /**
-     * Select the x axis
-     */
-     $('body').on('change', '.x-axis-col', function() {
-        let xAxisName = $.trim($(this).select2('data').text);       
-        let xAxis = [];
-        let yAxisData = [];
-        let legends = [];
-        let keys = Object.keys(selectedData); 
-        let plotType = $.trim($('#plotType').val());
-        keys.forEach( function(key) {
-            let table = data[key];            
-            if(key === xAxisName){
-                xAxis = table;
-            }
-            else{
-                yAxisData.push(table);  
-                legends.push(key);
-            }
-
-        });
-        $('#resultPlot').css('background', '');
-        if (linePlot){
-            linePlot.destroy();
-        }
-
-        draw(plotType, xAxis, yAxisData, legends, xAxisName);      
-    });
-
 
     /**
      * Select the plot type
@@ -65,12 +36,12 @@ $(document).ready(function(){
             let keys = Object.keys(selectedData); 
             let plotType = $.trim($(this).val());
             keys.forEach( function(key) {
-                let table = data[key];            
+                let dataColumn = data[key];            
                 if(key === xAxisName){
-                    xAxis = table;
+                    xAxis = dataColumn;
                 }
                 else{
-                    yAxisData.push(table);  
+                    yAxisData.push(dataColumn);  
                     legends.push(key);
                 }
 
@@ -94,7 +65,9 @@ $(document).ready(function(){
     let checked_ones = [];
     for (let i=0; i < checkboxes.length; i++){
         if ($(checkboxes[i]).prop('checked') === true){
-            checked_ones.push($(checkboxes[i]).val());
+            let id = $(checkboxes[i]).prop('id');
+            let dbClickValue = $('#' + id + '-dbclick').val();
+            checked_ones.push($(checkboxes[i]).val() + '@_@' + dbClickValue);
         }
     }
     for (let i = 0; i < checked_ones.length; i++) {
@@ -106,14 +79,15 @@ $(document).ready(function(){
         if (req.readyState == XMLHttpRequest.DONE && req.status === 200) {       
             data = JSON.parse(req.responseText);
             let keys = Object.keys(data);
-            createSelectOptions($('#xAxisColumn'), keys);
+            // createSelectOptions($('#xAxisColumn'), keys);
             selectedData = data;
             let canvas = document.getElementById('resultPlot');
             let context = canvas.getContext("2d");
             context.fillStyle = "blue";
             context.font = "bold 16px Arial";
             context.fillText("Please select the X axis for the plot.", (canvas.width / 2) - (canvas.width / 4) , (canvas.height / 2) + 8);
-            $(canvas).css('background', '#edf783');            
+            $(canvas).css('background', '#edf783');   
+            console.info(selectedData);         
         }
     }
     req.open("POST", dest_url);
@@ -213,3 +187,6 @@ function getRandomColor() {
     }
     return color;
   }
+
+
+

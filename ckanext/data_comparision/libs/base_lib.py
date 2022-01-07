@@ -120,11 +120,12 @@ class Helper():
 
             Args:
                 - columns_data: the list of resource/column strings. Each element has the target data resource id and column name
-                    separated by @_@. for Example: resource_x_id@_@column_name.
+                    separated by @_@. for Example: resource_x_id@_@column_name@_@dbClickValue.
 
             Returns:
                 - A dictionary in which the key is the column name placeholder and the value is a list of values for that column. 
-                - A dictionary that contains the columns' name placeholder references (resource url)
+                - A dictionary that contains the columns' name placeholder references:
+                    [column name, resource url]
         '''
 
         result_columns = {}
@@ -134,9 +135,9 @@ class Helper():
         for value in columns_data:
             if '@_@' in value:
                 resource_id_raw = value.split('@_@')[0]
+                col_name = value.split('@_@')[1]
                 resource_id, sheet = Commons.process_resource_id(resource_id_raw)                                
                 Commons.check_access_view_resource(resource_id)
-                col_name = value.split('@_@')[1]
                 col_data = Helper.get_one_column(resource_id, sheet, col_name)
                 col_name_placeholder = column_name_prefix + str(column_number)
                 resource = toolkit.get_action('resource_show')({}, {'id': resource_id})
@@ -146,7 +147,7 @@ class Helper():
                     result_columns[col_name_placeholder] = col_data
                     column_references[col_name_placeholder] = [col_name, res_url]
 
-                elif col_data and col_name not in result_columns.keys() and sheet != 'None': #xlsx
+                elif col_data and col_name not in result_columns.keys() and sheet != 'None': #xlsx                    
                     result_columns[col_name_placeholder] = col_data
                     column_references[col_name_placeholder + ' (sheet: ' + sheet + ')'] = [col_name, res_url]
                
@@ -186,6 +187,24 @@ class Helper():
             result_rows.append(list(row))
     
         return result_rows
+    
+
+    # @staticmethod
+    # def get_y_value(x_value, x_column_name, y_column_name, resource_id):
+    #     '''
+    #         Get the y-axis value based on the selected x-axis in a data resource.
+
+    #         Args:
+    #             - x_value: the value of x
+    #             - x_column_name: the x variable column name
+    #             - y_column_name: the y variable column name
+    #             - resource_id: the target data resource in ckan
+            
+    #         Returns:
+    #             - A numeric value or 0 in case the x value does not exist.
+    #     '''
+
+
 
 
    
