@@ -93,6 +93,7 @@ $(document).ready(function(){
                 legends.push(key);
                 yAxisData.push(value);
             }); 
+            // console.info(selectedData);
 
             draw('line', selectedData['x'], yAxisData, legends, 'Test');           
         }

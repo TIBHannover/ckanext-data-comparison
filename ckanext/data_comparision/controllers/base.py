@@ -73,7 +73,7 @@ class BaseController():
                     # x axis data. need to merge together
                     if resource_id not in resource_x_y_axis_map.keys():
                         resource_x_y_axis_map[resource_id] = {}
-                    resource_x_y_axis_map[resource_id]['x'] = col_data
+                    resource_x_y_axis_map[resource_id]['x'] = Commons.cast_string_to_num(col_data)
                     x_axis_raw_data.extend(Commons.cast_string_to_num(col_data))
 
                 elif dbClickedValue == '1':

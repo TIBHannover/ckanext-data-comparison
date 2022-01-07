@@ -170,7 +170,7 @@ class Commons():
                 num = float(num)
                 result.append(num)
             except:
-                continue
+                result.append(0)
         
         return result
 
