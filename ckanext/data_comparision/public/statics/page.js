@@ -132,8 +132,10 @@ function check_column_selected(){
     let chartObject = {};
     chartObject['type'] = plotType;
     plugins = {'title': {'display': true, 'text': 'Visualization Result'}};
-    y_scales = {beginAtZero: true, max: getMax(yAxisData) + 20}
-    chartObject['options'] = {scales: {y: y_scales}, responsive:true, 'plugins': plugins};
+    ticks_font = {family: 'Times', size: 20, style: 'normal', lineHeight: 1.2},
+    y_scales = {beginAtZero: true, max: getMax(yAxisData) + 20, title: {display: true, text: legends[0], font: ticks_font}}
+    x_scales = {beginAtZero: true, title: {display: true, text: xAxisName, font: ticks_font}}
+    chartObject['options'] = {scales: {yAxes: y_scales, xAxes:x_scales}, responsive:true, 'plugins': plugins};
     chartObject['data'] = {};
     chartObject['data']['labels'] = xAxis; 
     chartObject['data']['datasets'] = []; 
