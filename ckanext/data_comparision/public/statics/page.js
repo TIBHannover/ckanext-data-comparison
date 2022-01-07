@@ -50,7 +50,7 @@ $(document).ready(function(){
             if (linePlot){
                 linePlot.destroy();
             }  
-            draw(plotType, xAxis, yAxisData, legends), xAxisName;  
+            // draw(plotType, xAxis, yAxisData, legends, xAxisName);  
         }           
     });
 });
@@ -81,13 +81,20 @@ $(document).ready(function(){
             let keys = Object.keys(data);
             // createSelectOptions($('#xAxisColumn'), keys);
             selectedData = data;
-            let canvas = document.getElementById('resultPlot');
-            let context = canvas.getContext("2d");
-            context.fillStyle = "blue";
-            context.font = "bold 16px Arial";
-            context.fillText("Please select the X axis for the plot.", (canvas.width / 2) - (canvas.width / 4) , (canvas.height / 2) + 8);
-            $(canvas).css('background', '#edf783');   
-            console.info(selectedData);         
+            // let canvas = document.getElementById('resultPlot');
+            // let context = canvas.getContext("2d");
+            // context.fillStyle = "blue";
+            // context.font = "bold 16px Arial";
+            // context.fillText("Please select the X axis for the plot.", (canvas.width / 2) - (canvas.width / 4) , (canvas.height / 2) + 8);
+            // $(canvas).css('background', '#edf783');
+            let legends = [];
+            let yAxisData = [];
+            $.each(selectedData['y'], function(key,value){
+                legends.push(key);
+                yAxisData.push(value);
+            }); 
+
+            draw('line', selectedData['x'], yAxisData, legends, 'Test');           
         }
     }
     req.open("POST", dest_url);
