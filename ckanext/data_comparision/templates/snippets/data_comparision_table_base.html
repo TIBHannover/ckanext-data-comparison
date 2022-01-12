@@ -23,7 +23,7 @@
         </h3>
     </div>
     <div class="row pagination-area">
-        <div class="col-sm-8">
+        <div class="col-sm-12">
             <button type="button" class="btn prev-btn" id="{{'page-prev-' ~ res_id_addon}}"><i class="fa fa-step-backward"></i></button>
             <input type="text" class="page-number" id="{{'page-number-' ~ res_id_addon}}" value="1" readonly>
             <input type="hidden" id="{{'page-number-max-' ~ res_id_addon}}" value="{{h.get_max_table_page_count( resource['id'], sheet)}}">
