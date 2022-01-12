@@ -41,8 +41,8 @@ $(document).ready(function(){
         $('#resultPlot').css('background', '');
         if (linePlot){
             linePlot.destroy();
-        }  
-        draw(plotType, selectedData['x'], yAxisData, legends, selectedData['xtick']);        
+        }
+        draw(plotType, selectedData['x'], yAxisData, legends, selectedData['xtick'], $('#two_y_axis_checkbox').prop('checked'));
     });
 
     /**
@@ -50,11 +50,14 @@ $(document).ready(function(){
      * 
      */
     $('#two_y_axis_checkbox').click(function(){
+        let plotType = $.trim($('.plot-type').find(":selected").val());
         if($(this).prop('checked') === true){
-            
+            linePlot.destroy();
+            draw(plotType, selectedData['x'], yAxisData, legends, selectedData['xtick'], true);
         }
         else{
-            
+            linePlot.destroy();
+            draw(plotType, selectedData['x'], yAxisData, legends, selectedData['xtick'], false);
         }
     });
 
@@ -90,7 +93,7 @@ $(document).ready(function(){
                 yAxisData.push(value);
             }); 
         
-            draw('line', selectedData['x'], yAxisData, legends, selectedData['xtick']);           
+            draw('line', selectedData['x'], yAxisData, legends, selectedData['xtick'], false);           
         }
     }
     req.open("POST", dest_url);
@@ -116,7 +119,7 @@ function check_column_selected(){
 /**
  * Draw the result plot
  */
- function draw(plotType, xAxis, yAxisData, legends, xAxisName){
+ function draw(plotType, xAxis, yAxisData, legends, xAxisName, multiAxis){
     let plotArea = document.getElementById('resultPlot');
     if (backgroundColrs.length == 0 && borderColrs.length == 0){
         for (let i=0; i < yAxisData.length; i++){
@@ -128,14 +131,35 @@ function check_column_selected(){
     let chartObject = {};
     chartObject['type'] = plotType;
     plugins = {'title': {'display': true, 'text': 'Visualization Result'}};
-    ticks_font = {family: 'Times', size: 20, style: 'normal', lineHeight: 1.2},
-    y_scales = {beginAtZero: true, max: getMax(yAxisData) + 20, title: {display: true, text: legends[0], font: ticks_font}}
-    x_scales = {beginAtZero: true, title: {display: true, text: xAxisName, font: ticks_font}}
-    chartObject['options'] = {scales: {yAxes: y_scales, xAxes:x_scales}, responsive:true, 'plugins': plugins};
+    ticks_font = {family: 'Times', size: 20, style: 'normal', lineHeight: 1.2};
+    x_scales = {beginAtZero: true, title: {display: true, text: xAxisName, font: ticks_font}};
+    let position = 'left';
+    let detectedMultiple = false;
+    if(multiAxis && yAxisData.length === 2){
+        y = {
+            id: legends[0],
+            position: 'left',
+            beginAtZero: true, max: getMax(yAxisData) + 20,
+            title: {display: true, text: legends[0],
+            font: ticks_font}
+        };
+        y1 = {
+            id: legends[1],
+            position: 'right',
+            beginAtZero: true, max: getMax(yAxisData) + 20,
+            title: {display: true, text: legends[1],
+            font: ticks_font}
+        };
+        chartObject['options'] = {scales: {y: y, y1:y1, xAxes:x_scales}, responsive:true, 'plugins': plugins};
+    }
+    else{
+        y_scales = {beginAtZero: true, max: getMax(yAxisData) + 20, title: {display: true, text: legends[0], font: ticks_font}};
+        chartObject['options'] = {scales: {yAxes: y_scales, xAxes:x_scales}, responsive:true, 'plugins': plugins};
+    }
+
     chartObject['data'] = {};
     chartObject['data']['labels'] = xAxis; 
     chartObject['data']['datasets'] = []; 
-        
     for (let i=0; i<yAxisData.length; i++){
         let temp = {};
         temp['label'] = legends[i];
@@ -144,7 +168,6 @@ function check_column_selected(){
         temp['backgroundColor'] = backgroundColrs[i];
         temp['borderColor'] = borderColrs[i];
         chartObject['data']['datasets'][i] = temp;
-        
     }
     
     linePlot = new Chart(plotArea, chartObject);
