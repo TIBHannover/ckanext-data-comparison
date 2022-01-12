@@ -205,7 +205,7 @@ class Builder():
         '''
 
         pagination_section = '<div class="row pagination-area">'
-        pagination_section += '<div class="col-sm-8">'
+        pagination_section += '<div class="col-sm-12">'
         pagination_section += ('<button type="button" class="btn prev-btn" id="page-prev-' + str(resource_id) + Tokenizer + sheet + '" > ')
         pagination_section += '<i class="fa fa fa-step-backward"></i></button>'
         pagination_section += ('<input type="text" class="page-number" id="page-number-' + str(resource_id) + Tokenizer + sheet + '" value="1" readonly>' )

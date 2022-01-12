@@ -34,25 +34,6 @@ $(document).ready(function(){
      * Select the plot type
      */
      $('body').on('change', '.plot-type', function() {
-        // let xAxisName = $.trim($('.x-axis-col').select2('data').text);
-        // if(xAxisName !== ''){
-        //     let xAxis = [];
-        //     let yAxisData = [];
-        //     let legends = [];
-        //     let keys = Object.keys(selectedData); 
-        //     keys.forEach( function(key) {
-        //         let dataColumn = data[key];            
-        //         if(key === xAxisName){
-        //             xAxis = dataColumn;
-        //         }
-        //         else{
-        //             yAxisData.push(dataColumn);  
-        //             legends.push(key);
-        //         }
-
-        //     });
-        // }      
-
         let plotType = $.trim($(this).val());
         $('#resultPlot').css('background', '');
         if (linePlot){
@@ -60,6 +41,20 @@ $(document).ready(function(){
         }  
         draw(plotType, selectedData['x'], yAxisData, legends, selectedData['xtick']);        
     });
+
+    /**
+     * click the I need two y-axis checkbox 
+     * 
+     */
+    $('#two_y_axis_checkbox').click(function(){
+        if($(this).prop('checked') === true){
+            
+        }
+        else{
+            
+        }
+    });
+
 });
 
 
@@ -86,20 +81,12 @@ $(document).ready(function(){
         if (req.readyState == XMLHttpRequest.DONE && req.status === 200) {       
             data = JSON.parse(req.responseText);
             let keys = Object.keys(data);
-            // createSelectOptions($('#xAxisColumn'), keys);
             selectedData = data;
-            // let canvas = document.getElementById('resultPlot');
-            // let context = canvas.getContext("2d");
-            // context.fillStyle = "blue";
-            // context.font = "bold 16px Arial";
-            // context.fillText("Please select the X axis for the plot.", (canvas.width / 2) - (canvas.width / 4) , (canvas.height / 2) + 8);
-            // $(canvas).css('background', '#edf783');
             $.each(selectedData['y'], function(key,value){
                 legends.push(key);
                 yAxisData.push(value);
             }); 
-            // console.info(selectedData);
-            
+        
             draw('line', selectedData['x'], yAxisData, legends, selectedData['xtick']);           
         }
     }
