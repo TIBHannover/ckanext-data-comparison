@@ -2,10 +2,11 @@ var selectedData = null;
 var linePlot = null;
 var legends = [];
 var yAxisData = [];
+var backgroundColrs = [];
+var borderColrs = [];
 
 $(document).ready(function(){
     
-
     /**
      * Click on process data button
      */
@@ -21,6 +22,8 @@ $(document).ready(function(){
                 linePlot = null;
                 legends = [];
                 yAxisData = [];
+                backgroundColrs = [];
+                borderColrs = [];
             }
             getPlotData();
         }
@@ -115,12 +118,12 @@ function check_column_selected(){
  */
  function draw(plotType, xAxis, yAxisData, legends, xAxisName){
     let plotArea = document.getElementById('resultPlot');
-    let backgroundColrs = [];
-    let borderColrs = [];
-    for (let i=0; i < yAxisData.length; i++){
-        let color = getRandomColor();
-        backgroundColrs.push(color);
-        borderColrs.push(color);
+    if (backgroundColrs.length == 0 && borderColrs.length == 0){
+        for (let i=0; i < yAxisData.length; i++){
+            let color = getRandomColor();
+            backgroundColrs.push(color);
+            borderColrs.push(color);
+        }
     }
     let chartObject = {};
     chartObject['type'] = plotType;
