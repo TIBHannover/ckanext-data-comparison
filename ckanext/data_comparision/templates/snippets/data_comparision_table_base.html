@@ -4,6 +4,11 @@
 {% set resource_url = h.url_for('dataset_resource.read', resource_id=resource['id'], package_type=package['type'], id=package['id'], _external=True) %}
 {% set res_id_addon = resource['id'] + '---' + sheet  %}
 <div class="element-container-box  table-div">
+     <div class="row close-table-column">
+        <div class="col-sm-12">
+            <button class="btn btn-sm btn-danger close_table_btn"><i class="fa fa-close"></i></button>
+        </div>   
+    </div>
     <div class="row text-center resource-name-div">
         <h3>
             {% if sheet != 'None' %}
@@ -18,9 +23,6 @@
         </h3>
     </div>
     <div class="row pagination-area">
-        <div class="col-sm-2 close-table-column">   
-            <button class="btn btn-sm btn-danger close_table_btn"><i class="fa fa-close"></i></button>
-        </div>
         <div class="col-sm-8">
             <button type="button" class="btn prev-btn" id="{{'page-prev-' ~ res_id_addon}}"><i class="fa fa-step-backward"></i></button>
             <input type="text" class="page-number" id="{{'page-number-' ~ res_id_addon}}" value="1" readonly>

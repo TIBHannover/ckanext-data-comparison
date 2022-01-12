@@ -61,8 +61,13 @@
     width: 30px;
 }
 .close-table-column{
+    float: right;
+    width: 10%;
+}   
+/* .close-table-column > div{
     margin-bottom: 0;
-}
+    position: fixed;
+} */
 .close-table-column > i{
     font-size: 24px;
     color: white;

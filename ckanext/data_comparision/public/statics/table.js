@@ -11,6 +11,7 @@ $(document).ready(function(){
         }
     }
 
+
     /**
      * Mouse over a column in a data table
      */

@@ -38,7 +38,8 @@ class Builder():
             header_section = Builder.build_table_header(resource_id, columns, sheet)
             body_section = Builder.build_table_body(resource_id, resource_data, sheet)
             table_title = Builder.build_table_title(resource_id, sheet)
-            table = root_div + table_title  + pagination_section + table_start + header_section + body_section + table_end + root_div_end
+            delete_btn = Builder.build_close_btn()
+            table = root_div + delete_btn + table_title  + pagination_section + table_start + header_section + body_section + table_end + root_div_end
         else:
             table = Builder.build_table_body(resource_id, resource_data, sheet)
 
@@ -204,7 +205,6 @@ class Builder():
         '''
 
         pagination_section = '<div class="row pagination-area">'
-        pagination_section += Builder.build_close_btn()
         pagination_section += '<div class="col-sm-8">'
         pagination_section += ('<button type="button" class="btn prev-btn" id="page-prev-' + str(resource_id) + Tokenizer + sheet + '" > ')
         pagination_section += '<i class="fa fa fa-step-backward"></i></button>'
@@ -223,8 +223,9 @@ class Builder():
             Returns:
                 - a column contains the close button.  
         '''
-
-        close_btn = '<div class="col-sm-2 close-table-column"><button class="btn btn-sm btn-danger close_table_btn"><i class="fa fa-close"></i></button></div>'       
+        close_btn = '<div class="row close-table-column"><div class="col-sm-12">'
+        close_btn += '<button class="btn btn-sm btn-danger close_table_btn"><i class="fa fa-close"></i></button>'       
+        close_btn += '</div></div>'
         return close_btn
 
 
