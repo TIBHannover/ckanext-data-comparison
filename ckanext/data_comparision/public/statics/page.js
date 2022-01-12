@@ -99,7 +99,7 @@ $(document).ready(function(){
                 yAxisData.push(value);
             }); 
             // console.info(selectedData);
-            console.info(selectedData);
+            
             draw('line', selectedData['x'], yAxisData, legends, selectedData['xtick']);           
         }
     }
