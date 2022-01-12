@@ -101,11 +101,11 @@ class BaseController():
                 if x_value not in resource_data['x']:
                     for y_vars in resource_data['y']:
                         if y_vars[0] in y_axis.keys():
-                            y_axis[y_vars[0]].append(0)
+                            y_axis[y_vars[0]].append(None)
                         else:
-                            y_axis[y_vars[0]] = [0]
+                            y_axis[y_vars[0]] = [None]
                 else:
-                    x_index = resource_data['x'].index(x_value)
+                    x_index = resource_data['x']. (x_value)
                     for y_vars in resource_data['y']:            
                         if y_vars[0] in y_axis.keys():
                             y_axis[y_vars[0]].append(y_vars[1][x_index])

@@ -1,5 +1,7 @@
 var selectedData = null;
 var linePlot = null;
+var legends = [];
+var yAxisData = [];
 
 $(document).ready(function(){
     
@@ -15,6 +17,10 @@ $(document).ready(function(){
             if (linePlot){
                 linePlot.destroy();
                 linePlot = null;
+                selectedData = null;
+                linePlot = null;
+                legends = [];
+                yAxisData = [];
             }
             getPlotData();
         }
@@ -28,30 +34,31 @@ $(document).ready(function(){
      * Select the plot type
      */
      $('body').on('change', '.plot-type', function() {
-        let xAxisName = $.trim($('.x-axis-col').select2('data').text);
-        if(xAxisName !== ''){
-            let xAxis = [];
-            let yAxisData = [];
-            let legends = [];
-            let keys = Object.keys(selectedData); 
-            let plotType = $.trim($(this).val());
-            keys.forEach( function(key) {
-                let dataColumn = data[key];            
-                if(key === xAxisName){
-                    xAxis = dataColumn;
-                }
-                else{
-                    yAxisData.push(dataColumn);  
-                    legends.push(key);
-                }
+        // let xAxisName = $.trim($('.x-axis-col').select2('data').text);
+        // if(xAxisName !== ''){
+        //     let xAxis = [];
+        //     let yAxisData = [];
+        //     let legends = [];
+        //     let keys = Object.keys(selectedData); 
+        //     keys.forEach( function(key) {
+        //         let dataColumn = data[key];            
+        //         if(key === xAxisName){
+        //             xAxis = dataColumn;
+        //         }
+        //         else{
+        //             yAxisData.push(dataColumn);  
+        //             legends.push(key);
+        //         }
 
-            });
-            $('#resultPlot').css('background', '');
-            if (linePlot){
-                linePlot.destroy();
-            }  
-            // draw(plotType, xAxis, yAxisData, legends, xAxisName);  
-        }           
+        //     });
+        // }      
+
+        let plotType = $.trim($(this).val());
+        $('#resultPlot').css('background', '');
+        if (linePlot){
+            linePlot.destroy();
+        }  
+        draw(plotType, selectedData['x'], yAxisData, legends, selectedData['xtick']);        
     });
 });
 
@@ -87,14 +94,12 @@ $(document).ready(function(){
             // context.font = "bold 16px Arial";
             // context.fillText("Please select the X axis for the plot.", (canvas.width / 2) - (canvas.width / 4) , (canvas.height / 2) + 8);
             // $(canvas).css('background', '#edf783');
-            let legends = [];
-            let yAxisData = [];
             $.each(selectedData['y'], function(key,value){
                 legends.push(key);
                 yAxisData.push(value);
             }); 
             // console.info(selectedData);
-
+            console.info(selectedData);
             draw('line', selectedData['x'], yAxisData, legends, selectedData['xtick']);           
         }
     }
