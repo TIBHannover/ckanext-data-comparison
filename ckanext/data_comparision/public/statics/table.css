@@ -3,7 +3,7 @@
     overflow-y: scroll;
     overflow-x: scroll;
     height: 400px;
-    width: 380px;
+    width: 680px;
     margin-right: 20px;
     margin-left: 20px;
     margin-bottom: 20px;
@@ -14,10 +14,8 @@
 }
 .dcom-table-cell{
     border: 1px solid black;
-    max-width: 80px;
+    /* max-width: 80px; */
     overflow: hidden;
-    text-overflow: ellipsis;
-    white-space: nowrap;
     cursor: pointer;
     border-right: 1px solid #ccc;
     border-left: 1px solid #ccc;
@@ -49,6 +47,7 @@
 .data-comp-table{
     overflow-x: scroll;
     border: 1px solid black;
+    table-layout:fixed;
 }
 .element-container-box{
     float: none;
