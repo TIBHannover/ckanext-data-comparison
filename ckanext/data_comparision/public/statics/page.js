@@ -95,7 +95,7 @@ $(document).ready(function(){
             }); 
             // console.info(selectedData);
 
-            draw('line', selectedData['x'], yAxisData, legends, 'Test');           
+            draw('line', selectedData['x'], yAxisData, legends, selectedData['xtick']);           
         }
     }
     req.open("POST", dest_url);

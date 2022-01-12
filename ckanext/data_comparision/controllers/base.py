@@ -61,6 +61,7 @@ class BaseController():
         x_axis_raw_data = []
         y_axis_raw_data = {}
         resource_x_y_axis_map = {}
+        x_axis_name = ''
         for value in columns_data:
             if '@_@' in value:
                 resource_id_raw = value.split('@_@')[0]
@@ -75,6 +76,9 @@ class BaseController():
                         resource_x_y_axis_map[resource_id] = {}
                     resource_x_y_axis_map[resource_id]['x'] = Commons.cast_string_to_num(col_data)
                     x_axis_raw_data.extend(Commons.cast_string_to_num(col_data))
+                    if x_axis_name == '':
+                        # assign x tick
+                        x_axis_name = col_name
 
                 elif dbClickedValue == '1':
                     # y axis data.
@@ -108,7 +112,7 @@ class BaseController():
                         else:
                             y_axis[y_vars[0]] = [y_vars[1][x_index]]
         
-        plot_data = {'x': x_axis, 'y': y_axis}
+        plot_data = {'x': x_axis, 'y': y_axis, 'xtick': x_axis_name}
             
         return json.dumps(plot_data)
     
