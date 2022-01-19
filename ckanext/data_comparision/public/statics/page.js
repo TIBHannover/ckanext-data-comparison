@@ -91,7 +91,13 @@ $(document).ready(function(){
             $.each(selectedData['y'], function(key,value){
                 legends.push(key);
                 yAxisData.push(value);
-            }); 
+            });
+            if(yAxisData.length > 2){
+                $('#two_axis_checkbox_container').hide();
+            } 
+            else if (yAxisData.length === 2){
+                $('#two_axis_checkbox_container').show();
+            }
         
             draw('line', selectedData['x'], yAxisData, legends, selectedData['xtick'], false);           
         }
@@ -153,7 +159,7 @@ function check_column_selected(){
         chartObject['options'] = {scales: {y: y, y1:y1, xAxes:x_scales}, responsive:true, 'plugins': plugins};
     }
     else{
-        y_scales = {beginAtZero: true, max: getMax(yAxisData) + 20, title: {display: true, text: legends[0], font: ticks_font}};
+        y_scales = {beginAtZero: true, max: getMax(yAxisData) + 20, title: {display: true, font: ticks_font}};
         chartObject['options'] = {scales: {yAxes: y_scales, xAxes:x_scales}, responsive:true, 'plugins': plugins};
     }
 
