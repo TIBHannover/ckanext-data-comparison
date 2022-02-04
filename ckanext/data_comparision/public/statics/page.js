@@ -139,22 +139,20 @@ function check_column_selected(){
     plugins = {'title': {'display': true, 'text': 'Visualization Result'}};
     ticks_font = {family: 'Times', size: 20, style: 'normal', lineHeight: 1.2};
     x_scales = {beginAtZero: true, title: {display: true, text: xAxisName, font: ticks_font}};
-    let position = 'left';
-    let detectedMultiple = false;
     if(multiAxis && yAxisData.length === 2){
         y = {
             id: legends[0],
             position: 'left',
-            beginAtZero: true, max: getMax(yAxisData) + 20,
-            title: {display: true, text: legends[0],
-            font: ticks_font}
+            beginAtZero: true, 
+            ticks:{max: Math.max.apply(Math, yAxisData[0]) + 20},
+            title: {display: true, text: legends[0], font: ticks_font}
         };
         y1 = {
             id: legends[1],
             position: 'right',
-            beginAtZero: true, max: getMax(yAxisData) + 20,
-            title: {display: true, text: legends[1],
-            font: ticks_font}
+            beginAtZero: true,
+            ticks:{max: Math.max.apply(Math, yAxisData[1]) + 20},
+            title: {display: true, text: legends[1], font: ticks_font}
         };
         chartObject['options'] = {scales: {y: y, y1:y1, xAxes:x_scales}, responsive:true, 'plugins': plugins};
     }
