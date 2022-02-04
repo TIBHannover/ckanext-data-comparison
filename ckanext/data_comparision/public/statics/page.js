@@ -4,7 +4,8 @@ var legends = [];
 var yAxisData = [];
 var backgroundColrs = [];
 var borderColrs = [];
-var defaultPlotType = 'line'
+var defaultPlotType = 'line';
+var plotColors = ['#f54242', '#5df542', '#4263f5', '#42f5e9', '#f542f5', '#000000', '#cc9900']
 
 $(document).ready(function(){
     
@@ -146,7 +147,13 @@ function check_column_selected(){
     let plotArea = document.getElementById('resultPlot');
     if (backgroundColrs.length == 0 && borderColrs.length == 0){
         for (let i=0; i < yAxisData.length; i++){
-            let color = getRandomColor();
+            let color = '';
+            if (i < plotColors.length){
+                color = plotColors[i];
+            }
+            else{
+                color = getRandomColor();
+            }
             backgroundColrs.push(color);
             borderColrs.push(color);
         }
