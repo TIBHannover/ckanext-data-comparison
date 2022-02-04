@@ -4,6 +4,7 @@ var legends = [];
 var yAxisData = [];
 var backgroundColrs = [];
 var borderColrs = [];
+var defaultPlotType = 'line'
 
 $(document).ready(function(){
     
@@ -42,7 +43,12 @@ $(document).ready(function(){
         if (linePlot){
             linePlot.destroy();
         }
-        draw(plotType, selectedData['x'], yAxisData, legends, selectedData['xtick'], $('#two_y_axis_checkbox').prop('checked'));
+        if(plotType === 'dline'){
+            draw('line', selectedData['x'], yAxisData, legends, selectedData['xtick'], $('#two_y_axis_checkbox').prop('checked'), true);    
+        }
+        else{
+            draw(plotType, selectedData['x'], yAxisData, legends, selectedData['xtick'], $('#two_y_axis_checkbox').prop('checked'), false);
+        }
     });
 
     /**
@@ -53,11 +59,22 @@ $(document).ready(function(){
         let plotType = $.trim($('.plot-type').find(":selected").val());
         if($(this).prop('checked') === true){
             linePlot.destroy();
-            draw(plotType, selectedData['x'], yAxisData, legends, selectedData['xtick'], true);
+            if(plotType === 'dline'){
+                draw('line', selectedData['x'], yAxisData, legends, selectedData['xtick'], true, true);    
+            }
+            else{
+                draw(plotType, selectedData['x'], yAxisData, legends, selectedData['xtick'], true, false);
+            }
+            
         }
         else{
             linePlot.destroy();
-            draw(plotType, selectedData['x'], yAxisData, legends, selectedData['xtick'], false);
+            if(plotType === 'dline'){
+                draw('line', selectedData['x'], yAxisData, legends, selectedData['xtick'], false, true);    
+            }
+            else{
+                draw(plotType, selectedData['x'], yAxisData, legends, selectedData['xtick'], false, false);
+            }
         }
     });
 
@@ -99,7 +116,7 @@ $(document).ready(function(){
                 $('#two_axis_checkbox_container').show();
             }
         
-            draw('line', selectedData['x'], yAxisData, legends, selectedData['xtick'], false);           
+            draw(defaultPlotType, selectedData['x'], yAxisData, legends, selectedData['xtick'], false, true);           
         }
     }
     req.open("POST", dest_url);
@@ -125,7 +142,7 @@ function check_column_selected(){
 /**
  * Draw the result plot
  */
- function draw(plotType, xAxis, yAxisData, legends, xAxisName, multiAxis){
+ function draw(plotType, xAxis, yAxisData, legends, xAxisName, multiAxis, dashed){
     let plotArea = document.getElementById('resultPlot');
     if (backgroundColrs.length == 0 && borderColrs.length == 0){
         for (let i=0; i < yAxisData.length; i++){
@@ -172,6 +189,9 @@ function check_column_selected(){
         temp['borderWidth'] = 1;
         temp['backgroundColor'] = backgroundColrs[i];
         temp['borderColor'] = borderColrs[i];
+        if(plotType == 'line' && dashed){
+            temp['borderDash'] = [5, 5];
+        }
         chartObject['data']['datasets'][i] = temp;
     }
 
