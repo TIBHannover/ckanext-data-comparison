@@ -144,15 +144,16 @@ function check_column_selected(){
             id: legends[0],
             position: 'left',
             beginAtZero: true, 
-            ticks:{max: Math.max.apply(Math, yAxisData[0]) + 20},
+            max: Math.max.apply(Math, yAxisData[0]) + 10,
             title: {display: true, text: legends[0], font: ticks_font}
         };
         y1 = {
             id: legends[1],
             position: 'right',
             beginAtZero: true,
-            ticks:{max: Math.max.apply(Math, yAxisData[1]) + 20},
-            title: {display: true, text: legends[1], font: ticks_font}
+            max: Math.max.apply(Math, yAxisData[1]) + 10,
+            title: {display: true, text: legends[1], font: ticks_font},
+            grid: {drawOnChartArea: false,}
         };
         chartObject['options'] = {scales: {y: y, y1:y1, xAxes:x_scales}, responsive:true, 'plugins': plugins};
     }
@@ -173,6 +174,12 @@ function check_column_selected(){
         temp['borderColor'] = borderColrs[i];
         chartObject['data']['datasets'][i] = temp;
     }
+
+    if(multiAxis && yAxisData.length === 2){
+        chartObject['data']['datasets'][0]['yAxisID'] = 'y';
+        chartObject['data']['datasets'][1]['yAxisID'] = 'y1';
+    }
+
     
     linePlot = new Chart(plotArea, chartObject);
     
