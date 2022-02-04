@@ -15,6 +15,9 @@ $(document).ready(function(){
     $('#back_to_selection_btn').click(function(){
         $('#analysis-result-area').fadeOut(1000);
         $('#selection-section-div').fadeIn(1000);
+        if($('#two_y_axis_checkbox').prop('checked') === true){
+            $('#two_y_axis_checkbox').click();
+        }
     });
 });
 
