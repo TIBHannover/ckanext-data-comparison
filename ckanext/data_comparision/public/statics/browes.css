@@ -93,3 +93,10 @@
   margin-top: 20px;
   margin-bottom: 15px;
 }
+
+.com-resource-tag{
+  background-color: rgb(25, 78, 9);
+  color: white;
+  font-size: 12px;
+  font-weight: bold;
+}

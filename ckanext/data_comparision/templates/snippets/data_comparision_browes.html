@@ -29,7 +29,8 @@
                                 {% for res in dt.resources %}
                                     {% if h.is_csv(res) or h.is_xlsx(res) %}
                                         <li>
-                                            <label class="checkbox-container" value={{res.id}} >{{res.name}}
+                                            <label class="checkbox-container" value={{res.id}} >{{res.name}} 
+                                              <span class="com-tag com-resource-tag">data resource</span>
                                                 <input type="checkbox" 
                                                 class="resource-box"
                                                 name="chosen_resources"  
