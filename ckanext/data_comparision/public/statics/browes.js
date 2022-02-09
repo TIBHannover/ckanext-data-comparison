@@ -18,6 +18,24 @@ $(document).ready(function(){
     });
 
 
+    /**
+     * click on the dataset name to expand/collapse
+     */
+    $('.dataset-box').click(function(){
+        let id = $(this).attr('id');
+        id = id[id.length - 1]
+        if($('#dataset-list-' + id).hasClass('hidden-list')){
+            $('#dataset-list-' + id).fadeIn();
+            $('#dataset-list-' + id).removeClass('hidden-list');        
+        }
+        else{
+            $('#dataset-list-' + id).fadeOut();
+            $('#dataset-list-' + id).addClass('hidden-list');
+        }
+
+    });
+
+
 });
 
 

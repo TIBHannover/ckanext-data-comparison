@@ -23,9 +23,11 @@
                 <ul id="browes_ul">
                     {% for dt in datasets %}
                         <li class="dataset-li">
-                            <b>{{dt.title}}</b> <span class="com-tag com-dataset-tag">Dataset</span>
+                           <div class="dataset-box" id={{'dataset-box-' ~ loop.index}}>
+                              <i class="fa fa-plus"></i> <b>{{dt.title}}</b> <span class="com-tag com-dataset-tag">Dataset</span>
+                           </div> 
                         </li>
-                            <ul class="nested">
+                            <ul class="nested resource-ul hidden-list" id={{'dataset-list-' ~ loop.index}}>
                                 {% for res in dt.resources %}
                                     {% if h.is_csv(res) or h.is_xlsx(res) %}
                                         <li>
