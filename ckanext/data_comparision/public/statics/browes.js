@@ -15,6 +15,15 @@ $(document).ready(function(){
                 $(checkboxes[i]).click();
             }
         }
+
+        let datasetBoxes = $('.dataset-box'); 
+        for(let i=0; i < datasetBoxes.length; i++){
+            if($(datasetBoxes[i]).find('i').hasClass('fa-minus-square')){
+                $(datasetBoxes[i]).find('i').addClass('fa-plus-square');
+                $(datasetBoxes[i]).find('i').removeClass('fa-minus-square');
+            }
+        }
+        $('.resource-ul').hide();
     });
 
 
