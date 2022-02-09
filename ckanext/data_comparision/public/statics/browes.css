@@ -104,3 +104,7 @@
 .resource-ul{
   display: none;
 }
+
+.dataset-box{
+  cursor: pointer;
+}

@@ -26,11 +26,15 @@ $(document).ready(function(){
         id = id[id.length - 1]
         if($('#dataset-list-' + id).hasClass('hidden-list')){
             $('#dataset-list-' + id).fadeIn();
-            $('#dataset-list-' + id).removeClass('hidden-list');        
+            $('#dataset-list-' + id).removeClass('hidden-list');
+            $(this).find('i').removeClass('fa-plus-square');
+            $(this).find('i').addClass('fa-minus-square');
         }
         else{
             $('#dataset-list-' + id).fadeOut();
             $('#dataset-list-' + id).addClass('hidden-list');
+            $(this).find('i').addClass('fa-plus-square');
+            $(this).find('i').removeClass('fa-minus-square');
         }
 
     });
