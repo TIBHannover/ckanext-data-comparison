@@ -75,3 +75,21 @@
   -ms-transform: rotate(45deg);
   transform: rotate(45deg);
 }
+
+.com-tag{
+  width: 60px;
+  padding: 5px;
+  border-radius: 25px;
+}
+
+.com-dataset-tag{
+  background-color: rgb(30, 148, 216);
+  color: white;
+  font-size: 12px;
+  font-weight: bold;
+}
+
+.dataset-li{
+  margin-top: 20px;
+  margin-bottom: 15px;
+}

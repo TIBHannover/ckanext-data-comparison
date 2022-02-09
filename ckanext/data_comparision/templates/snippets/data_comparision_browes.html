@@ -22,8 +22,8 @@
             <div class="col-sm-12">
                 <ul id="browes_ul">
                     {% for dt in datasets %}
-                        <li>
-                            <b>{{dt.title}}</b>
+                        <li class="dataset-li">
+                            <b>{{dt.title}}</b> <span class="com-tag com-dataset-tag">Dataset</span>
                         </li>
                             <ul class="nested">
                                 {% for res in dt.resources %}
