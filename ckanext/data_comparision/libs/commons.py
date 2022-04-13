@@ -4,6 +4,7 @@ from os import stat
 import ckan.plugins.toolkit as toolkit
 import clevercsv
 import pandas as pd
+import math
 
 
 
@@ -125,7 +126,7 @@ class Commons():
         file_path = RESOURCE_DIR + resource_id[0:3] + '/' + resource_id[3:6] + '/' + resource_id[6:]
         data_sheets = pd.read_excel(file_path, sheet_name=None, header=None)        
         for sheet, data_f in data_sheets.items():
-            temp_df = data_f.dropna(how='all').dropna(how='all', axis=1)
+            temp_df = data_f.dropna(how='all').dropna(how='all', axis=1).fillna(0)
             if len(temp_df) == 0:
                 continue
             if 0 in list(temp_df.columns):
@@ -138,8 +139,8 @@ class Commons():
                 final_data_df  = pd.DataFrame(temp_df.values[1:], columns=headers)
                 result_df[sheet] = final_data_df
             else:
-                headers = temp_df.iloc[1]
-                final_data_df  = pd.DataFrame(temp_df.values[2:], columns=headers)
+                headers = temp_df.iloc[0]
+                final_data_df  = pd.DataFrame(temp_df.values[1:], columns=headers)
                 result_df[sheet] = final_data_df
 
         return result_df
@@ -202,7 +203,7 @@ class Commons():
         for val in List:
             num = None
             if isinstance(val, str) and ',' in val:
-                num = val.replace(',', '.')
+                num = val.replace(',', '.')           
             else:
                 num = val
             

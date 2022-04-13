@@ -102,7 +102,8 @@ $(document).ready(function(){
     let dest_url = $('#get_selected_url').val();
     let req = new XMLHttpRequest();
     req.onreadystatechange = function() {
-        if (req.readyState == XMLHttpRequest.DONE && req.status === 200) {       
+        if (req.readyState == XMLHttpRequest.DONE && req.status === 200) {   
+            console.info(req.responseText);    
             data = JSON.parse(req.responseText);
             let keys = Object.keys(data);
             selectedData = data;
