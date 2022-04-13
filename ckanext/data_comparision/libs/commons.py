@@ -100,7 +100,12 @@ class Commons():
         file_path = RESOURCE_DIR + resource_id[0:3] + '/' + resource_id[3:6] + '/' + resource_id[6:]
         df = clevercsv.read_dataframe(file_path)
         df = df.fillna(0)
-
+        if not Commons.is_possible_to_automate(df):
+            return df
+        
+        actual_headers = df.iloc[0]
+        df = df[1:]
+        df.columns = actual_headers
         return df
 
 
