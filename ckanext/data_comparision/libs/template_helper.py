@@ -118,7 +118,7 @@ class TemplateHelper():
                 df = Commons.csv_to_dataframe(resource_id)
                 return list(df.columns)
 
-            except:
+            except:                
                 return ['Error']
 
         if file_type == 'xlsx':
@@ -131,6 +131,7 @@ class TemplateHelper():
                 return columns
 
             except:
+                raise
                 return {'Error': []}
     
 

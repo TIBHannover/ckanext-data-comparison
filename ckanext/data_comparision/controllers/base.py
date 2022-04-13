@@ -169,6 +169,7 @@ class BaseController():
         return json.dumps({'table': table})
     
 
+
     @staticmethod
     def download_file():
         '''

@@ -8,6 +8,7 @@ import pandas as pd
 
 
 RESOURCE_DIR = toolkit.config['ckan.storage_path'] + '/resources/'
+STANDARD_HEADERS = ['X-Kategorie', 'Y-Kategorie', 'Datentyp', 'Werkstoff-1', 'Werkstoff-2', 'Atmosphaere', 'Vorbehandlung']
 
 
 class Commons():
@@ -117,15 +118,28 @@ class Commons():
 
         result_df = {}
         file_path = RESOURCE_DIR + resource_id[0:3] + '/' + resource_id[3:6] + '/' + resource_id[6:]
-        data_sheets = pd.read_excel(file_path, sheet_name=None, header=None)
+        data_sheets = pd.read_excel(file_path, sheet_name=None, header=None)        
         for sheet, data_f in data_sheets.items():
             temp_df = data_f.dropna(how='all').dropna(how='all', axis=1)
-            headers = temp_df.iloc[0]
-            final_data_df  = pd.DataFrame(temp_df.values[1:], columns=headers)
-            result_df[sheet] = final_data_df
+            if len(temp_df) == 0:
+                continue
+            if 0 in list(temp_df.columns):
+                actual_headers = temp_df.iloc[0]
+                temp_df = temp_df[1:]
+                temp_df.columns = actual_headers
+            
+            if not Commons.is_possible_to_automate(temp_df):                
+                headers = temp_df.iloc[0]
+                final_data_df  = pd.DataFrame(temp_df.values[1:], columns=headers)
+                result_df[sheet] = final_data_df
+            else:
+                headers = temp_df.iloc[1]
+                final_data_df  = pd.DataFrame(temp_df.values[2:], columns=headers)
+                result_df[sheet] = final_data_df
 
         return result_df
     
+
 
     @staticmethod
     def process_resource_id(raw_id):
@@ -142,6 +156,27 @@ class Commons():
         resource_id = raw_id.split('---')[0]
         sheet = raw_id.split('---')[1]
         return [resource_id, sheet]
+    
+
+
+
+    @staticmethod
+    def is_possible_to_automate(resource_df):
+        '''
+            Is the data resource annotated by the researcher. Then, the actual headers are the second row. 
+
+            Args:
+                - resource_df: the target data resource pandas dataframe.
+
+        '''
+        
+        df_columns = resource_df.columns    
+        if len(df_columns) != len(STANDARD_HEADERS):
+            return False
+        for header in df_columns:            
+            if header.strip() not in STANDARD_HEADERS:
+                return False
+        return True
     
 
 
