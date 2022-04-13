@@ -32,7 +32,7 @@ $(document).ready(function(){
      */
     $('.dataset-box').click(function(){
         let id = $(this).attr('id');
-        id = id[id.length - 1]
+        id = id.split('dataset-box-')[1];
         if($('#dataset-list-' + id).hasClass('hidden-list')){
             $('#dataset-list-' + id).fadeIn();
             $('#dataset-list-' + id).removeClass('hidden-list');
