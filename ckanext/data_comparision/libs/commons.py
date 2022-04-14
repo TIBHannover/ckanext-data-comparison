@@ -110,6 +110,7 @@ class Commons():
         return df
 
 
+
     @staticmethod
     def xlsx_to_dataframe(resource_id):
         '''
