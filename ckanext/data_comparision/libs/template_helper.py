@@ -188,9 +188,9 @@ class TemplateHelper():
         if Commons.get_resource_type(resource_id) == 'csv':
             df = clevercsv.read_dataframe(file_path)
             if Commons.is_possible_to_automate(df):
-                if column_name in df[X_ANNOTATION]:
+                if column_name in list(df[X_ANNOTATION]):
                     return 'x'
-                elif column_name in df[Y_ANNOTATION]:
+                elif column_name in list(df[Y_ANNOTATION]):
                     return 'y'
                 else:
                     return ''
@@ -209,10 +209,11 @@ class TemplateHelper():
                     data_f = data_f[1:]
                     data_f.columns = actual_headers
                 
+                data_f.columns = [header.strip() for header in data_f.columns]
                 if Commons.is_possible_to_automate(data_f):
-                    if column_name in data_f[X_ANNOTATION]:
+                    if column_name in list(data_f[X_ANNOTATION]):
                         return 'x'
-                    elif column_name in data_f[Y_ANNOTATION]:
+                    elif column_name in list(data_f[Y_ANNOTATION]):
                         return 'y'
                     else:
                         return ''

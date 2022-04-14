@@ -36,7 +36,12 @@
                 {% for col in columns %}
                     <th class="dcom-table-cell dcom-table-header-cell {{'dcom-column-' ~ res_id_addon ~ '-' ~ loop.index}}" 
                             name="{{res_id_addon ~ '-' ~ loop.index}}">
-                       {{col}} <span class="column_x_axis_tag">X-axis</span> <span class="column_y_axis_tag">Y-axis</span>
+                       {{col}} 
+                        {% if h.get_column_anotation(resource['id'], col, sheet) == 'x' %}
+                            <span class="column_x_axis_tag">X-axis</span>
+                        {% elif h.get_column_anotation(resource['id'], col, sheet) == 'y' %}
+                            <span class="column_y_axis_tag">Y-axis</span>
+                        {% endif %}
                     </th>
                     <input 
                         type="checkbox" 

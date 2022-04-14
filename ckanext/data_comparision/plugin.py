@@ -66,5 +66,6 @@ class DataComparisionPlugin(plugins.SingletonPlugin):
             'is_xlsx': TemplateHelper.is_xlsx,
             'get_data': TemplateHelper.get_data,
             'get_columns': TemplateHelper.get_columns,
-            'get_max_table_page_count': TemplateHelper.get_max_table_page_count
+            'get_max_table_page_count': TemplateHelper.get_max_table_page_count,
+            'get_column_anotation': TemplateHelper.get_column_anotation
         }
