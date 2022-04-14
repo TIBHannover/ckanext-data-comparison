@@ -136,7 +136,7 @@ class TemplateHelper():
                 return columns
 
             except:
-                # raise
+                raise
                 return {'Error': []}
     
 

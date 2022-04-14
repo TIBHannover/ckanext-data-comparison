@@ -104,6 +104,7 @@ class Commons():
         if not Commons.is_possible_to_automate(df):
             return df
         
+        df = Commons.remove_extra_columns(df)
         actual_headers = df.iloc[0]
         df = df[1:]
         df.columns = actual_headers
@@ -140,6 +141,7 @@ class Commons():
                 final_data_df  = pd.DataFrame(temp_df.values[1:], columns=headers)
                 result_df[sheet] = final_data_df
             else:
+                temp_df = Commons.remove_extra_columns(temp_df)
                 headers = temp_df.iloc[0]
                 final_data_df  = pd.DataFrame(temp_df.values[1:], columns=headers)
                 result_df[sheet] = final_data_df
@@ -184,6 +186,19 @@ class Commons():
             if header.strip() not in STANDARD_HEADERS:
                 return False
         return True
+    
+
+
+    @staticmethod
+    def remove_extra_columns(dataframe):
+        '''
+            Remove the extra unneeded columns from an anootated data resource.            
+        '''
+        df = dataframe
+        for header in list(dataframe.columns):
+            if header.strip() in STANDARD_HEADERS and header.strip() not in ['X-Kategorie', 'Y-Kategorie']:        
+                df.drop(header, 1, inplace=True)
+        return df 
     
 
 
