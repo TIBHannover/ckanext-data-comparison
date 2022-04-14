@@ -64,11 +64,28 @@
     float: right;
     width: 10%;
 }   
-/* .close-table-column > div{
-    margin-bottom: 0;
-    position: fixed;
-} */
+
 .close-table-column > i{
     font-size: 24px;
     color: white;
+}
+
+.column_x_axis_tag{
+    width: 50px;
+    padding: 2px;
+    background-color: #A1FCB2;
+    border: 1px solid;
+    margin-left: 2px;
+    border-radius: 25px;
+    font-size: 11px;
+}
+
+.column_y_axis_tag{
+    width: 50px;
+    padding: 2px;
+    background-color: #96F9FF;
+    border: 1px solid;
+    margin-left: 2px;
+    border-radius: 25px;
+    font-size: 11px;
 }

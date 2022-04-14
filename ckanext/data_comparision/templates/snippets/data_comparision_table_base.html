@@ -36,7 +36,7 @@
                 {% for col in columns %}
                     <th class="dcom-table-cell dcom-table-header-cell {{'dcom-column-' ~ res_id_addon ~ '-' ~ loop.index}}" 
                             name="{{res_id_addon ~ '-' ~ loop.index}}">
-                       {{col}}             
+                       {{col}} <span class="column_x_axis_tag">X-axis</span> <span class="column_y_axis_tag">Y-axis</span>
                     </th>
                     <input 
                         type="checkbox" 
