@@ -2,6 +2,7 @@
 
 import ckan.plugins.toolkit as toolkit
 import ckan.lib.helpers as h
+from ckanext.data_comparision.libs.template_helper import TemplateHelper
 
 
 Tokenizer = '---'
@@ -144,6 +145,10 @@ class Builder():
         cell += ('dcom-column-' + str(resource_id) + Tokenizer + sheet + '-' + str(Id) + '" ')
         cell += ('name="' +  str(resource_id) + Tokenizer + sheet + '-' + str(Id) + '"> ')
         cell += str(value)
+        if TemplateHelper.get_column_anotation(resource_id, value, sheet) == 'x':
+            cell += '<span class="column_x_axis_tag">X-axis</span>'
+        elif TemplateHelper.get_column_anotation(resource_id, value, sheet) == 'y':
+            cell += '<span class="column_y_axis_tag">Y-axis</span>'
         cell + '</th>'
         return cell
     

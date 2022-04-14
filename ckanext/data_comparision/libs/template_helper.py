@@ -187,6 +187,7 @@ class TemplateHelper():
 
         if Commons.get_resource_type(resource_id) == 'csv':
             df = clevercsv.read_dataframe(file_path)
+            df.columns = [header.strip() for header in df.columns]
             if Commons.is_possible_to_automate(df):
                 if column_name in list(df[X_ANNOTATION]):
                     return 'x'
