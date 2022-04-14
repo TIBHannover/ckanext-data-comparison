@@ -1,13 +1,18 @@
 # encoding: utf-8
 
+from re import X
 from unicodedata import name
 import ckan.plugins.toolkit as toolkit
 import ckan.lib.helpers as h
 import pandas as pd
 from ckanext.data_comparision.libs.commons import Commons
+import clevercsv
 
 
 PAGINATION_SIZE = 50
+RESOURCE_DIR = toolkit.config['ckan.storage_path'] + '/resources/'
+X_ANNOTATION = "X-Kategorie"
+Y_ANNOTATION = "Y-Kategorie"
 
 class TemplateHelper():
     '''
@@ -37,6 +42,7 @@ class TemplateHelper():
         return (format in ['CSV']) or ('.csv' in name)
 
     
+
     @staticmethod
     def is_xlsx(resource):
         '''
@@ -60,6 +66,7 @@ class TemplateHelper():
         
         return (format in ['XLSX']) or ('.xlsx' in name)
     
+
     
     @staticmethod
     def get_data(resource_id, page, sheet_name=None):
@@ -97,8 +104,6 @@ class TemplateHelper():
             return []
 
        
-    
-
 
     @staticmethod
     def get_columns(resource_id):
@@ -131,9 +136,10 @@ class TemplateHelper():
                 return columns
 
             except:
-                # raise
+                raise
                 return {'Error': []}
     
+
 
     @staticmethod
     def get_max_table_page_count(resource_id, sheet_name=None):
@@ -160,6 +166,62 @@ class TemplateHelper():
         
         except:
             return 1
+    
+
+
+    @staticmethod
+    def get_column_anotation(resource_id, column_name, sheet_name=None):
+        '''
+            Get the column "x-axis/y-axis" tag for the table view. The tag is based on column annotation (if exists)
+
+            Args:
+                - resource_id
+                - column_name
+                - sheet_name (for xlsx files)
+            
+            Return:
+                - 'x' | 'y' | ''
+        '''
+
+        file_path = RESOURCE_DIR + resource_id[0:3] + '/' + resource_id[3:6] + '/' + resource_id[6:]
+
+        if Commons.get_resource_type(resource_id) == 'csv':
+            df = clevercsv.read_dataframe(file_path)
+            df.columns = [header.strip() for header in df.columns]
+            if Commons.is_possible_to_automate(df):
+                if column_name in list(df[X_ANNOTATION]):
+                    return 'x'
+                elif column_name in list(df[Y_ANNOTATION]):
+                    return 'y'
+                else:
+                    return ''
+        
+            else:
+                return ''
+        
+        if Commons.get_resource_type(resource_id) == 'xlsx':
+             data_sheets = pd.read_excel(file_path, sheet_name=None, header=None)
+             for sheet, data_f in data_sheets.items():
+                if sheet != sheet_name or len(data_f) == 0:
+                    continue
+                
+                if 0 in list(data_f.columns):
+                    actual_headers = data_f.iloc[0]
+                    data_f = data_f[1:]
+                    data_f.columns = actual_headers
+                
+                data_f.columns = [header.strip() for header in data_f.columns]
+                if Commons.is_possible_to_automate(data_f):
+                    if column_name in list(data_f[X_ANNOTATION]):
+                        return 'x'
+                    elif column_name in list(data_f[Y_ANNOTATION]):
+                        return 'y'
+                    else:
+                        return ''
+                else:
+                    return ''
+
+        return ''
 
     
     

@@ -11,6 +11,11 @@ $(document).ready(function(){
         }
     }
 
+    let doubleClickCheckboxes = $('.hidden_dbclick_checker');
+    for (let i=0; i < doubleClickCheckboxes.length; i++){
+        $(doubleClickCheckboxes[i]).val('0');
+    }
+
 
     /**
      * Mouse over a column in a data table

@@ -62,6 +62,7 @@ class BaseController():
         y_axis_raw_data = {}
         resource_x_y_axis_map = {}
         x_axis_name = ''
+        existed_y_labels = []
         for value in columns_data:
             if '@_@' in value:
                 resource_id_raw = value.split('@_@')[0]
@@ -82,6 +83,12 @@ class BaseController():
 
                 elif dbClickedValue == '1':
                     # y axis data.
+                    if col_name in existed_y_labels:
+                        col_name = col_name + '()'
+                        existed_y_labels.append(col_name)
+                    else:
+                        existed_y_labels.append(col_name)
+
                     if resource_id not in resource_x_y_axis_map.keys():
                         resource_x_y_axis_map[resource_id] = {}
                         resource_x_y_axis_map[resource_id]['y'] = []
@@ -91,6 +98,8 @@ class BaseController():
                         resource_x_y_axis_map[resource_id]['y'].append([col_name, Commons.cast_string_to_num(col_data)]) 
                     else:
                         resource_x_y_axis_map[resource_id]['y'].append([col_name, Commons.cast_string_to_num(col_data)]) 
+                
+            
         
         # sort the x axis data to merge all selected x axises (double clicked). remove duplicates
         x_axis = sorted(list(set(x_axis_raw_data)))
@@ -99,20 +108,21 @@ class BaseController():
         for x_value in x_axis:
             for resource_id, resource_data in resource_x_y_axis_map.items():
                 if x_value not in resource_data['x']:
-                    for y_vars in resource_data['y']:
+                    for y_vars in resource_data['y']:                        
                         if y_vars[0] in y_axis.keys():
                             y_axis[y_vars[0]].append(0)
                         else:
                             y_axis[y_vars[0]] = [0]
                 else:
                     x_index = resource_data['x'].index(x_value)
-                    for y_vars in resource_data['y']:            
+                    for y_vars in resource_data['y']:                                  
                         if y_vars[0] in y_axis.keys():
                             y_axis[y_vars[0]].append(y_vars[1][x_index])
                         else:
                             y_axis[y_vars[0]] = [y_vars[1][x_index]]
+                
         
-        plot_data = {'x': x_axis, 'y': y_axis, 'xtick': x_axis_name}
+        plot_data = {'x': x_axis, 'y': y_axis, 'xtick': x_axis_name}        
             
         return json.dumps(plot_data)
     

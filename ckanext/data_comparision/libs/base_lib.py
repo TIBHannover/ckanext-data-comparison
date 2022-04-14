@@ -62,6 +62,7 @@ class Helper():
             return list(df[column_name])
 
         except:
+            # raise
             return None
         
 
