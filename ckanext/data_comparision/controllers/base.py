@@ -63,6 +63,7 @@ class BaseController():
         resource_x_y_axis_map = {}
         x_axis_name = ''
         existed_y_labels = []
+        existed_y_labels_counter = {}
         for value in columns_data:
             if '@_@' in value:
                 resource_id_raw = value.split('@_@')[0]
@@ -84,7 +85,11 @@ class BaseController():
                 elif dbClickedValue == '1':
                     # y axis data.
                     if col_name in existed_y_labels:
-                        col_name = col_name + '()'
+                        if col_name in existed_y_labels_counter.keys():
+                            existed_y_labels_counter[col_name] += 1
+                        else:
+                            existed_y_labels_counter[col_name] = 1
+                            col_name = col_name + '(' + str(existed_y_labels_counter[col_name] + 1) + ')'
                         existed_y_labels.append(col_name)
                     else:
                         existed_y_labels.append(col_name)
