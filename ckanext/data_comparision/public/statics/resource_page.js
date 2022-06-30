@@ -33,6 +33,9 @@ $(document).ready(function(){
                         counter += 1;
                     });
                 }        
+            }
+            else{
+                $('#analysis-result-area').hide();
             }              
         }
     }

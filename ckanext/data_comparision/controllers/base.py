@@ -288,7 +288,13 @@ class BaseController():
                     
                     plot_data[sheet] = {'x': x, 'y': y, 'x_tick': x_tick, 'y_tick': y_tick}
             
+            if len(plot_data.keys()) == 0:
+                return "false"
+
             return json.dumps(plot_data)
+        
+        else:
+            return "false"
 
 
 
