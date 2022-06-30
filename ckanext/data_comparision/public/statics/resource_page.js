@@ -5,7 +5,7 @@ $(document).ready(function(){
     let req = new XMLHttpRequest();
     req.onreadystatechange = function() {
         if (req.readyState == XMLHttpRequest.DONE && req.status === 200) {   
-            // console.info(req.responseText);    
+            console.info(req.responseText);    
             data = JSON.parse(req.responseText);
             if (data.hasOwnProperty('x')){
                 // data is csv
@@ -39,8 +39,14 @@ $(document).ready(function(){
     plugins = {'title': {'display': true, 'text': 'Visualization Result'}};
     ticks_font = {family: 'Times', size: 20, style: 'normal', lineHeight: 1.2};
     x_scales = {beginAtZero: true, title: {display: true, text: xAxisName, font: ticks_font}};
-    y_scales = {beginAtZero: true, max: getMax(yAxisData) + 20, title: {display: true, font: ticks_font}};
-    chartObject['options'] = {scales: {yAxes: y_scales, xAxes:x_scales}, responsive:true, 'plugins': plugins};
+    y = {
+        id: legends[0],
+        position: 'left',
+        beginAtZero: true, 
+        max: Math.max.apply(Math, yAxisData[0]) + 10,
+        title: {display: true, text: legends[0], font: ticks_font}
+    };
+    chartObject['options'] = {scales: {y: y, xAxes:x_scales}, responsive:true, 'plugins': plugins};
     chartObject['data'] = {};
     chartObject['data']['labels'] = xAxis; 
     chartObject['data']['datasets'] = []; 
