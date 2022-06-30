@@ -13,7 +13,22 @@ $(document).ready(function(){
                     draw('line', data['x'], [data['y']], [data['y_tick']], data['x_tick'], false, true);
                 }
                 else{
-    
+                    // data is xlsx
+                    let counter = 1;
+                    $.each(data, function(key, value){
+                        if (counter === 1){
+                            draw('line', value['x'], [value['y']], [value['y_tick']], value['x_tick'], false, true);
+                        }
+                        else{
+                            let canvas = document.createElement('canvas');
+                            canvas.setAttribute('id', "resultPlot" + counter);
+                            canvas.setAttribute('width', "300");
+                            canvas.setAttribute('height', "200");
+                            $('.plot-col-box').append(canvas);
+                            draw('line', value['x'], [value['y']], [value['y_tick']], value['x_tick'], false, true, "resultPlot" + counter);
+                        }
+                        counter += 1;
+                    });
                 }        
             }              
         }
@@ -26,8 +41,8 @@ $(document).ready(function(){
 /**
  * Draw the result plot
  */
- function draw(plotType, xAxis, yAxisData, legends, xAxisName, multiAxis, dashed){
-    let plotArea = document.getElementById('resultPlot');
+ function draw(plotType, xAxis, yAxisData, legends, xAxisName, multiAxis, dashed, canvasId="resultPlot"){
+    let plotArea = document.getElementById(canvasId);
     let colors = [];
     for (let i=0; i < yAxisData.length; i++){
         let color = '';
