@@ -103,7 +103,7 @@ $(document).ready(function(){
     let req = new XMLHttpRequest();
     req.onreadystatechange = function() {
         if (req.readyState == XMLHttpRequest.DONE && req.status === 200) {   
-            console.info(req.responseText);    
+            // console.info(req.responseText);    
             data = JSON.parse(req.responseText);
             let keys = Object.keys(data);
             selectedData = data;
