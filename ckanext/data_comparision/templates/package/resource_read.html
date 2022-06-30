@@ -14,7 +14,7 @@
     {% asset 'ckanext-data-comparision/resource-page-js' %}
     <input type="hidden" id="resource_plot_preview_url" value={{h.url_for('data_comparision.get_one_resource_plot_data', resource_id=resource['id'] , _external=True)}}>
     <div class="row"  id="analysis-result-area">
-        <div class="col-sm-12">
+        <div class="col-sm-12" id="resource-preview-canvas-area">
             <div class="col-sm-4 plot-col-box">
                 <canvas id="resultPlot" width="300" height="200"></canvas>    
             </div>

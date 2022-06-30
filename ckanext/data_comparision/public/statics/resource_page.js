@@ -17,15 +17,18 @@ $(document).ready(function(){
                     let counter = 1;
                     $.each(data, function(key, value){
                         if (counter === 1){
-                            draw('line', value['x'], [value['y']], [value['y_tick']], value['x_tick'], false, true);
+                            draw('line', value['x'], [value['y']], [value['y_tick']], value['x_tick'], false, true, "resultPlot", text="sheet: " + key);
                         }
                         else{
                             let canvas = document.createElement('canvas');
                             canvas.setAttribute('id', "resultPlot" + counter);
                             canvas.setAttribute('width', "300");
                             canvas.setAttribute('height', "200");
-                            $('.plot-col-box').append(canvas);
-                            draw('line', value['x'], [value['y']], [value['y_tick']], value['x_tick'], false, true, "resultPlot" + counter);
+                            let div = document.createElement('div');
+                            div.classList.add("col-sm-4");
+                            div.append(canvas);
+                            $('#resource-preview-canvas-area').append(div);                            
+                            draw('line', value['x'], [value['y']], [value['y_tick']], value['x_tick'], false, true, "resultPlot" + counter, text="sheet: " + key);
                         }
                         counter += 1;
                     });
@@ -41,7 +44,7 @@ $(document).ready(function(){
 /**
  * Draw the result plot
  */
- function draw(plotType, xAxis, yAxisData, legends, xAxisName, multiAxis, dashed, canvasId="resultPlot"){
+ function draw(plotType, xAxis, yAxisData, legends, xAxisName, multiAxis, dashed, canvasId="resultPlot", text="Visualization Result"){
     let plotArea = document.getElementById(canvasId);
     let colors = [];
     for (let i=0; i < yAxisData.length; i++){
@@ -56,7 +59,7 @@ $(document).ready(function(){
     }
     let chartObject = {};
     chartObject['type'] = plotType;
-    plugins = {'title': {'display': true, 'text': 'Visualization Result'}};
+    plugins = {'title': {'display': true, 'text': text}};
     ticks_font = {family: 'Times', size: 20, style: 'normal', lineHeight: 1.2};
     x_scales = {beginAtZero: true, title: {display: true, text: xAxisName, font: ticks_font}};
     y = {
