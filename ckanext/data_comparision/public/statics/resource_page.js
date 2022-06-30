@@ -5,12 +5,17 @@ $(document).ready(function(){
     let req = new XMLHttpRequest();
     req.onreadystatechange = function() {
         if (req.readyState == XMLHttpRequest.DONE && req.status === 200) {   
-            console.info(req.responseText);    
-            data = JSON.parse(req.responseText);
-            if (data.hasOwnProperty('x')){
-                // data is csv
-                draw('line', data['x'], [data['y']], [data['y_tick']], data['x_tick'], false, true);
-            }                      
+            // console.info(req.responseText);    
+            if(req.responseText !== "false"){
+                data = JSON.parse(req.responseText);
+                if (data.hasOwnProperty('x')){
+                    // data is csv
+                    draw('line', data['x'], [data['y']], [data['y_tick']], data['x_tick'], false, true);
+                }
+                else{
+    
+                }        
+            }              
         }
     }
     req.open("GET", dest_url);
