@@ -56,6 +56,13 @@ class DataComparisionPlugin(plugins.SingletonPlugin):
             BaseController.download_file,
             methods=['POST']
             )
+        
+        blueprint.add_url_rule(
+            u'/data_comparision/get_one_resource_plot_data/<resource_id>',
+            u'get_one_resource_plot_data',
+            BaseController.get_one_resource_plot_data,
+            methods=['GET']
+            )
 
         return blueprint
     

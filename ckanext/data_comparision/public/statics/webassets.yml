@@ -67,3 +67,17 @@ result-js:
       - vendor/jquery.ui.core
   contents:
     - result.js
+
+
+resource-page-js:  
+  output: ckanext-data-comparision/%(version)s_my.js
+  extra:
+    preload:
+      - base/main
+      - vendor/vendor
+      - vendor/bootstrap
+      - vendor/jquery
+      - vendor/jquery.ui.core
+  contents:
+    - chart.js/dist/chart.js
+    - resource_page.js

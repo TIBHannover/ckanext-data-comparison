@@ -4,8 +4,9 @@ from flask import render_template, request, make_response
 import ckan.plugins.toolkit as toolkit
 from ckanext.data_comparision.libs.base_lib import Helper
 import json
-import csv
+import csv, clevercsv
 from io import StringIO
+import pandas as pd
 from ckanext.data_comparision.libs.commons import Commons
 from ckanext.data_comparision.libs.template_helper import TemplateHelper
 
@@ -211,3 +212,92 @@ class BaseController():
         
         except:
             return toolkit.abort(500, 'Download failed!') 
+
+
+
+    @staticmethod
+    def get_one_resource_plot_data(resource_id):
+        '''
+            Return the plot data for one data resource. used for plotting preview for a data.
+        '''
+
+        context = {'user': toolkit.g.user, 'auth_user_obj': toolkit.g.userobj}
+        data_dict = {'id':resource_id}
+        try:
+            toolkit.check_access('resource_show', context, data_dict)
+
+        except toolkit.NotAuthorized:
+            return []
+        
+        RESOURCE_DIR = toolkit.config['ckan.storage_path'] + '/resources/'
+        file_path = RESOURCE_DIR + resource_id[0:3] + '/' + resource_id[3:6] + '/' + resource_id[6:]
+        resource = toolkit.get_action('resource_show')({}, {'id': resource_id})
+        
+        if TemplateHelper.is_csv(resource):
+            # resource is csv
+            
+            df = clevercsv.read_dataframe(file_path)
+            if not Commons.is_possible_to_automate(df):
+                return "false"
+            
+            df = Commons.csv_to_dataframe(resource_id)
+            x = []
+            y = []
+            x_tick = ""
+            y_tick = ""
+            for col in df.columns:
+                if TemplateHelper.get_column_anotation(resource_id, col) == 'x':
+                    x = list(df[col].values)
+                    x_tick = col
+                elif TemplateHelper.get_column_anotation(resource_id, col) == 'y':
+                    y = list(df[col].values)
+                    y_tick = col
+            
+            return json.dumps({'x': x, 'y': y, 'x_tick': x_tick, 'y_tick': y_tick})
+        
+        elif  TemplateHelper.is_xlsx(resource):
+            # resource is xlsx
+            plot_data = {}
+            data_sheets = pd.read_excel(file_path, sheet_name=None, header=None)   
+            for sheet, data_f in data_sheets.items():
+                x = []
+                y = []
+                x_tick = ""
+                y_tick = ""
+                temp_df = data_f.dropna(how='all').dropna(how='all', axis=1).fillna(0)
+                if len(temp_df) == 0:
+                    continue
+                if 0 in list(temp_df.columns):
+                    actual_headers = temp_df.iloc[0]
+                    temp_df = temp_df[1:]
+                    temp_df.columns = actual_headers
+                
+                if not Commons.is_possible_to_automate(temp_df):                
+                    continue
+                else:
+                    temp_df = Commons.remove_extra_columns(temp_df)
+                    headers = temp_df.iloc[0]
+                    final_data_df  = pd.DataFrame(temp_df.values[1:], columns=headers)
+                    for col in final_data_df.columns:
+                        if TemplateHelper.get_column_anotation(resource_id, col, sheet) == 'x':
+                            x = list(final_data_df[col].values)
+                            x_tick = col
+                        elif TemplateHelper.get_column_anotation(resource_id, col, sheet) == 'y':
+                            y = list(final_data_df[col].values)
+                            y_tick = col
+                    
+                    plot_data[sheet] = {'x': x, 'y': y, 'x_tick': x_tick, 'y_tick': y_tick}
+            
+            if len(plot_data.keys()) == 0:
+                return "false"
+
+            return json.dumps(plot_data)
+        
+        else:
+            return "false"
+
+
+
+
+
+
