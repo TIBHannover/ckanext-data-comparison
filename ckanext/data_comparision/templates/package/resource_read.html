@@ -1,9 +1,11 @@
 {% ckan_extends %}
 
 {% block resource_actions_inner %}
-    {%  set dest = h.url_for('data_comparision.base_view', package_name=pkg_dict['name'], resId=resource['id'] , _external=True) %}
-    <a href="{{dest}}" class="btn btn-primary" type="button">{{_('Data Comparision')}}</a>
-    {{ super() }}
+    {% if not h.is_enabled("sfb_layout") %}
+        {%  set dest = h.url_for('data_comparision.base_view', package_name=pkg_dict['name'], resId=resource['id'] , _external=True) %}
+        <a href="{{dest}}" class="btn btn-primary" type="button">{{_('Data Comparision')}}</a>
+        {{ super() }}
+    {% endif %}
 
 
 {% endblock resource_actions_inner %}
@@ -11,14 +13,16 @@
 
 {% block resource_content %}
     {{ super() }}
-    {% asset 'ckanext-data-comparision/resource-page-js' %}
-    <input type="hidden" id="resource_plot_preview_url" value={{h.url_for('data_comparision.get_one_resource_plot_data', resource_id=resource['id'] , _external=True)}}>
-    <div class="row"  id="analysis-result-area">
-        <div class="col-sm-12" id="resource-preview-canvas-area">
-            <div class="col-sm-4 plot-col-box">
-                <canvas id="resultPlot" width="300" height="200"></canvas>    
-            </div>
-        </div>              
-    </div>
+     {% if not h.is_enabled("sfb_layout") %}
+        {% asset 'ckanext-data-comparision/resource-page-js' %}
+        <input type="hidden" id="resource_plot_preview_url" value={{h.url_for('data_comparision.get_one_resource_plot_data', resource_id=resource['id'] , _external=True)}}>
+        <div class="row"  id="analysis-result-area">
+            <div class="col-sm-12" id="resource-preview-canvas-area">
+                <div class="col-sm-4 plot-col-box">
+                    <canvas id="resultPlot" width="300" height="200"></canvas>    
+                </div>
+            </div>              
+        </div>
+    {% endif %}
 
 {% endblock resource_content %}
