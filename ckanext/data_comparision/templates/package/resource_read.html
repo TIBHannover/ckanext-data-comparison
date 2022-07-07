@@ -4,10 +4,8 @@
     {% if not h.is_enabled("sfb_layout") %}
         {%  set dest = h.url_for('data_comparision.base_view', package_name=pkg_dict['name'], resId=resource['id'] , _external=True) %}
         <a href="{{dest}}" class="btn btn-primary" type="button">{{_('Data Comparision')}}</a>
-        {{ super() }}
     {% endif %}
-
-
+    {{ super() }}
 {% endblock resource_actions_inner %}
 
 
