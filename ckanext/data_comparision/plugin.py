@@ -74,5 +74,6 @@ class DataComparisionPlugin(plugins.SingletonPlugin):
             'get_data': TemplateHelper.get_data,
             'get_columns': TemplateHelper.get_columns,
             'get_max_table_page_count': TemplateHelper.get_max_table_page_count,
-            'get_column_anotation': TemplateHelper.get_column_anotation
+            'get_column_anotation': TemplateHelper.get_column_anotation,
+            'is_enabled': TemplateHelper.check_plugin_enabled
         }
