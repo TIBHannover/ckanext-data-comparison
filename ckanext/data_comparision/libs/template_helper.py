@@ -187,7 +187,7 @@ class TemplateHelper():
 
         if Commons.get_resource_type(resource_id) == 'csv':
             df = clevercsv.read_dataframe(file_path)
-            df.columns = [header.strip() for header in df.columns]
+            df.columns = [str(header).strip() for header in df.columns]
             if Commons.is_possible_to_automate(df):
                 if column_name in list(df[X_ANNOTATION]):
                     return 'x'
@@ -210,7 +210,7 @@ class TemplateHelper():
                     data_f = data_f[1:]
                     data_f.columns = actual_headers
                 
-                data_f.columns = [header.strip() for header in data_f.columns]
+                data_f.columns = [str(header).strip() for header in data_f.columns]
                 if Commons.is_possible_to_automate(data_f):
                     if column_name in list(data_f[X_ANNOTATION]):
                         return 'x'
