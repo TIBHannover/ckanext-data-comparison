@@ -111,14 +111,15 @@ class BaseController():
         x_axis = sorted(list(set(x_axis_raw_data)))
 
         y_axis = {}
+        replace_value = None
         for x_value in x_axis:
             for resource_id, resource_data in resource_x_y_axis_map.items():
                 if x_value not in resource_data['x']:
                     for y_vars in resource_data['y']:                        
                         if y_vars[0] in y_axis.keys():
-                            y_axis[y_vars[0]].append(0)
+                            y_axis[y_vars[0]].append(replace_value)
                         else:
-                            y_axis[y_vars[0]] = [0]
+                            y_axis[y_vars[0]] = [replace_value]
                 else:
                     x_index = resource_data['x'].index(x_value)
                     for y_vars in resource_data['y']:                                  
