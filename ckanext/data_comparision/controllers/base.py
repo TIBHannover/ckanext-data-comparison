@@ -55,7 +55,11 @@ class BaseController():
                 - POST
 
             Returns:
-                - ???        
+                - {'x': x_axis, 'y': y_axis, 'xtick': x_axis_name} where:
+
+                    'x': x axis values sorted
+                    'y': all y axis values in format --> "column_name": [values]
+                    'xtick': x axis label       
         '''
 
         columns_data = request.form.getlist('columns[]') 
@@ -115,8 +119,10 @@ class BaseController():
         for x_value in x_axis:
             for resource_id, resource_data in resource_x_y_axis_map.items():
                 if x_value not in resource_data['x']:
+                    # if x value does not exist for the y in this data resource (put None)
                     for y_vars in resource_data['y']:                        
                         if y_vars[0] in y_axis.keys():
+                            # y_vars[0] is the column name
                             y_axis[y_vars[0]].append(replace_value)
                         else:
                             y_axis[y_vars[0]] = [replace_value]
