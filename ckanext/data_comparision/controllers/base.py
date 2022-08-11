@@ -254,12 +254,15 @@ class BaseController():
             y_tick = ""
             for col in df.columns:
                 if TemplateHelper.get_column_anotation(resource_id, col) == 'x':
-                    x = list(df[col].values)
+                    x = Commons.cast_string_to_num(list(df[col].values))
                     x_tick = col
                 elif TemplateHelper.get_column_anotation(resource_id, col) == 'y':
-                    y = list(df[col].values)
+                    y = Commons.cast_string_to_num(list(df[col].values))
                     y_tick = col
             
+            zipped = sorted(zip(x, y), key=lambda x: x[0])
+            x = [i[0] for i in zipped]
+            y = [i[1] for i in zipped] 
             return json.dumps({'x': x, 'y': y, 'x_tick': x_tick, 'y_tick': y_tick})
         
         elif  TemplateHelper.is_xlsx(resource):
@@ -287,12 +290,15 @@ class BaseController():
                     final_data_df  = pd.DataFrame(temp_df.values[1:], columns=headers)
                     for col in final_data_df.columns:
                         if TemplateHelper.get_column_anotation(resource_id, col, sheet) == 'x':
-                            x = list(final_data_df[col].values)
+                            x = Commons.cast_string_to_num(list(final_data_df[col].values))
                             x_tick = col
                         elif TemplateHelper.get_column_anotation(resource_id, col, sheet) == 'y':
-                            y = list(final_data_df[col].values)
+                            y = Commons.cast_string_to_num(list(final_data_df[col].values))
                             y_tick = col
                     
+                    zipped = sorted(zip(x, y), key=lambda x: x[0])
+                    x = [i[0] for i in zipped]
+                    y = [i[1] for i in zipped] 
                     plot_data[sheet] = {'x': x, 'y': y, 'x_tick': x_tick, 'y_tick': y_tick}
             
             if len(plot_data.keys()) == 0:
