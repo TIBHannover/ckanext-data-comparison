@@ -13,6 +13,8 @@ PAGINATION_SIZE = 50
 RESOURCE_DIR = toolkit.config['ckan.storage_path'] + '/resources/'
 X_ANNOTATION = "X-Kategorie"
 Y_ANNOTATION = "Y-Kategorie"
+X_ANNOTATION_v2 = "X-Category"
+Y_ANNOTATION_v2 = "Y-Category"
 
 class TemplateHelper():
     '''
@@ -188,10 +190,14 @@ class TemplateHelper():
         if Commons.get_resource_type(resource_id) == 'csv':
             df = clevercsv.read_dataframe(file_path)
             df.columns = [str(header).strip() for header in df.columns]
-            if Commons.is_possible_to_automate(df):
-                if column_name in list(df[X_ANNOTATION]):
+            if Commons.is_possible_to_automate(df):                
+                if X_ANNOTATION in df.columns and column_name == list(df[X_ANNOTATION])[0].strip():
                     return 'x'
-                elif column_name in list(df[Y_ANNOTATION]):
+                elif X_ANNOTATION_v2 in df.columns and column_name == list(df[X_ANNOTATION_v2])[0].strip():
+                    return 'x'
+                elif Y_ANNOTATION in df.columns and column_name == list(df[Y_ANNOTATION])[0].strip():
+                    return 'y'
+                elif Y_ANNOTATION_v2 in df.columns and column_name == list(df[Y_ANNOTATION_v2])[0].strip():
                     return 'y'
                 else:
                     return ''
@@ -211,14 +217,22 @@ class TemplateHelper():
                     data_f.columns = actual_headers
                 
                 data_f.columns = [str(header).strip() for header in data_f.columns]
-                if Commons.is_possible_to_automate(data_f):
-                    if column_name in list(data_f[X_ANNOTATION]):
-                        return 'x'
-                    elif column_name in list(data_f[Y_ANNOTATION]):
-                        return 'y'
-                    else:
+                if Commons.is_possible_to_automate(data_f):                    
+                    try:
+                        if X_ANNOTATION in data_f.columns and column_name == list(data_f[X_ANNOTATION])[0].strip():
+                            return 'x'
+                        elif X_ANNOTATION_v2 in data_f.columns and column_name == list(data_f[X_ANNOTATION_v2])[0].strip():
+                            return 'x'
+                        elif Y_ANNOTATION in data_f.columns and column_name == list(data_f[Y_ANNOTATION])[0].strip():
+                            return 'y'
+                        elif Y_ANNOTATION_v2 in data_f.columns and column_name == list(data_f[Y_ANNOTATION_v2])[0].strip():
+                            return 'y'
+                        else:
+                            return ''
+                    except:        
+                        # raise                
                         return ''
-                else:
+                else:                
                     return ''
 
         return ''
