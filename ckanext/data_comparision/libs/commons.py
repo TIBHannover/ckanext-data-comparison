@@ -9,7 +9,8 @@ import math
 
 
 RESOURCE_DIR = toolkit.config['ckan.storage_path'] + '/resources/'
-STANDARD_HEADERS = ['X-Kategorie', 'Y-Kategorie', 'Datentyp', 'Werkstoff-1', 'Werkstoff-2', 'Atmosphaere', 'Vorbehandlung']
+STANDARD_HEADERS_V1 = ['X-Kategorie', 'Y-Kategorie']
+STANDARD_HEADERS_V2 = ['X-Category', 'Y-Category']
 
 
 class Commons():
@@ -179,14 +180,21 @@ class Commons():
 
         '''
         
-        df_columns = resource_df.columns    
-        if len(df_columns) != len(STANDARD_HEADERS):
-            return False
-        for header in df_columns:            
-            if header.strip() not in STANDARD_HEADERS:
+        df_columns = resource_df.columns
+        df_columns = [i.strip() for i in df_columns]
+        answer = True
+        for h in STANDARD_HEADERS_V1:
+            if h not in df_columns:
+                answer = False
+                break
+        if answer:
+            return answer
+
+        for h in STANDARD_HEADERS_V2:
+            if h not in df_columns:
                 return False
+
         return True
-    
 
 
     @staticmethod
@@ -194,11 +202,12 @@ class Commons():
         '''
             Remove the extra unneeded columns from an anootated data resource.            
         '''
-        df = dataframe
-        for header in list(dataframe.columns):
-            if header.strip() in STANDARD_HEADERS and header.strip() not in ['X-Kategorie', 'Y-Kategorie']:        
-                df.drop(header, 1, inplace=True)
-        return df 
+
+        cols = list(dataframe.columns)
+        for h in cols:
+            if h.strip() not in STANDARD_HEADERS_V1 and h.strip() not in STANDARD_HEADERS_V2:
+                dataframe.drop(h, 1, inplace=True) 
+        return dataframe
     
 
 
