@@ -11,6 +11,7 @@ $(document).ready(function(){
                 if (data.hasOwnProperty('x')){
                     // data is csv
                     draw('line', data['x'], [data['y']], [data['y_tick']], data['x_tick'], false, true);
+                    $('.attemp-to-plot-loading').hide();
                 }
                 else{
                     // data is xlsx
@@ -31,6 +32,7 @@ $(document).ready(function(){
                             draw('line', value['x'], [value['y']], [value['y_tick']], value['x_tick'], false, true, "resultPlot" + counter, text="sheet: " + key);
                         }
                         counter += 1;
+                        $('.attemp-to-plot-loading').hide();
                     });
                 }        
             }
