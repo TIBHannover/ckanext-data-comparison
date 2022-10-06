@@ -84,7 +84,7 @@ setup(
     # pip to create the appropriate form of executable for the target platform.
     entry_points='''
         [ckan.plugins]
-        data_comparision=ckanext.data_comparision.plugin:DataComparisionPlugin
+        =ckanext.data_comparision.plugin:DataComparisionPlugin
 
         [babel.extractors]
         ckan = ckan.lib.extract:extract_ckan
