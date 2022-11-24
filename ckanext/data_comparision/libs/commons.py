@@ -181,7 +181,7 @@ class Commons():
         '''
         
         df_columns = resource_df.columns
-        df_columns = [i.strip() for i in df_columns]
+        df_columns = [str(i).strip() for i in df_columns]
         answer = True
         for h in STANDARD_HEADERS_V1:
             if h not in df_columns:
