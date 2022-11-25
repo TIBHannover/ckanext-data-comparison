@@ -125,29 +125,32 @@ class Commons():
                 - a dictionary where key is the sheet name and value is a dataframe
         '''
 
-        result_df = {}
-        file_path = RESOURCE_DIR + resource_id[0:3] + '/' + resource_id[3:6] + '/' + resource_id[6:]
-        data_sheets = pd.read_excel(file_path, sheet_name=None, header=None)        
-        for sheet, data_f in data_sheets.items():
-            temp_df = data_f.dropna(how='all').dropna(how='all', axis=1).fillna(0)
-            if len(temp_df) == 0:
-                continue
-            if 0 in list(temp_df.columns):
-                actual_headers = temp_df.iloc[0]
-                temp_df = temp_df[1:]
-                temp_df.columns = actual_headers
-            
-            if not Commons.is_possible_to_automate(temp_df):                
-                headers = temp_df.iloc[0]
-                final_data_df  = pd.DataFrame(temp_df.values[1:], columns=headers)
-                result_df[sheet] = final_data_df
-            else:
-                temp_df = Commons.remove_extra_columns(temp_df)
-                headers = temp_df.iloc[0]
-                final_data_df  = pd.DataFrame(temp_df.values[1:], columns=headers)
-                result_df[sheet] = final_data_df
+        try:
+            result_df = {}
+            file_path = RESOURCE_DIR + resource_id[0:3] + '/' + resource_id[3:6] + '/' + resource_id[6:]
+            data_sheets = pd.read_excel(file_path, sheet_name=None, header=None)        
+            for sheet, data_f in data_sheets.items():
+                temp_df = data_f.dropna(how='all').dropna(how='all', axis=1).fillna(0)
+                if len(temp_df) == 0:
+                    continue
+                if 0 in list(temp_df.columns):
+                    actual_headers = temp_df.iloc[0]
+                    temp_df = temp_df[1:]
+                    temp_df.columns = actual_headers
+                
+                if not Commons.is_possible_to_automate(temp_df):                
+                    headers = temp_df.iloc[0]
+                    final_data_df  = pd.DataFrame(temp_df.values[1:], columns=headers)
+                    result_df[sheet] = final_data_df
+                else:
+                    temp_df = Commons.remove_extra_columns(temp_df)
+                    headers = temp_df.iloc[0]
+                    final_data_df  = pd.DataFrame(temp_df.values[1:], columns=headers)
+                    result_df[sheet] = final_data_df
 
-        return result_df
+            return result_df
+        except:
+            return {}
     
 
 
