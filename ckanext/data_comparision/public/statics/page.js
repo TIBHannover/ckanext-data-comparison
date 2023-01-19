@@ -144,7 +144,7 @@ function check_column_selected(){
 /**
  * Draw the result plot
  */
- function draw(plotType, xAxis, yAxisData, legends, xAxisName, multiAxis, dashed){
+ function draw(plotType, xAxis, yAxisData, legends, xAxisName, multiAxis, dashed){        
     let plotArea = document.getElementById('resultPlot');
     if (backgroundColrs.length == 0 && borderColrs.length == 0){
         for (let i=0; i < yAxisData.length; i++){
@@ -192,7 +192,8 @@ function check_column_selected(){
     chartObject['data']['datasets'] = []; 
     for (let i=0; i<yAxisData.length; i++){
         let temp = {};
-        temp['label'] = legends[i];
+        temp['label'] = legends[i];       
+        temp['spanGaps'] = true;
         temp['data'] = yAxisData[i];
         temp['borderWidth'] = 1;
         temp['backgroundColor'] = backgroundColrs[i];
