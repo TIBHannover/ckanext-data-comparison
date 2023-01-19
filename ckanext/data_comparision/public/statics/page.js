@@ -169,21 +169,21 @@ function check_column_selected(){
             id: legends[0],
             position: 'left',
             beginAtZero: true, 
-            max: Math.max.apply(Math, yAxisData[0]) + 10,
+            max: (Math.max.apply(Math, yAxisData[0]) > 1 ? Math.max.apply(Math, yAxisData[0]) + 5 : Math.max.apply(Math, yAxisData[0]) + 0.2),
             title: {display: true, text: legends[0], font: ticks_font}
         };
         y1 = {
             id: legends[1],
             position: 'right',
             beginAtZero: true,
-            max: Math.max.apply(Math, yAxisData[1]) + 10,
+            max: (Math.max.apply(Math, yAxisData[1]) > 1 ? Math.max.apply(Math, yAxisData[1]) + 5 : Math.max.apply(Math, yAxisData[1]) + 0.2),
             title: {display: true, text: legends[1], font: ticks_font},
             grid: {drawOnChartArea: false,}
         };
         chartObject['options'] = {scales: {y: y, y1:y1, xAxes:x_scales}, responsive:true, 'plugins': plugins};
     }
     else{
-        y_scales = {beginAtZero: true, max: getMax(yAxisData) + 20, title: {display: true, font: ticks_font}};
+        y_scales = {beginAtZero: true, max: getMax(yAxisData), title: {display: true, font: ticks_font}};
         chartObject['options'] = {scales: {yAxes: y_scales, xAxes:x_scales}, responsive:true, 'plugins': plugins};
     }
 
@@ -222,7 +222,12 @@ function getMax(yAxisData){
     for (let i=0; i < yAxisData.length; i++){
         allMax.push(Math.max.apply(Math, yAxisData[i])); 
     }
-    return Math.max.apply(Math, allMax);
+    if(Math.max.apply(Math, allMax) > 1){
+        return Math.max.apply(Math, allMax) + 5;
+    }
+    else{
+        return Math.max.apply(Math, allMax) + 0.2;
+    }
 }
 
 /**
