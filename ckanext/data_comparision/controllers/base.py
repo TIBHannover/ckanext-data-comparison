@@ -120,17 +120,17 @@ class BaseController():
         replace_value = None
         for x_value in x_axis:
             for resource_id, resource_data in resource_x_y_axis_map.items():
-                if x_value not in resource_data['x']:
+                if x_value not in resource_data.get('x'):
                     # if x value does not exist for the y in this data resource (put None)
-                    for y_vars in resource_data['y']:                        
+                    for y_vars in resource_data.get('y'):                        
                         if y_vars[0] in y_axis.keys():
                             # y_vars[0] is the column name
                             y_axis[y_vars[0]].append(replace_value)
                         else:
                             y_axis[y_vars[0]] = [replace_value]
                 else:
-                    x_index = resource_data['x'].index(x_value)
-                    for y_vars in resource_data['y']:                                  
+                    x_index = resource_data.get('x').index(x_value)
+                    for y_vars in resource_data.get('y'):                                  
                         if y_vars[0] in y_axis.keys():
                             y_axis[y_vars[0]].append(y_vars[1][x_index])
                         else:

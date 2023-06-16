@@ -14,7 +14,8 @@
             name='hidden_dbclick_checker'
             class="hidden_dbclick_checker"
             id="{{res_id_addon ~ '-' ~ loopIndex ~ '-dbclick'}}"
-        >             
+        >
+        <input type="hidden" annotatedCheckerInput="axis-is-annotated">             
 {% elif h.get_column_anotation(resource['id'], col, sheet) == 'y' %}
         <span class="column_y_axis_tag">Y-axis</span>
         <input 
@@ -32,6 +33,7 @@
             class="hidden_dbclick_checker"
             id="{{res_id_addon ~ '-' ~ loopIndex ~ '-dbclick'}}"
         >
+        <input type="hidden" annotatedCheckerInput="axis-is-annotated">
 {% else %}
         <input 
             type="checkbox" 

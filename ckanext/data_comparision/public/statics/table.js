@@ -43,6 +43,7 @@ $(document).ready(function(){
         let id = $(this).attr('name');
         let checkbox = $('#' + id);
         let dbClickChecker = $('#' + id + '-dbclick').val(); // we use this to check wether the click is second click or first
+        let nextSiblingNme = $('#' + id + '-dbclick').next().attr('annotatedCheckerInput');                
         if(dbClickChecker === '0'){
             // not clicked yet
             $(checkbox).prop('checked', true);
@@ -50,19 +51,26 @@ $(document).ready(function(){
             $('.no_col_selcted_div').hide();
             $('.dcom-column-' + id).css('background-color', onclickColor);
         }
-        else if (dbClickChecker === '1'){
+        else if (dbClickChecker === '1' && nextSiblingNme !== 'axis-is-annotated'){
             // already clicked once. This is the double click
             $('#' + id + '-dbclick').val('2');
             $('.no_col_selcted_div').hide();
             $('.dcom-column-' + id).css('background-color', dbclickColor);
-        }
-        else{
+        }             
+        else if(dbClickChecker === '2' && nextSiblingNme !== 'axis-is-annotated'){
             // double clicked already. now deselect.
             $(checkbox).prop('checked', false);
             $('#' + id + '-dbclick').val('0');
             $('.no_col_selcted_div').hide();
             $('.dcom-column-' + id).css('background-color', '');
         }
+        // else if (nextSiblingNme === 'axis-is-annotated'){            
+        //     // annoated as y/x-axis already
+        //     $('#' + id + '-dbclick').val('1');
+        //     $('.no_col_selcted_div').hide();
+        //     $('.dcom-column-' + id).css('background-color', onclickColor);
+        //     $('#' + id + '-dbclick').next().remove()
+        // } 
 
     });
 
