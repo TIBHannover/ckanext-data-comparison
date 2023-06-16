@@ -160,7 +160,7 @@ function check_column_selected(){
         }
     }
     let chartObject = {};
-    chartObject['type'] = plotType;
+    chartObject['type'] = plotType;    
     plugins = {'title': {'display': true, 'text': 'Visualization Result'}};
     ticks_font = {family: 'Times', size: 20, style: 'normal', lineHeight: 1.2};
     x_scales = {beginAtZero: true, title: {display: true, text: xAxisName, font: ticks_font}};
@@ -188,14 +188,14 @@ function check_column_selected(){
     }
 
     chartObject['data'] = {};
-    chartObject['data']['labels'] = xAxis; 
+    chartObject['data']['labels'] = xAxis;      
     chartObject['data']['datasets'] = []; 
     for (let i=0; i<yAxisData.length; i++){
-        let temp = {};
+        let temp = {};        
         temp['label'] = legends[i];       
         temp['spanGaps'] = true;
         temp['data'] = yAxisData[i];
-        temp['borderWidth'] = 1;
+        temp['borderWidth'] = 5;
         temp['backgroundColor'] = backgroundColrs[i];
         temp['borderColor'] = borderColrs[i];
         if(plotType == 'line' && dashed){
