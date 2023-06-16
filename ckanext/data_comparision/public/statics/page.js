@@ -107,6 +107,7 @@ $(document).ready(function(){
             data = JSON.parse(req.responseText);
             let keys = Object.keys(data);
             selectedData = data;
+            console.info(data)
             $.each(selectedData['y'], function(key,value){
                 legends.push(key);
                 yAxisData.push(value);

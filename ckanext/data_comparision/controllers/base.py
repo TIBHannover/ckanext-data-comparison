@@ -75,6 +75,7 @@ class BaseController():
                 col_name = value.split('@_@')[1]
                 dbClickedValue = value.split('@_@')[2]
                 resource_id, sheet = Commons.process_resource_id(resource_id_raw)
+                resource_dict = toolkit.get_action('resource_show')({}, {'id': resource_id})
                 Commons.check_access_view_resource(resource_id)
                 col_data = Helper.get_one_column(resource_id, sheet, col_name)
                 if dbClickedValue == '2':
@@ -89,6 +90,7 @@ class BaseController():
 
                 elif dbClickedValue == '1':
                     # y axis data.
+                    col_name += "  ({})".format(resource_dict['name'])
                     if col_name in existed_y_labels:
                         if col_name in existed_y_labels_counter.keys():
                             existed_y_labels_counter[col_name] += 1
