@@ -148,14 +148,14 @@ class Builder():
         annotatorCheckerInput = ''
         if TemplateHelper.get_column_anotation(resource_id, value, sheet) == 'x':
             cell += '<span class="column_x_axis_tag">X-axis</span>'
-            default_checked = True
-            default_value = '2'
-            annotatorCheckerInput = '<input type="hidden" annotatedCheckerInput="axis-is-annotated">'          
+            # default_checked = True
+            default_value = '0'
+            # annotatorCheckerInput = '<input type="hidden" annotatedCheckerInput="axis-is-annotated">'          
         elif TemplateHelper.get_column_anotation(resource_id, value, sheet) == 'y':
             cell += '<span class="column_y_axis_tag">Y-axis</span>'
-            default_checked = True
-            default_value = '1'
-            annotatorCheckerInput = '<input type="hidden" annotatedCheckerInput="axis-is-annotated">'
+            # default_checked = True
+            default_value = '0'
+            # annotatorCheckerInput = '<input type="hidden" annotatedCheckerInput="axis-is-annotated">'
         
         checkbox = Builder.build_checkbox_input(Id, value, resource_id, sheet, default_checked)
         dbclick_input = Builder.build_dbclick_input(Id, value, resource_id, sheet, default_value)        
