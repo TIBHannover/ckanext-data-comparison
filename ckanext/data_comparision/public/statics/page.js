@@ -131,10 +131,20 @@ $(document).ready(function(){
  */
 
 function check_column_selected(){
-    let checkboxes = $('.hidden-checkbox');
-    for (let i=0; i < checkboxes.length; i++){               
+    let checkboxes = $('.hidden-checkbox');    
+    let xSelected = false;
+    let ySelected = false;
+    for (let i=0; i < checkboxes.length; i++){        
         if ($(checkboxes[i]).prop('checked') === true || $(checkboxes[i]).attr('checked') === "checked"){
-            return true;
+            if (($(checkboxes[i]).next().val()) === '1'){
+                xSelected = true;
+            }
+            else if(($(checkboxes[i]).next().val()) === "2"){
+                ySelected = true;
+            }
+            if(xSelected && ySelected){
+                return true;
+            }            
         }
     }
     return false;
