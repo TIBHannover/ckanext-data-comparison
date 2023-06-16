@@ -31,7 +31,7 @@ $(document).ready(function(){
     let checkboxes = $('.hidden-checkbox');
     let checked_ones = [];
     for (let i=0; i < checkboxes.length; i++){
-        if ($(checkboxes[i]).prop('checked') === true){
+        if ($(checkboxes[i]).prop('checked') === true || $(checkboxes[i]).attr('checked') === "checked"){
             checked_ones.push($(checkboxes[i]).val());
         }
     }
