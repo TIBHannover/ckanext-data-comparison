@@ -66,10 +66,8 @@ class Builder():
         Id = 1
         inner_content = ''
         for col in columns:
-            cell = Builder.build_header_cell(Id, col, resource_id, sheet)
-            checkbox = Builder.build_checkbox_input(Id, col, resource_id, sheet)
-            dbclick_input = Builder.build_dbclick_input(Id, col, resource_id, sheet)
-            inner_content += (cell + checkbox + dbclick_input) 
+            cell = Builder.build_header_cell(Id, col, resource_id, sheet)            
+            inner_content += cell 
             Id += 1
         
         table_header = header_row + inner_content + header_row_end
@@ -145,11 +143,20 @@ class Builder():
         cell += ('dcom-column-' + str(resource_id) + Tokenizer + sheet + '-' + str(Id) + '" ')
         cell += ('name="' +  str(resource_id) + Tokenizer + sheet + '-' + str(Id) + '"> ')
         cell += str(value)
+        default_checked = False
+        default_value = '0'
         if TemplateHelper.get_column_anotation(resource_id, value, sheet) == 'x':
             cell += '<span class="column_x_axis_tag">X-axis</span>'
+            default_checked = True
+            default_value = '1'          
         elif TemplateHelper.get_column_anotation(resource_id, value, sheet) == 'y':
             cell += '<span class="column_y_axis_tag">Y-axis</span>'
-        cell + '</th>'
+            default_checked = True
+            default_value = '2'
+        
+        checkbox = Builder.build_checkbox_input(Id, value, resource_id, sheet, default_checked)
+        dbclick_input = Builder.build_dbclick_input(Id, value, resource_id, sheet, default_value)
+        cell += (checkbox + dbclick_input + '</th>')
         return cell
     
 
@@ -176,7 +183,7 @@ class Builder():
 
  
     @staticmethod
-    def build_checkbox_input(Id, column, resource_id, sheet):
+    def build_checkbox_input(Id, column, resource_id, sheet, default_checked=False):
         '''
             Create a checkbox input for a table column.
 
@@ -191,7 +198,9 @@ class Builder():
 
         checkbox = '<input  type="checkbox" name="chosen_columns" class="hidden-checkbox" '
         checkbox += ('value="' + str(resource_id) + Tokenizer + sheet + '@_@' + str(column) + '" ')
-        checkbox += ('id="' +  str(resource_id) + Tokenizer + sheet + '-' + str(Id) + '" > ')
+        if(default_checked):
+            checkbox += ('checked="checked" ')
+        checkbox += ('id="' +  str(resource_id) + Tokenizer + sheet + '-' + str(Id) + '" > ')        
         return checkbox
     
 
@@ -261,7 +270,7 @@ class Builder():
     
 
     @staticmethod
-    def build_dbclick_input(Id, column, resource_id, sheet):
+    def build_dbclick_input(Id, column, resource_id, sheet, default_value='0'):
         '''
             Create a hidden input for checking the double click on a column.
 
@@ -275,6 +284,6 @@ class Builder():
                 - a hidden html input. 
         '''
 
-        dbcick_input = '<input  type="hidden" name="hidden_dbclick_checker" value="0"'
+        dbcick_input = '<input  type="hidden" name="hidden_dbclick_checker" value="{}"'.format(default_value)
         dbcick_input += ('id="' +  str(resource_id) + Tokenizer + sheet + '-' + str(Id) + '-dbclick" > ')
         return dbcick_input

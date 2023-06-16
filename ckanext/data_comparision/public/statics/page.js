@@ -90,7 +90,7 @@ $(document).ready(function(){
     let checkboxes = $('.hidden-checkbox');
     let checked_ones = [];
     for (let i=0; i < checkboxes.length; i++){
-        if ($(checkboxes[i]).prop('checked') === true){
+        if ($(checkboxes[i]).prop('checked') === true || $(checkboxes[i]).attr('checked') === "checked"){
             let id = $(checkboxes[i]).prop('id');
             let dbClickValue = $('#' + id + '-dbclick').val();
             checked_ones.push($(checkboxes[i]).val() + '@_@' + dbClickValue);
@@ -132,8 +132,8 @@ $(document).ready(function(){
 
 function check_column_selected(){
     let checkboxes = $('.hidden-checkbox');
-    for (let i=0; i < checkboxes.length; i++){
-        if ($(checkboxes[i]).prop('checked') === true){
+    for (let i=0; i < checkboxes.length; i++){               
+        if ($(checkboxes[i]).prop('checked') === true || $(checkboxes[i]).attr('checked') === "checked"){
             return true;
         }
     }

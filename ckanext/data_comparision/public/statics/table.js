@@ -11,12 +11,6 @@ $(document).ready(function(){
         }
     }
 
-    let doubleClickCheckboxes = $('.hidden_dbclick_checker');
-    for (let i=0; i < doubleClickCheckboxes.length; i++){
-        $(doubleClickCheckboxes[i]).val('0');
-    }
-
-
     /**
      * Mouse over a column in a data table
      */
@@ -45,7 +39,7 @@ $(document).ready(function(){
      * Click on a column in a data table. It click on the column checkbox.
      * The first click is for the normal selection and the second click is for the shared column(s) selection (x-Axis)
      */
-     $('body').on('click', '.dcom-table-cell', function() {
+     $('body').on('click', '.dcom-table-cell', function() {        
         let id = $(this).attr('name');
         let checkbox = $('#' + id);
         let dbClickChecker = $('#' + id + '-dbclick').val(); // we use this to check wether the click is second click or first
