@@ -34,60 +34,18 @@
         <thead>
             <tr class="dcom-table-header-row">
                 {% for col in columns %}
-                    <th class="dcom-table-cell dcom-table-header-cell {{'dcom-column-' ~ res_id_addon ~ '-' ~ loop.index}}" 
+                    {%  set loopIndex = loop.index %}
+                    <th class="dcom-table-cell dcom-table-header-cell {{'dcom-column-' ~ res_id_addon ~ '-' ~ loopIndex}}" 
                             name="{{res_id_addon ~ '-' ~ loop.index}}">
-                       {{col}}                                            
-                    {% if h.get_column_anotation(resource['id'], col, sheet) == 'x' %}
-                            <span class="column_x_axis_tag">X-axis</span>
-                            <input 
-                                type="checkbox" 
-                                value="{{res_id_addon ~ '@_@' ~ col}}" 
-                                name="chosen_columns" 
-                                class="hidden-checkbox"
-                                id="{{res_id_addon ~ '-' ~ loop.index}}"
-                                checked="checked"
-                            >
-                            <input 
-                                type="hidden"
-                                value='1'
-                                name='hidden_dbclick_checker'
-                                class="hidden_dbclick_checker"
-                                id="{{res_id_addon ~ '-' ~ loop.index ~ '-dbclick'}}"
-                            >             
-                    {% elif h.get_column_anotation(resource['id'], col, sheet) == 'y' %}
-                            <span class="column_y_axis_tag">Y-axis</span>
-                            <input 
-                                type="checkbox" 
-                                value="{{res_id_addon ~ '@_@' ~ col}}" 
-                                name="chosen_columns" 
-                                class="hidden-checkbox"
-                                id="{{res_id_addon ~ '-' ~ loop.index}}"
-                                checked="checked"
-                            >
-                            <input 
-                                type="hidden"
-                                value='2'
-                                name='hidden_dbclick_checker'
-                                class="hidden_dbclick_checker"
-                                id="{{res_id_addon ~ '-' ~ loop.index ~ '-dbclick'}}"
-                            >
-                    {% else %}
-                            <input 
-                                type="checkbox" 
-                                value="{{res_id_addon ~ '@_@' ~ col}}" 
-                                name="chosen_columns" 
-                                class="hidden-checkbox"
-                                id="{{res_id_addon ~ '-' ~ loop.index}}"                                
-                            >
-                            <input 
-                                type="hidden"
-                                value='0'
-                                name='hidden_dbclick_checker'
-                                class="hidden_dbclick_checker"
-                                id="{{res_id_addon ~ '-' ~ loop.index ~ '-dbclick'}}"
-                            >
+                        {{col}}                        
+                        {% snippet 'snippets/data_comparision_set_header_tag_and_checkbox.html',
+                            resource=resource,
+                            sheet=sheet,
+                            col=col,
+                            loopIndex=loopIndex,
+                            res_id_addon=res_id_addon
 
-                    {% endif %}                    
+                        %}           
                     </th>
                 {% endfor %}
             </tr>
