@@ -1,13 +1,19 @@
 {% extends "page.html" %}
 
+{% block scripts %}
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/3.9.1/chart.min.js"
+          integrity="sha512-z4PhNX7vuL3xVChQ1m2AB9Yg5AULVxXcg/SpIdNs6c5H0NE8XYXysP+DGNKHfuwvY7kxvUdBeoGlODJ6+SfaPg=="
+          crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+  {{ super() }}
+{% endblock %}
+
 {% block secondary %}{% endblock  %}
 
 {% block primary %}
     {% asset 'ckanext-data-comparision/page-css' %}
     {% asset 'ckanext-data-comparision/page-js' %}
-    {% set action_new_page = h.url_for('data_comparision.load_new_page', _external=True) %}
-    {% set action_go_back_resource = h.url_for('dataset_resource.read', resource_id=resource['id'], package_type=package['type'], id=package['id'], _external=True) %}
-    <input type="hidden" id="process_url" value="{{action_process}}">
+    {% set action_new_page = h.url_for('data_comparision.load_new_page') %}
+    {% set action_go_back_resource = h.url_for('dataset_resource.read', resource_id=resource['id'], package_type=package['type'], id=package['id']) %}
     <input type="hidden" id="new_page_url" value="{{action_new_page}}">
     <article class="module" role="main">
         <div class="module-content">
@@ -57,4 +63,3 @@
     
     
 {% endblock  %}
-

@@ -7,19 +7,23 @@ jobs:
       # The CKAN version tag of the Solr and Postgres containers should match
       # the one of the container the tests run on.
       # You can switch this base image with a custom image tailored to your project
-      image: openknowledge/ckan-dev:2.9
+      image: ckan/ckan-dev:${{ matrix.ckan-version }}
+    strategy:
+      fail-fast: false
+      matrix:
+        ckan-version: ["2.10", "2.11"]
     services:
       solr:
-        image: ckan/ckan-solr-dev:2.9
+        image: ckan/ckan-solr:${{ matrix.ckan-version }}-solr9
       postgres:
-        image: ckan/ckan-postgres-dev:2.9
+        image: ckan/ckan-postgres-dev:${{ matrix.ckan-version }}
         env:
           POSTGRES_USER: postgres
           POSTGRES_PASSWORD: postgres
           POSTGRES_DB: postgres
         options: --health-cmd pg_isready --health-interval 10s --health-timeout 5s --health-retries 5
       redis:
-          image: redis:3
+          image: redis:6
 
     env:
       CKAN_SQLALCHEMY_URL: postgresql://ckan_default:pass@postgres/ckan_test
@@ -29,12 +33,12 @@ jobs:
       CKAN_REDIS_URL: redis://redis:6379/1
 
     steps:
-    - uses: actions/checkout@v2
+    - uses: actions/checkout@v4
     - name: Install requirements
       # Install any extra requirements your extension has here (dev requirements, other extensions etc)
       run: |
-        pip install -r requirements.txt
-        pip install -r dev-requirements.txt
+        pip install --no-cache-dir -r requirements.txt
+        pip install --no-cache-dir -r dev-requirements.txt
         pip install -e .
     - name: Setup extension
       # Extra initialization steps
@@ -44,5 +48,4 @@ jobs:
 
         ckan -c test.ini db init
     - name: Run tests
-      run: pytest --ckan-ini=test.ini --cov=ckanext.data_comparision --disable-warnings ckanext/data_comparision
-
+      run: pytest -p ckan.tests.pytest_ckan.ckan_setup --ckan-ini=test.ini --cov=ckanext.data_comparision --disable-warnings ckanext/data_comparision/tests

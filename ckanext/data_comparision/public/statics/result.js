@@ -54,9 +54,13 @@ $(document).ready(function(){
         }
     }
     req.open("POST", dest_url);
+    req.setRequestHeader('X-CSRFToken', getCsrfToken());
     req.send(formdata);
 }
 
+function getCsrfToken() {
+    return $('meta[name="csrf-token"], meta[name="_csrf_token"]').first().attr('content') || '';
+}
 
 
 

@@ -1,17 +1,13 @@
 # encoding: utf-8
 
 import ckan.plugins.toolkit as toolkit
-import ckan.lib.helpers as h
-from ckan.model import Package
 from ckanext.data_comparision.libs.template_helper import TemplateHelper
 from ckanext.data_comparision.libs.table_builder import Builder
 from ckanext.data_comparision.libs.commons import Commons
 from itertools import zip_longest
 
 
-RESOURCE_DIR = toolkit.config['ckan.storage_path'] + '/resources/'
-
-class Helper():
+class Helper:
     '''
         The Helper class includes functions that preform the plugin functionalities.
     '''
@@ -21,17 +17,15 @@ class Helper():
     def get_all_datasets():
         '''
              Return all datasets in ckan that are: active, authoriezed for the user, and contain csv/xlsx resources.
-            
+
             Returns:
                 - A list of ckan datasets
         '''
 
-        datasets = Package.search_by_name('')
-        result = []
-        for dt in datasets:
-            if dt.state == 'active' and dt.type == 'dataset' and Commons.check_access_view_package(dt.id) and Helper.dataset_has_csv_xlsx(dt):
-                result.append(dt)
-        return result
+        search = toolkit.get_action('package_search')(
+            {}, {'q': '*:*', 'fq': 'state:active', 'rows': 1000}
+        )
+        return [dataset for dataset in search['results'] if Helper.dataset_has_csv_xlsx(dataset)]
     
    
     
@@ -61,8 +55,7 @@ class Helper():
             
             return list(df[column_name])
 
-        except:
-            # raise
+        except (KeyError, TypeError):
             return None
         
 
@@ -79,7 +72,8 @@ class Helper():
                 - Boolean
         '''
 
-        for resource in dataset.resources:
+        resources = dataset.get('resources', []) if isinstance(dataset, dict) else dataset.resources
+        for resource in resources:
             if TemplateHelper.is_csv(resource) or TemplateHelper.is_xlsx(resource):
                 return True
         return False
@@ -143,12 +137,15 @@ class Helper():
                 col_name_placeholder = column_name_prefix + str(column_number)
                 resource = toolkit.get_action('resource_show')({}, {'id': resource_id})
                 package = toolkit.get_action('package_show')({}, {'name_or_id': resource['package_id']})
-                res_url = h.url_for('dataset_resource.read', resource_id=resource['id'], package_type=package['type'], id=package['id'], _external=True)
-                if col_data and col_name not in result_columns.keys() and sheet == 'None': #csv 
+                res_url = toolkit.url_for(
+                    'dataset_resource.read', resource_id=resource['id'],
+                    package_type=package['type'], id=package['id'], _external=True
+                )
+                if col_data is not None and sheet == 'None': # csv
                     result_columns[col_name_placeholder] = col_data
                     column_references[col_name_placeholder] = [col_name, res_url]
 
-                elif col_data and col_name not in result_columns.keys() and sheet != 'None': #xlsx                    
+                elif col_data is not None and sheet != 'None': # xlsx
                     result_columns[col_name_placeholder] = col_data
                     column_references[col_name_placeholder + ' (sheet: ' + sheet + ')'] = [col_name, res_url]
                
@@ -186,31 +183,5 @@ class Helper():
 
         for row in zipped_body:
             result_rows.append(list(row))
-    
+
         return result_rows
-    
-
-    # @staticmethod
-    # def get_y_value(x_value, x_column_name, y_column_name, resource_id):
-    #     '''
-    #         Get the y-axis value based on the selected x-axis in a data resource.
-
-    #         Args:
-    #             - x_value: the value of x
-    #             - x_column_name: the x variable column name
-    #             - y_column_name: the y variable column name
-    #             - resource_id: the target data resource in ckan
-            
-    #         Returns:
-    #             - A numeric value or 0 in case the x value does not exist.
-    #     '''
-
-
-
-
-   
-    
-
-    
-
-            

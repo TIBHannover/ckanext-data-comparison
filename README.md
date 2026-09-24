@@ -1,6 +1,6 @@
 # ckanext-data-comparision
 
-The ckan plugin for data (CSV/XLSX) comparing via visualization. 
+A CKAN extension for comparing uploaded CSV and XLSX resources and visualizing selected columns.
 
 
 ## Requirements
@@ -8,10 +8,13 @@ The ckan plugin for data (CSV/XLSX) comparing via visualization.
 
 Compatibility with core CKAN versions:
 
-| CKAN version    | Compatible?   |
-| --------------- | ------------- |
-| 2.8 and earlier | not tested    |
-| 2.9             | Yes    |
+| CKAN version | Python | Compatible? |
+| ------------ | ------ | ----------- |
+| 2.10         | 3.8-3.11 | Yes |
+| 2.11         | 3.10-3.12 | Yes |
+
+Only resources uploaded to CKAN's local FileStore are supported. Linked remote resources must be uploaded before they can be compared.
+The visualization pages load Chart.js 3.9.1 from cdnjs with Subresource Integrity verification.
 
 
 
@@ -25,18 +28,16 @@ To install ckanext-data-comparision:
 
 2. Clone the source and install it on the virtualenv
 
-        git clone https://github.com//ckanext-data-comparision.git
-        cd ckanext-data-comparision
-        pip install -e .
+        git clone https://github.com/TIBHannover/ckanext-data-comparison.git
+        cd ckanext-data-comparison
         pip install -r requirements.txt
+        pip install -e .
 
 3. Add `data_comparision` to the `ckan.plugins` setting in your CKAN
    config file (by default the config file is located at
    `/etc/ckan/default/ckan.ini`).
 
-4. Install chartJs (https://www.chartjs.org/) via npm for the plugin.
-
-5. Restart CKAN. For example if you've deployed CKAN with Apache on Ubuntu:
+4. Restart CKAN. For example if you've deployed CKAN with Apache on Ubuntu:
 
         sudo service supervisor reload
         sudo service nginx reload

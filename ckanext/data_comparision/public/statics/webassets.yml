@@ -53,7 +53,6 @@ page-js:
       - vendor/jquery
       - vendor/jquery.ui.core
   contents:
-    - chart.js/dist/chart.js
     - page.js
   
 result-js:  
@@ -79,5 +78,4 @@ resource-page-js:
       - vendor/jquery
       - vendor/jquery.ui.core
   contents:
-    - chart.js/dist/chart.js
     - resource_page.js

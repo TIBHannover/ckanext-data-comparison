@@ -1,4 +1,5 @@
 var plotColors = ['#f54242', '#5df542', '#4263f5', '#42f5e9', '#f542f5', '#000000', '#cc9900']
+var linePlot = null;
 
 $(document).ready(function(){
     let dest_url = $('#resource_plot_preview_url').val();
@@ -7,7 +8,7 @@ $(document).ready(function(){
         if (req.readyState == XMLHttpRequest.DONE && req.status === 200) {   
             // console.info(req.responseText);    
             if(req.responseText !== "false"){
-                data = JSON.parse(req.responseText);
+                const data = JSON.parse(req.responseText);
                 if (data.hasOwnProperty('x')){
                     // data is csv
                     draw('line', data['x'], [data['y']], [data['y_tick']], data['x_tick'], false, true);
@@ -18,7 +19,7 @@ $(document).ready(function(){
                     let counter = 1;
                     $.each(data, function(key, value){
                         if (counter === 1){
-                            draw('line', value['x'], [value['y']], [value['y_tick']], value['x_tick'], false, true, "resultPlot", text="sheet: " + key);
+                            draw('line', value['x'], [value['y']], [value['y_tick']], value['x_tick'], false, true, "resultPlot", "sheet: " + key);
                         }
                         else{
                             let canvas = document.createElement('canvas');
@@ -29,7 +30,7 @@ $(document).ready(function(){
                             div.classList.add("col-sm-4");
                             div.append(canvas);
                             $('#resource-preview-canvas-area').append(div);                            
-                            draw('line', value['x'], [value['y']], [value['y_tick']], value['x_tick'], false, true, "resultPlot" + counter, text="sheet: " + key);
+                            draw('line', value['x'], [value['y']], [value['y_tick']], value['x_tick'], false, true, "resultPlot" + counter, "sheet: " + key);
                         }
                         counter += 1;
                         $('.attemp-to-plot-loading').hide();
@@ -64,17 +65,16 @@ $(document).ready(function(){
     }
     let chartObject = {};
     chartObject['type'] = plotType;
-    plugins = {'title': {'display': true, 'text': text}};
-    ticks_font = {family: 'Times', size: 20, style: 'normal', lineHeight: 1.2};
-    x_scales = {beginAtZero: true, title: {display: true, text: xAxisName, font: ticks_font}};
-    y = {
-        id: legends[0],
+    const plugins = {'title': {'display': true, 'text': text}};
+    const ticks_font = {family: 'Times', size: 20, style: 'normal', lineHeight: 1.2};
+    const x_scales = {beginAtZero: true, title: {display: true, text: xAxisName, font: ticks_font}};
+    const y = {
         position: 'left',
         beginAtZero: true, 
         max: Math.max.apply(Math, yAxisData[0]) + 10,
         title: {display: true, text: legends[0], font: ticks_font}
     };
-    chartObject['options'] = {scales: {y: y, xAxes:x_scales}, responsive:true, 'plugins': plugins};
+    chartObject['options'] = {scales: {y: y, x:x_scales}, responsive:true, 'plugins': plugins};
     chartObject['data'] = {};
     chartObject['data']['labels'] = xAxis; 
     chartObject['data']['datasets'] = []; 
@@ -115,7 +115,7 @@ $(document).ready(function(){
  * get the max value from y axis data
  */
 function getMax(yAxisData){
-    allMax = [];
+    const allMax = [];
     for (let i=0; i < yAxisData.length; i++){
         allMax.push(Math.max.apply(Math, yAxisData[i])); 
     }

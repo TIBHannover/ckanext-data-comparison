@@ -1,7 +1,7 @@
 {% asset 'ckanext-data-comparision/table-css' %}
 {% asset 'ckanext-data-comparision/table-js' %}
 
-{% set resource_url = h.url_for('dataset_resource.read', resource_id=resource['id'], package_type=package['type'], id=package['id'], _external=True) %}
+{% set resource_url = h.url_for('dataset_resource.read', resource_id=resource['id'], package_type=package['type'], id=package['id']) %}
 {% set res_id_addon = resource['id'] + '---' + sheet  %}
 <div class="element-container-box  table-div">
      <div class="row close-table-column">
