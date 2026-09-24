@@ -8,6 +8,7 @@ jobs:
       # the one of the container the tests run on.
       # You can switch this base image with a custom image tailored to your project
       image: ckan/ckan-dev:${{ matrix.ckan-version }}
+      options: --user root
     strategy:
       fail-fast: false
       matrix:
@@ -48,4 +49,4 @@ jobs:
 
         ckan -c test.ini db init
     - name: Run tests
-      run: pytest -p ckan.tests.pytest_ckan.ckan_setup --ckan-ini=test.ini --cov=ckanext.data_comparision --disable-warnings ckanext/data_comparision/tests
+      run: pytest --ckan-ini=test.ini --cov=ckanext.data_comparision --disable-warnings ckanext/data_comparision/tests
