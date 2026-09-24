@@ -1,53 +1,50 @@
-"""
-Tests for plugin.py.
+import pytest
+import ckan.plugins.toolkit as toolkit
+from markupsafe import Markup
 
-Tests are written using the pytest library (https://docs.pytest.org), and you
-should read the testing guidelines in the CKAN docs:
-https://docs.ckan.org/en/2.9/contributing/testing.html
-
-To write tests for your extension you should install the pytest-ckan package:
-
-    pip install pytest-ckan
-
-This will allow you to use CKAN specific fixtures on your tests.
-
-For instance, if your test involves database access you can use `clean_db` to
-reset the database:
-
-    import pytest
-
-    from ckan.tests import factories
-
-    @pytest.mark.usefixtures("clean_db")
-    def test_some_action():
-
-        dataset = factories.Dataset()
-
-        # ...
-
-For functional tests that involve requests to the application, you can use the
-`app` fixture:
-
-    from ckan.plugins import toolkit
-
-    def test_some_endpoint(app):
-
-        url = toolkit.url_for('myblueprint.some_endpoint')
-
-        response = app.get(url)
-
-        assert response.status_code == 200
+from ckanext.data_comparision.libs.commons import Commons
+from ckanext.data_comparision.libs.table_builder import Builder
+from ckanext.data_comparision.libs.template_helper import TemplateHelper
+from ckanext.data_comparision.plugin import DataComparisionPlugin
 
 
-To temporary patch the CKAN configuration for the duration of a test you can use:
+@pytest.mark.parametrize(
+    ("resource", "is_csv", "is_xlsx"),
+    [
+        ({"format": "csv", "name": "data"}, True, False),
+        ({"format": "", "name": "DATA.CSV"}, True, False),
+        ({"format": "XLSX", "name": "workbook"}, False, True),
+        ({"format": None, "name": "book.XLSX"}, False, True),
+        ({"format": "PDF", "name": "report.pdf"}, False, False),
+    ],
+)
+def test_resource_type_helpers_are_case_insensitive(resource, is_csv, is_xlsx):
+    assert TemplateHelper.is_csv(resource) is is_csv
+    assert TemplateHelper.is_xlsx(resource) is is_xlsx
 
-    import pytest
 
-    @pytest.mark.ckan_config("ckanext.myext.some_key", "some_value")
-    def test_some_action():
-        pass
-"""
-import ckanext.data_comparision.plugin as plugin
+def test_process_resource_id_preserves_sheet_delimiters():
+    assert Commons.process_resource_id("resource-id---sheet---one") == [
+        "resource-id",
+        "sheet---one",
+    ]
 
-def test_plugin():
-    pass
+
+def test_process_resource_id_rejects_invalid_value():
+    with pytest.raises(toolkit.ValidationError):
+        Commons.process_resource_id("resource-id")
+
+
+def test_cast_string_to_num_handles_decimal_commas_and_invalid_values():
+    assert Commons.cast_string_to_num(["1,5", 2, None, "bad"]) == [1.5, 2.0, 0, 0]
+
+
+def test_generated_cells_escape_untrusted_resource_values():
+    cell = Builder.build_body_cell(1, Markup('<script>alert(1)</script>'), 'id', 'None')
+    assert "<script>" not in cell
+    assert "&lt;script&gt;" in cell
+
+
+def test_plugin_exposes_all_blueprint_routes():
+    blueprint = DataComparisionPlugin().get_blueprint()
+    assert len(blueprint.deferred_functions) == 6

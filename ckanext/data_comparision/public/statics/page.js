@@ -104,7 +104,7 @@ $(document).ready(function(){
     req.onreadystatechange = function() {
         if (req.readyState == XMLHttpRequest.DONE && req.status === 200) {   
             // console.info(req.responseText);    
-            data = JSON.parse(req.responseText);
+            const data = JSON.parse(req.responseText);
             let keys = Object.keys(data);
             selectedData = data;            
             $.each(selectedData['y'], function(key,value){
@@ -122,7 +122,12 @@ $(document).ready(function(){
         }
     }
     req.open("POST", dest_url);
+    req.setRequestHeader('X-CSRFToken', getCsrfToken());
     req.send(formdata);
+}
+
+function getCsrfToken() {
+    return $('meta[name="csrf-token"], meta[name="_csrf_token"]').first().attr('content') || '';
 }
 
 
@@ -171,30 +176,28 @@ function check_column_selected(){
     }
     let chartObject = {};
     chartObject['type'] = plotType;    
-    plugins = {'title': {'display': true, 'text': 'Visualization Result'}};
-    ticks_font = {family: 'Times', size: 20, style: 'normal', lineHeight: 1.2};
-    x_scales = {beginAtZero: true, title: {display: true, text: xAxisName, font: ticks_font}};
+    const plugins = {'title': {'display': true, 'text': 'Visualization Result'}};
+    const ticks_font = {family: 'Times', size: 20, style: 'normal', lineHeight: 1.2};
+    const x_scales = {beginAtZero: true, title: {display: true, text: xAxisName, font: ticks_font}};
     if(multiAxis && yAxisData.length === 2){
-        y = {
-            id: legends[0],
+        const y = {
             position: 'left',
             beginAtZero: true, 
             max: (Math.max.apply(Math, yAxisData[0]) > 1 ? Math.max.apply(Math, yAxisData[0]) + 5 : Math.max.apply(Math, yAxisData[0]) + 0.2),
             title: {display: true, text: legends[0], font: ticks_font}
         };
-        y1 = {
-            id: legends[1],
+        const y1 = {
             position: 'right',
             beginAtZero: true,
             max: (Math.max.apply(Math, yAxisData[1]) > 1 ? Math.max.apply(Math, yAxisData[1]) + 5 : Math.max.apply(Math, yAxisData[1]) + 0.2),
             title: {display: true, text: legends[1], font: ticks_font},
             grid: {drawOnChartArea: false,}
         };
-        chartObject['options'] = {scales: {y: y, y1:y1, xAxes:x_scales}, responsive:true, 'plugins': plugins};
+        chartObject['options'] = {scales: {y: y, y1:y1, x:x_scales}, responsive:true, 'plugins': plugins};
     }
     else{
-        y_scales = {beginAtZero: true, max: getMax(yAxisData), title: {display: true, font: ticks_font}};
-        chartObject['options'] = {scales: {yAxes: y_scales, xAxes:x_scales}, responsive:true, 'plugins': plugins};
+        const y_scales = {beginAtZero: true, max: getMax(yAxisData), title: {display: true, font: ticks_font}};
+        chartObject['options'] = {scales: {y: y_scales, x:x_scales}, responsive:true, 'plugins': plugins};
     }
 
     chartObject['data'] = {};
@@ -228,7 +231,7 @@ function check_column_selected(){
  * get the max value from y axis data
  */
 function getMax(yAxisData){
-    allMax = [];
+    const allMax = [];
     for (let i=0; i < yAxisData.length; i++){
         allMax.push(Math.max.apply(Math, yAxisData[i])); 
     }
@@ -271,6 +274,4 @@ function getRandomColor() {
     }
     return color;
   }
-
-
 

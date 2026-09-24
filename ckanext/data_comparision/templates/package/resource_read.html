@@ -1,9 +1,16 @@
 {% ckan_extends %}
 
+{% block scripts %}
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/3.9.1/chart.min.js"
+          integrity="sha512-z4PhNX7vuL3xVChQ1m2AB9Yg5AULVxXcg/SpIdNs6c5H0NE8XYXysP+DGNKHfuwvY7kxvUdBeoGlODJ6+SfaPg=="
+          crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+  {{ super() }}
+{% endblock %}
+
 {% block resource_actions_inner %}
     {% if not h.is_enabled("sfb_layout") %}
-        {%  set dest = h.url_for('data_comparision.base_view', package_name=pkg_dict['name'], resId=resource['id'] , _external=True) %}
-        <a href="{{dest}}" class="btn btn-primary" type="button">{{_('Data Comparision')}}</a>
+        {% set dest = h.url_for('data_comparision.base_view', package_name=pkg_dict['name'], resource_id=resource['id']) %}
+        <a href="{{ dest }}" class="btn btn-primary">{{ _('Data Comparison') }}</a>
     {% endif %}
     {{ super() }}
 {% endblock resource_actions_inner %}
@@ -13,7 +20,7 @@
     {{ super() }}
      {% if not h.is_enabled("sfb_layout") %}
         {% asset 'ckanext-data-comparision/resource-page-js' %}
-        <input type="hidden" id="resource_plot_preview_url" value={{h.url_for('data_comparision.get_one_resource_plot_data', resource_id=resource['id'] , _external=True)}}>
+        <input type="hidden" id="resource_plot_preview_url" value="{{ h.url_for('data_comparision.get_one_resource_plot_data', resource_id=resource['id']) }}">
         <div class="row"  id="analysis-result-area">
             <div class="col-sm-12" id="resource-preview-canvas-area">
                 <div class="col-sm-4 plot-col-box">

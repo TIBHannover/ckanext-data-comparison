@@ -71,7 +71,7 @@ $(document).ready(function(){
     let req = new XMLHttpRequest();
     req.onreadystatechange = function() {
         if (req.readyState == XMLHttpRequest.DONE && req.status === 200) {       
-            data = JSON.parse(req.responseText);
+            const data = JSON.parse(req.responseText);
             let keys = Object.keys(data); 
             keys.forEach( function(key) {
                 let table = data[key]
@@ -81,5 +81,10 @@ $(document).ready(function(){
         }
     }
     req.open("POST", dest_url);
+    req.setRequestHeader('X-CSRFToken', getCsrfToken());
     req.send(formdata);
+}
+
+function getCsrfToken() {
+    return $('meta[name="csrf-token"], meta[name="_csrf_token"]').first().attr('content') || '';
 }

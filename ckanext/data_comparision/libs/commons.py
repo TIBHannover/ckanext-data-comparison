@@ -1,19 +1,18 @@
 # encoding: utf-8
 
-from os import stat
+from pathlib import Path
+
 import ckan.plugins.toolkit as toolkit
 import clevercsv
+import logging
 import pandas as pd
-import math
 
-
-
-RESOURCE_DIR = toolkit.config['ckan.storage_path'] + '/resources/'
+log = logging.getLogger(__name__)
 STANDARD_HEADERS_V1 = ['X-Kategorie', 'Y-Kategorie']
 STANDARD_HEADERS_V2 = ['X-Category', 'Y-Category']
 
 
-class Commons():
+class Commons:
     '''
         The class contains the common functions used by other libraries.
     '''
@@ -61,7 +60,23 @@ class Commons():
             return True
 
         except toolkit.NotAuthorized:
-            return toolkit.abort(403, "You do not have the required authorization.")
+            toolkit.abort(403, "You do not have the required authorization.")
+
+    @staticmethod
+    def get_resource_path(resource_id):
+        """Return the safe local FileStore path for an uploaded resource."""
+        resource = toolkit.get_action('resource_show')({}, {'id': resource_id})
+        if resource.get('url_type') != 'upload':
+            raise toolkit.ValidationError(
+                {'resource': ['Only locally uploaded resources can be compared.']}
+            )
+        storage_path = toolkit.config.get('ckan.storage_path')
+        if not storage_path:
+            raise toolkit.ValidationError(
+                {'resource': ['ckan.storage_path is not configured.']}
+            )
+        resource_id = str(resource['id'])
+        return Path(storage_path) / 'resources' / resource_id[:3] / resource_id[3:6] / resource_id[6:]
 
 
 
@@ -78,9 +93,11 @@ class Commons():
         '''
 
         resource = toolkit.get_action('resource_show')({}, {'id': resource_id})
-        if resource['format'] in ['CSV'] or '.csv' in  resource['name']: 
+        resource_format = (resource.get('format') or '').lower()
+        resource_name = (resource.get('name') or '').lower()
+        if resource_format == 'csv' or resource_name.endswith('.csv'):
             return 'csv'
-        if resource['format'] in ['XLSX'] or '.xlsx' in  resource['name']: 
+        if resource_format == 'xlsx' or resource_name.endswith('.xlsx'):
             return 'xlsx'
 
         return None
@@ -99,7 +116,7 @@ class Commons():
                 - a python dataframe
         '''
 
-        file_path = RESOURCE_DIR + resource_id[0:3] + '/' + resource_id[3:6] + '/' + resource_id[6:]
+        file_path = Commons.get_resource_path(resource_id)
         df = clevercsv.read_dataframe(file_path)
         df = df.fillna(0)
         if not Commons.is_possible_to_automate(df):
@@ -125,32 +142,26 @@ class Commons():
                 - a dictionary where key is the sheet name and value is a dataframe
         '''
 
-        try:
-            result_df = {}
-            file_path = RESOURCE_DIR + resource_id[0:3] + '/' + resource_id[3:6] + '/' + resource_id[6:]
-            data_sheets = pd.read_excel(file_path, sheet_name=None, header=None)        
-            for sheet, data_f in data_sheets.items():
-                temp_df = data_f.dropna(how='all').dropna(how='all', axis=1).fillna(0)
-                if len(temp_df) == 0:
-                    continue
-                if 0 in list(temp_df.columns):
-                    actual_headers = temp_df.iloc[0]
-                    temp_df = temp_df[1:]
-                    temp_df.columns = actual_headers
+        result_df = {}
+        file_path = Commons.get_resource_path(resource_id)
+        data_sheets = pd.read_excel(file_path, sheet_name=None, header=None)
+        for sheet, data_f in data_sheets.items():
+            temp_df = data_f.dropna(how='all').dropna(how='all', axis=1).fillna(0)
+            if temp_df.empty:
+                continue
+            if 0 in list(temp_df.columns):
+                actual_headers = temp_df.iloc[0]
+                temp_df = temp_df[1:]
+                temp_df.columns = actual_headers
                 
-                if not Commons.is_possible_to_automate(temp_df):                
-                    headers = temp_df.iloc[0]
-                    final_data_df  = pd.DataFrame(temp_df.values[1:], columns=headers)
-                    result_df[sheet] = final_data_df
-                else:
-                    temp_df = Commons.remove_extra_columns(temp_df)
-                    headers = temp_df.iloc[0]
-                    final_data_df  = pd.DataFrame(temp_df.values[1:], columns=headers)
-                    result_df[sheet] = final_data_df
+            if Commons.is_possible_to_automate(temp_df):
+                temp_df = Commons.remove_extra_columns(temp_df)
+            if temp_df.empty:
+                continue
+            headers = temp_df.iloc[0]
+            result_df[sheet] = pd.DataFrame(temp_df.values[1:], columns=headers)
 
-            return result_df
-        except:
-            return {}
+        return result_df
     
 
 
@@ -166,8 +177,9 @@ class Commons():
                 - resource id and sheet name
         '''
 
-        resource_id = raw_id.split('---')[0]
-        sheet = raw_id.split('---')[1]
+        if not raw_id or '---' not in raw_id:
+            raise toolkit.ValidationError({'resourceId': ['Invalid resource identifier.']})
+        resource_id, sheet = raw_id.split('---', 1)
         return [resource_id, sheet]
     
 
@@ -209,7 +221,7 @@ class Commons():
         cols = list(dataframe.columns)
         for h in cols:
             if h.strip() not in STANDARD_HEADERS_V1 and h.strip() not in STANDARD_HEADERS_V2:
-                dataframe.drop(h, 1, inplace=True) 
+                dataframe.drop(columns=[h], inplace=True)
         return dataframe
     
 
@@ -238,9 +250,7 @@ class Commons():
             try:
                 num = float(num)
                 result.append(num)
-            except:
+            except (TypeError, ValueError):
                 result.append(0)
         
         return result
-
-

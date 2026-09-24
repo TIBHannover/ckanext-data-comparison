@@ -1,10 +1,10 @@
 {% asset 'ckanext-data-comparision/browes-css' %}
 {% asset 'ckanext-data-comparision/browes-js' %}
 
-{% set action_import = h.url_for('data_comparision.import_data', _external=True) %}
+{% set action_import = h.url_for('data_comparision.import_data') %}
 <input type="hidden" id="import_url" value="{{action_import}}">
 
-<button id="modal-browes-btn" type="button" class="btn btn-primary" data-toggle="modal" data-target="#add_data_modal">
+<button id="modal-browes-btn" type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#add_data_modal">
   <i class="fa fa-plus" id="browes_btn"></i>{{_('Add Data')}}
 </button>
 
@@ -13,8 +13,7 @@
     <div class="modal-content">
       <div class="modal-header">
         <h5 class="modal-title" id="exampleModalLabel">{{_('Please choose the target data resource to add.')}}</h5>
-        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-          <span aria-hidden="true">&times;</span>
+        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="{{ _('Close') }}">
         </button>
       </div>
       <div class="modal-body">
@@ -51,8 +50,8 @@
 
       </div>
       <div class="modal-footer">
-        <button type="button" class="btn btn-secondary" data-dismiss="modal">{{_('Close')}}</button>
-        <button type="button" class="btn btn-primary" id="import-btn" data-dismiss="modal">{{_('Add')}}</button>
+        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">{{_('Close')}}</button>
+        <button type="button" class="btn btn-primary" id="import-btn" data-bs-dismiss="modal">{{_('Add')}}</button>
       </div>
     </div>
   </div>

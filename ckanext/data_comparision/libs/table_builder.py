@@ -1,7 +1,7 @@
 # encoding: utf-8
 
 import ckan.plugins.toolkit as toolkit
-import ckan.lib.helpers as h
+from markupsafe import escape
 from ckanext.data_comparision.libs.template_helper import TemplateHelper
 
 
@@ -142,7 +142,7 @@ class Builder():
         cell = '<th class="dcom-table-cell dcom-table-header-cell '
         cell += ('dcom-column-' + str(resource_id) + Tokenizer + sheet + '-' + str(Id) + '" ')
         cell += ('name="' +  str(resource_id) + Tokenizer + sheet + '-' + str(Id) + '"> ')
-        cell += str(value)
+        cell += str(escape(str(value)))
         default_checked = False
         default_value = '0'
         annotatorCheckerInput = ''
@@ -180,7 +180,7 @@ class Builder():
         cell = '<td class="dcom-table-cell dcom-table-body-cell '
         cell += ('dcom-column-' + str(resource_id) + Tokenizer + sheet + '-' + str(Id) + '" ')
         cell += ('name="' +  str(resource_id) + Tokenizer + sheet + '-' + str(Id) + '"> ')
-        cell += str(value)
+        cell += str(escape(str(value)))
         cell += '</td>'
         return cell
 
@@ -200,7 +200,7 @@ class Builder():
         '''
 
         checkbox = '<input  type="checkbox" name="chosen_columns" class="hidden-checkbox" '
-        checkbox += ('value="' + str(resource_id) + Tokenizer + sheet + '@_@' + str(column) + '" ')
+        checkbox += ('value="' + str(escape(str(resource_id) + Tokenizer + sheet + '@_@' + str(column))) + '" ')
         if(default_checked):
             checkbox += ('checked="checked" ')
         checkbox += ('id="' +  str(resource_id) + Tokenizer + sheet + '-' + str(Id) + '" > ')        
@@ -260,13 +260,16 @@ class Builder():
 
         resource = toolkit.get_action('resource_show')({}, {'id': resource_id})
         package = toolkit.get_action('package_show')({}, {'name_or_id': resource['package_id']})
-        res_url = h.url_for('dataset_resource.read', resource_id=resource['id'], package_type=package['type'], id=package['id'], _external=True)
+        res_url = toolkit.url_for(
+            'dataset_resource.read', resource_id=resource['id'],
+            package_type=package['type'], id=package['id'], _external=True
+        )
         title = '<div class="row text-center resource-name-div"><h3>'
         title += ('<a href="' + res_url + '" target="_blank">')
         if sheet != 'None':
-            title += ('<b>' + resource['name'] + '(' + sheet + ')' + '</b>')
+            title += ('<b>' + str(escape(resource['name'])) + ' (' + str(escape(sheet)) + ')' + '</b>')
         else:
-            title += ('<b>' + resource['name'] + '</b>')
+            title += ('<b>' + str(escape(resource['name'])) + '</b>')
         title += ('</a></h3></div>')
 
         return title

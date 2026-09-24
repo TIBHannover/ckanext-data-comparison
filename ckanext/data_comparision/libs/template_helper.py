@@ -1,22 +1,20 @@
 # encoding: utf-8
 
-from re import X
-from unicodedata import name
+import math
+
 import ckan.plugins.toolkit as toolkit
-import ckan.lib.helpers as h
 import pandas as pd
 from ckanext.data_comparision.libs.commons import Commons
 import clevercsv
 
 
 PAGINATION_SIZE = 50
-RESOURCE_DIR = toolkit.config['ckan.storage_path'] + '/resources/'
 X_ANNOTATION = "X-Kategorie"
 Y_ANNOTATION = "Y-Kategorie"
 X_ANNOTATION_v2 = "X-Category"
 Y_ANNOTATION_v2 = "Y-Category"
 
-class TemplateHelper():
+class TemplateHelper:
     '''
         The class that provides Helper functions for ckan template (ITemplateHelpers). 
     '''
@@ -28,20 +26,20 @@ class TemplateHelper():
 
             Args:
                 - resource: the data resource object.
-            
+
             Returns:
                 - Boolean        
         '''
-        format = ''
+        resource_format = ''
         name = ''
         if isinstance(resource, dict):
-            format = resource['format']
-            name = resource['name']
+            resource_format = resource.get('format') or ''
+            name = resource.get('name') or ''
         else:
-            format = resource.format
-            name = resource.name
+            resource_format = resource.format or ''
+            name = resource.name or ''
         
-        return (format in ['CSV']) or ('.csv' in name)
+        return resource_format.lower() == 'csv' or name.lower().endswith('.csv')
 
     
 
@@ -57,16 +55,16 @@ class TemplateHelper():
                 - Boolean        
         '''
 
-        format = ''
+        resource_format = ''
         name = ''
         if isinstance(resource, dict):
-            format = resource['format']
-            name = resource['name']
+            resource_format = resource.get('format') or ''
+            name = resource.get('name') or ''
         else:
-            format = resource.format
-            name = resource.name
+            resource_format = resource.format or ''
+            name = resource.name or ''
         
-        return (format in ['XLSX']) or ('.xlsx' in name)
+        return resource_format.lower() == 'xlsx' or name.lower().endswith('.xlsx')
     
 
     
@@ -102,7 +100,7 @@ class TemplateHelper():
             
             return result
             
-        except:
+        except (KeyError, TypeError, ValueError):
             return []
 
        
@@ -125,7 +123,7 @@ class TemplateHelper():
                 df = Commons.csv_to_dataframe(resource_id)
                 return list(df.columns)
 
-            except:                
+            except (TypeError, ValueError):
                 return ['Error']
 
         if file_type == 'xlsx':
@@ -137,8 +135,7 @@ class TemplateHelper():
                 
                 return columns
 
-            except:
-                raise
+            except (TypeError, ValueError):
                 return {'Error': []}
     
 
@@ -164,9 +161,9 @@ class TemplateHelper():
             if file_type == 'xlsx':
                 df = Commons.xlsx_to_dataframe(resource_id)[sheet_name]
             
-            return int(len(df) / PAGINATION_SIZE) + 1
+            return max(1, math.ceil(len(df) / PAGINATION_SIZE))
         
-        except:
+        except (KeyError, TypeError):
             return 1
     
 
@@ -185,7 +182,7 @@ class TemplateHelper():
                 - 'x' | 'y' | ''
         '''
 
-        file_path = RESOURCE_DIR + resource_id[0:3] + '/' + resource_id[3:6] + '/' + resource_id[6:]
+        file_path = Commons.get_resource_path(resource_id)
 
         if Commons.get_resource_type(resource_id) == 'csv':
             df = clevercsv.read_dataframe(file_path)
@@ -229,7 +226,7 @@ class TemplateHelper():
                             return 'y'
                         else:
                             return ''
-                    except:        
+                    except (AttributeError, IndexError):
                         # raise                
                         return ''
                 else:                
@@ -240,17 +237,5 @@ class TemplateHelper():
 
     @staticmethod
     def check_plugin_enabled(plugin_name):
-        plugins = toolkit.config.get("ckan.plugins")
-        if plugin_name in plugins:
-            return True
-        return False
-
-    
-    
-
-
-    
-
-    
-
-            
+        enabled_plugins = toolkit.config.get("ckan.plugins", "").split()
+        return plugin_name in enabled_plugins
