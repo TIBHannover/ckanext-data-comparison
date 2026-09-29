@@ -11,7 +11,7 @@ setup(
     # Versions should comply with PEP440.  For a discussion on single-sourcing
     # the version across setup.py and the project code, see
     # http://packaging.python.org/en/latest/tutorial.html#version
-    version="1.0.1",
+    version="1.0.2",
 
     description="Compare and visualize CSV and XLSX resources in CKAN",
     long_description=long_description,
