@@ -27,7 +27,6 @@ browes-js:
       - vendor/vendor
       - vendor/bootstrap
       - vendor/jquery
-      - vendor/jquery.ui.core
   contents:
     - browes.js
 
@@ -39,7 +38,6 @@ table-js:
       - vendor/vendor
       - vendor/bootstrap
       - vendor/jquery
-      - vendor/jquery.ui.core
   contents:
     - table.js
 
@@ -51,7 +49,6 @@ page-js:
       - vendor/vendor
       - vendor/bootstrap
       - vendor/jquery
-      - vendor/jquery.ui.core
   contents:
     - page.js
   
@@ -63,7 +60,6 @@ result-js:
       - vendor/vendor
       - vendor/bootstrap
       - vendor/jquery
-      - vendor/jquery.ui.core
   contents:
     - result.js
 
@@ -76,6 +72,5 @@ resource-page-js:
       - vendor/vendor
       - vendor/bootstrap
       - vendor/jquery
-      - vendor/jquery.ui.core
   contents:
     - resource_page.js

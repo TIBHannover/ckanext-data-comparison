@@ -11,7 +11,7 @@ setup(
     # Versions should comply with PEP440.  For a discussion on single-sourcing
     # the version across setup.py and the project code, see
     # http://packaging.python.org/en/latest/tutorial.html#version
-    version="1.0.2",
+    version="1.1.0",
 
     description="Compare and visualize CSV and XLSX resources in CKAN",
     long_description=long_description,
@@ -86,7 +86,7 @@ setup(
     # pip to create the appropriate form of executable for the target platform.
     entry_points='''
         [ckan.plugins]
-        data_comparision=ckanext.data_comparision.plugin:DataComparisionPlugin
+        data_comparison=ckanext.data_comparision.plugin:DataComparisionPlugin
 
         [babel.extractors]
         ckan = ckan.lib.extract:extract_ckan
