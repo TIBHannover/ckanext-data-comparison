@@ -39,7 +39,7 @@ class BaseController:
         '''
 
         datasets = Helper.get_all_datasets()
-        package = toolkit.get_action('package_show')({}, {'name_or_id': package_name})
+        package = toolkit.get_action('package_show')({}, {'id': package_name})
         resource = toolkit.get_action('resource_show')({}, {'id': resource_id})
         if resource['package_id'] != package['id']:
             toolkit.abort(404, 'Resource not found in this dataset.')

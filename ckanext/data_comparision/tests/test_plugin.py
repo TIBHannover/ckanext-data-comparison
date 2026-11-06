@@ -1,4 +1,5 @@
 import pytest
+from pathlib import Path
 import ckan.plugins.toolkit as toolkit
 from markupsafe import Markup
 
@@ -6,6 +7,18 @@ from ckanext.data_comparision.libs.commons import Commons
 from ckanext.data_comparision.libs.table_builder import Builder
 from ckanext.data_comparision.libs.template_helper import TemplateHelper
 from ckanext.data_comparision.plugin import DataComparisionPlugin
+
+
+def test_package_show_calls_use_ckan_211_id_argument():
+    package_root = Path(__file__).parents[1]
+    production_files = [package_root / "controllers" / "base.py"]
+    production_files.extend((package_root / "libs").rglob("*.py"))
+    offenders = [
+        str(path.relative_to(package_root))
+        for path in production_files
+        if "name_or_id" in path.read_text()
+    ]
+    assert offenders == []
 
 
 @pytest.mark.parametrize(

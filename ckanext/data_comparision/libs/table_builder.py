@@ -259,7 +259,7 @@ class Builder():
         '''
 
         resource = toolkit.get_action('resource_show')({}, {'id': resource_id})
-        package = toolkit.get_action('package_show')({}, {'name_or_id': resource['package_id']})
+        package = toolkit.get_action('package_show')({}, {'id': resource['package_id']})
         res_url = toolkit.url_for(
             'dataset_resource.read', resource_id=resource['id'],
             package_type=package['type'], id=package['id'], _external=True
